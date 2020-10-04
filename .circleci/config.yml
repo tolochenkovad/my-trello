@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: node:12.16.3
 
-    working_directory: ~/repo
+    working_directory: /src
 
     steps:
       - checkout
@@ -13,8 +13,8 @@ jobs:
 
       - save_cache:
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - /src/node_modules
+          key: v1-dependencies-{{ checksum "/src/package.json" }}
 
   eslint:
     docker:
@@ -25,7 +25,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "/src/package.json" }}
             - v1-dependencies-
 
       - run: yarn eslint
