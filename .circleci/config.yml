@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  frontend-setup:
+  build:
     docker:
       - image: node:12.16.3
 
