@@ -42,7 +42,7 @@ workflows:
   version: 2
   build-release:
     jobs:
-      - build:
+      - build
       - frontend-eslint:
           requires:
             - build
