@@ -43,7 +43,7 @@ workflows:
   build-release:
     jobs:
       - build
-      - frontend-eslint:
+      - eslint:
           requires:
             - build
   fast-test:
