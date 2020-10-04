@@ -1,0 +1,25 @@
+.column {
+  margin: 8px;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  width: 220px;
+
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    padding: 8px;
+    background: #cfcff2;
+  }
+
+  &__task-list {
+    padding: 8px;
+    transition: background-color 0.2s ease;
+    flex-grow: 1;
+    min-height: 100px;
+    background-color: #ead989;
+    &--isDraggingOver {
+      background-color: skyblue;
+    }
+  }
+}
