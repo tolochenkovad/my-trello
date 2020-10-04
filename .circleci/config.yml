@@ -23,4 +23,20 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
+  eslint:
+    docker:
+      - image: node:12.16.3
+
+    steps:
+      - checkout
       - run: yarn eslint
+
+
+workflows:
+  version: 2
+  fast-test:
+    jobs:
+      - build
+      - eslint:
+          requires:
+            - build
