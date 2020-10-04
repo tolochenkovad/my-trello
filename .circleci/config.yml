@@ -23,4 +23,10 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: yarn ealint
+      - eslint:
+          - run:
+              name: ESLint
+              command: yarn eslint
+fast-test:
+  jobs:
+    - frontend-eslint
