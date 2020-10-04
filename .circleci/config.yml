@@ -18,33 +18,9 @@ jobs:
 
       - run: yarn install
 
-  eslint:
-    docker:
-      - image: node:12.16.3
-
-    steps:
-      - checkout
-
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-            -
-
-      - run: yarn eslint
-
       - save_cache:
-          key: v2-frontend-dependencies-{{ checksum "/tmp/project/yarn.lock" }}
           paths:
-            - /tmp/project/node_modules
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
 
-
-workflows:
-  version: 2
-  fast-test:
-    jobs:
-      - build
-      - eslint:
-          requires:
-            - build
+      - run: yarn ealint
