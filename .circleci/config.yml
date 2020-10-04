@@ -52,10 +52,10 @@ workflows:
               ignore: /.*/
       - eslint:
           requires:
-            - frontend-setup
+            - setup
   fast-test:
     jobs:
       - setup
       - eslint:
           requires:
-            - frontend-setup
+            - setup
