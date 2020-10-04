@@ -4,17 +4,16 @@ jobs:
     docker:
       - image: node:12.16.3
 
-    working_directory: ~/repo
-
     steps:
       - checkout
 
       - run: yarn install
 
       - save_cache:
+          name: "Saving yarn dependencies to cache"
+          key: v1-repo-yarn-dependencies-{{ checksum "yarn.lock" }}
           paths:
-            - ~/repo/node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - ~/.cache/yarn
 
   eslint:
     docker:
@@ -24,9 +23,10 @@ jobs:
       - checkout
 
       - restore_cache:
+          name: "Restore cached yarn dependencies"
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
+            - v1-repo-yarn-dependencies-{{ checksum "yarn.lock" }}
+            - vi-repo-yarn-dependencies-
 
       - run: yarn eslint
 
