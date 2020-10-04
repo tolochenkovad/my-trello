@@ -13,8 +13,8 @@ jobs:
 
       - save_cache:
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+            - ~/repo/node_modules
+          key: v1-dependencies-{{ checksum "/tmp/project/yarn.lock" }}
 
   eslint:
     docker:
@@ -25,7 +25,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "/tmp/project/yarn.lock" }}
             - v1-dependencies-
 
       - run: yarn eslint
