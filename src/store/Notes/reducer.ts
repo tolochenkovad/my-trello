@@ -1,10 +1,10 @@
 import * as Constants from './constants';
-import { Actions } from "./actions";
+import { Actions } from './actions';
 
 export const initialState = {
   note: 'test' as string,
   isReady: false,
-  data: { isTest: false }
+  data: { isTest: false },
 };
 
 const notesReducer = (state = initialState, action: Actions): typeof initialState => {
@@ -12,15 +12,16 @@ const notesReducer = (state = initialState, action: Actions): typeof initialStat
     case Constants.GET_NOTES:
       return {
         ...state,
-        isReady: action.payload.test
-      }
+        isReady: action.payload.test,
+      };
     case Constants.GET_CATEGORIES:
       return {
         ...state,
-        isReady: action.payload.isReady
-      }
-    default: return state;
+        isReady: action.payload.isReady,
+      };
+    default:
+      return state;
   }
-}
+};
 
 export default notesReducer;

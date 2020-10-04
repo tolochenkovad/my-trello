@@ -1,19 +1,16 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import * as Constants from "./constants";
-import { ThunkAction } from "redux-thunk";
-import { initialState } from "./reducer";
-import { Action } from "redux";
+import * as Constants from './constants';
+import { ThunkAction } from 'redux-thunk';
+import { initialState } from './reducer';
+import { Action } from 'redux';
 
 type ThunkResult = ThunkAction<void, typeof initialState, undefined, Action>;
 
 const getAsync = () => new Promise((resolve) => console.log(resolve));
 
-export const getRequest = (name2: string): ThunkResult => {
-  return async (dispatch, getState) => {
-    const test = getState().data.isTest;
-    await getAsync();
-    dispatch(getCategories(name2))
-  };
+export const getRequest = (name2: string): ThunkResult => async (dispatch) => {
+  await getAsync();
+  dispatch(getCategories(name2));
 };
 
 export const getNotes = () => ({
@@ -29,6 +26,4 @@ export const getCategories = (name5: string) => {
   };
 };
 
-export type Actions =
-  | ReturnType<typeof getNotes>
-  | ReturnType<typeof getCategories>;
+export type Actions = ReturnType<typeof getNotes> | ReturnType<typeof getCategories>;
