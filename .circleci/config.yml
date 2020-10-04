@@ -19,13 +19,13 @@ jobs:
       - run: yarn install
 
   eslint:
-    steps
+    steps:
       - run:
           name: ESLint
           command: yarn eslint
 
 
-  fast-test:
-    jobs:
-      - build
-      - eslint
+fast-test:
+  jobs:
+    - build
+    - eslint
