@@ -9,11 +9,6 @@ jobs:
 
       - run: yarn install
 
-      - save_cache:
-          key: v1-repo-yarn-dependencies-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-
       - persist_to_workspace:
           root: .
           paths: node_modules
@@ -24,11 +19,6 @@ jobs:
 
     steps:
       - checkout
-
-      - restore_cache:
-          keys:
-            - v1-repo-yarn-dependencies-{{ checksum "yarn.lock" }}
-            - vi-repo-yarn-dependencies-
 
       - attach_workspace:
           at: ./
