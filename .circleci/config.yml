@@ -28,7 +28,9 @@ jobs:
           command: yarn eslint
 
 
-fast-test:
-  jobs:
-    - build
-    - eslint
+workflows:
+  version: 2
+  fast-test:
+    jobs:
+      - build
+      - eslint
