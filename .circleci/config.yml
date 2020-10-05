@@ -39,10 +39,16 @@ jobs:
       - run:
           name: Build
           command: yarn build
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+            - firebase.json
+            - .firebaserc
 
       - run:
           name: Firebase Deploy
-          command: ./node_modules/.bin/firebase deploy --token "AIzaSyC02lg7GMPbfu2rvtgK4sLm8GABA4A7Xoo" --only hosting
+          command: ./node_modules/.bin/firebase deploy --token "AAAATSv6pP0:APA91bEeCUt6HhejP1PR751VJGiDRWylMnpl6zs52gm3_lk5-1NhlnjJFHPCPYUQJ_F99OQ6uClnAjfsEd-WpTiS4m2Jn3OnkmwxcnAb5NMKm4tvwOZz-tthL3NkjkEqqzd5wjqBDTMk" --only hosting
 
 
 workflows:
