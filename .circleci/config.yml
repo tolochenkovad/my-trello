@@ -47,7 +47,7 @@ workflows:
   version: 2
   fast-test:
     jobs:
-      - eslint:
+      - eslint
       - deploy-firebase:
           requires:
             - eslint
