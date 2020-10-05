@@ -42,7 +42,7 @@ jobs:
 
       - run:
           name: Firebase Deploy
-          command: ./node_modules/.bin/firebase deploy --token "my-trello-a348e" --only hosting
+          command: ./node_modules/.bin/firebase deploy --token "AIzaSyC02lg7GMPbfu2rvtgK4sLm8GABA4A7Xoo" --only hosting
 
 
 workflows:
