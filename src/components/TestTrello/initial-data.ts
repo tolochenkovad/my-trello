@@ -31,7 +31,7 @@ const initialData: initialDataType = {
     'column-1': {
       id: 'column-1',
       title: 'To do',
-      taskIds: ['task-1', 'task-2', 'task-3', 'task-4', 'test-5'],
+      taskIds: ['task-1', 'task-2', 'task-3', 'task-4', 'task-5'],
     },
     'column-2': {
       id: 'column-2',
