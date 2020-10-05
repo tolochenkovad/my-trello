@@ -5,7 +5,6 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetWebpackPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 const isDev = process.env.NODE_ENV === "development";
 const isProd = !isDev;
@@ -77,7 +76,7 @@ const jsLoaders = () => {
 };
 
 const plugins = () => {
-  const base = [
+  return [
     new HTMLWebpackPlugin({
       template: path.resolve(__dirname, "public/index.html"),
       minify: {
@@ -95,12 +94,6 @@ const plugins = () => {
       filename: filename("css"),
     }),
   ];
-
-  if (isProd) {
-    base.push(new BundleAnalyzerPlugin());
-  }
-
-  return base;
 };
 
 module.exports = {
