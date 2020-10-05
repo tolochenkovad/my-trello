@@ -25,6 +25,26 @@ jobs:
 
       - run: yarn eslint
 
+
+  firebase:
+    docker:
+      - image: node:12.16.3
+
+    steps:
+      - checkout
+      # Download and cache dependencies
+      - attach_workspace:
+          at: ./
+
+      - run:
+          name: Build
+          command: yarn build
+
+      - run:
+          name: Firebase Deploy
+          command: ./node_modules/.bin/firebase deploy --token "my-trello-a348e" --only hosting
+
+
 workflows:
   version: 2
   fast-test:
@@ -33,3 +53,6 @@ workflows:
       - eslint:
           requires:
             - build
+      - firebase:
+          requires:
+            - eslint
