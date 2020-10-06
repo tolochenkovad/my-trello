@@ -1,10 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Column from '../Column/Column';
-import initialData from '../initial-data';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actions from '../../../store/Tasks/actions';
+import { AppStore } from '../../../store';
+import { initialDataType } from '../../../types/tasks';
+import { INITIAL_DATA } from '../../../store/Tasks/reducer';
 
 const Container: React.FC = () => {
-  const [state, setState] = useState(initialData);
+  const [state, setState] = useState<initialDataType>(INITIAL_DATA);
+  const dispatch = useDispatch();
+  const tasks = useSelector((state: AppStore) => state.tasks.dataForDraggable);
+
+  useEffect(() => {
+    if (tasks.columnOrder.length > 0) {
+      setState(tasks);
+    } else {
+      dispatch(actions.getTasks());
+    }
+  }, [dispatch, tasks]);
 
   const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
