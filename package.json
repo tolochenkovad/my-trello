@@ -7,7 +7,7 @@
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "watch": "cross-env NODE_ENV=development webpack --mode development --watch",
-    "start": "cross-env NODE_ENV=development webpack-dev-server --mode development --open",
+    "start": "cross-env NODE_ENV=development webpack-dev-server --mode development",
     "eslint": "eslint src -c .eslintrc --ext .js,.ts,.tsx"
   },
   "eslintConfig": {
@@ -37,6 +37,7 @@
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.9",
     "@types/react-redux-toastr": "^7.6.0",
+    "@types/react-router-config": "^5.0.1",
     "@types/react-router-dom": "^5.1.5",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
@@ -80,10 +81,15 @@
     "webpack-dev-server": "^3.10.1"
   },
   "dependencies": {
+    "bootstrap": "^4.5.3",
+    "firebase": "^7.22.1",
     "react": "^16.12.0",
     "react-beautiful-dnd": "^13.0.0",
+    "react-bootstrap": "^1.4.0",
     "react-dom": "^16.12.0",
     "react-redux": "^7.2.1",
+    "react-router-config": "^5.1.1",
+    "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   }

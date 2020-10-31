@@ -1,4 +1,4 @@
-import initialData from '../components/TestTrello/initial-data';
+import initialData from '../components/initial-data';
 import { initialDataType } from '../types/tasks';
 
 export function getTasks(): Promise<initialDataType> {

@@ -104,19 +104,17 @@ module.exports = {
   },
   output: {
     filename: filename("js"),
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "dist")
   },
   resolve: {
     extensions: [".js", ".json", ".png", ".ts", ".tsx"],
-    alias: {
-      "@components": path.resolve(__dirname, "src/components"),
-      "@": path.resolve(__dirname, "src"),
-    },
   },
   optimization: optimization(),
   devServer: {
     port: 4200,
     hot: isDev,
+    historyApiFallback: true,
+    open: true,
   },
   devtool: "inline-source-map",
   plugins: plugins(),
