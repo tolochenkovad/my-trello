@@ -22,9 +22,6 @@ jobs:
     steps:
       - checkout
 
-      - attach_workspace:
-        at: ./
-
       - run:
           name: Check ESLint
           command: yarn eslint
