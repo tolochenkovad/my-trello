@@ -59,7 +59,9 @@ workflows:
   fast-test:
     jobs:
       - install-dependencies
-      - eslint
+      - eslint:
+          requires:
+            - install-dependencies
       - deploy-firebase:
           requires:
             - eslint
