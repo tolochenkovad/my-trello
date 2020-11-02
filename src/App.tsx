@@ -6,7 +6,7 @@ import store from './store';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import ReduxToastr from 'react-redux-toastr';
 import { COLLECTIONS } from './constancts';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
 import Routes from './routes';
 
 const rrfConfig = {
