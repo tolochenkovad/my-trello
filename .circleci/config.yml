@@ -22,12 +22,12 @@ jobs:
     steps:
       - checkout
 
+      - attach_workspace:
+      at: ./
+
       - run:
           name: Check ESLint
           command: yarn eslint
-
-      - attach_workspace:
-          at: ./
 
   deploy-firebase:
     docker:
@@ -42,6 +42,7 @@ jobs:
       - run:
           name: Build
           command: yarn build
+
       - persist_to_workspace:
           root: .
           paths:
