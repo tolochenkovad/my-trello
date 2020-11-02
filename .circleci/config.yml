@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  install-dependencies:
+  dependencies:
     docker:
       - image: node:12.16.3
 
@@ -26,9 +26,8 @@ jobs:
           name: Check ESLint
           command: yarn eslint
 
-      - persist_to_workspace:
-          root: .
-          paths: node_modules
+      - attach_workspace:
+          at: ./
 
   deploy-firebase:
     docker:
@@ -58,10 +57,10 @@ workflows:
   version: 2
   fast-test:
     jobs:
-      - install-dependencies
+      - dependencies
       - eslint:
           requires:
-            - install-dependencies
+            - dependencies
       - deploy-firebase:
           requires:
             - eslint
