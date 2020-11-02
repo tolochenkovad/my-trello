@@ -1,4 +1,15 @@
-@import "../components/Column/Column";
-@import "../components/Container/Container";
-@import "../components/Task/Task";
+@import 'helpers';
+
+//layout
+@import '../layout/Header/Header';
+
+// components
+@import '../components/Column/Column';
+@import '../components/Task/Task';
+
+// pages
+@import '../pages/Main/Main';
+@import '../pages/Authorization/Authorization';
+
+
 

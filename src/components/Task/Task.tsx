@@ -1,7 +1,7 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import { task } from '../initial-data';
 import classNames from 'classnames';
+import { task } from '../../types/tasks';
 
 type TaskType = {
   task: task;

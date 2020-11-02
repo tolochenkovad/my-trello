@@ -296,5 +296,13 @@
     "no-array-constructor": "off",
     "no-use-before-define": "off",
     "no-useless-constructor": "off"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["actions.ts"],
+      "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": ["off"]
+      }
+    }
+  ]
 }

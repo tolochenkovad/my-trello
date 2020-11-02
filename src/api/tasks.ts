@@ -1,8 +1,8 @@
-import initialData from '../components/initial-data';
+import { initialData } from '../mock/mockData';
 import { initialDataType } from '../types/tasks';
 
 export function getTasks(): Promise<initialDataType> {
   return new Promise((resolve) => {
-    setTimeout(() => resolve(initialData), 2000);
+    setTimeout(() => resolve(initialData), 1);
   });
 }

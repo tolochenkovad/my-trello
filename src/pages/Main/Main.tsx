@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppStore } from '../../store';
 import { initialDataType } from '../../types/tasks';
 import { INITIAL_DATA } from '../../store/Tasks/reducer';
 import { getTasks } from '../../store/Tasks/actions';
-import Column from '../Column';
+import Column from '../../components/Column';
+import { AppStore } from '../../types';
+import { useDispatch, useSelector } from 'react-redux';
 
-const Container: React.FC = () => {
+const Main: React.FC = () => {
   const [state, setState] = useState<initialDataType>(INITIAL_DATA);
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
@@ -105,11 +105,10 @@ const Container: React.FC = () => {
   console.log('render');
   return (
     <>
-
       {renderDragContainer}
       <input type="text" value={value} onChange={(e) => setValue(e.target.value)} />
     </>
   );
 };
 
-export default Container;
+export default Main;

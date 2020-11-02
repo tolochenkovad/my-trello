@@ -1,0 +1,7 @@
+@mixin link {
+  color: black;
+  &:hover {
+    text-decoration: none;
+    color: black;
+  }
+}

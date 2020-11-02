@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import * as Constants from './constants';
 import * as api from '../../api/tasks';
 import { initialDataType } from '../../types/tasks';
@@ -26,7 +25,7 @@ const setError = (error: Error) => ({
   payload: { error },
 });
 
-const setLoading = () => ({
+export const setLoading = () => ({
   type: Constants.SET_LOADING,
 });
 

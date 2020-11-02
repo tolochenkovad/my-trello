@@ -1,8 +1,8 @@
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
-import { column, task } from '../initial-data';
 import classNames from 'classnames';
 import Task from '../Task';
+import { column, task } from '../../types/tasks';
 
 type ColumnType = {
   column: column;

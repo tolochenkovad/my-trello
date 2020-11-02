@@ -12,14 +12,14 @@ export type initialStateTypesForReducer = {
   dataForDraggable: initialDataType;
   isLoading: boolean;
   error: string;
-  testData: { first: boolean, second: boolean }
+  testData: { first: boolean; second: boolean };
 };
 
 export const initialState: initialStateTypesForReducer = {
   dataForDraggable: INITIAL_DATA,
   isLoading: false as boolean,
   error: '',
-  testData: { first: true, second: false }
+  testData: { first: true, second: false },
 };
 
 const tasksReducer = (state = initialState, action: Actions): initialStateTypesForReducer => {
