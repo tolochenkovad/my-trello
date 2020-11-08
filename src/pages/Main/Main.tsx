@@ -1,25 +1,32 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { size } from 'lodash';
 import { initialDataType } from '../../types/tasks';
 import { INITIAL_DATA } from '../../store/Tasks/reducer';
-import { getTasks } from '../../store/Tasks/actions';
+import { addTask, getTasks } from '../../store/Tasks/actions';
 import Column from '../../components/Column';
-import { AppStore } from '../../types';
 import { useDispatch, useSelector } from 'react-redux';
+import { getDataForDraggable } from '../../store/Tasks/selectors';
 
 const Main: React.FC = () => {
   const [state, setState] = useState<initialDataType>(INITIAL_DATA);
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
-  const tasks = useSelector((state: AppStore) => state.tasks.dataForDraggable);
+  const dataForDraggable = useSelector(getDataForDraggable);
+  const isMounted = useRef(false);
+
+  console.log(state, 'state');
 
   useEffect(() => {
-    if (tasks.columnOrder.length > 0) {
-      setState(tasks);
+    if (size(dataForDraggable.tasks) > 0) {
+      setState(dataForDraggable);
     } else {
-      dispatch(getTasks());
+      if (!isMounted.current) {
+        dispatch(getTasks());
+        isMounted.current = true;
+      }
     }
-  }, [dispatch, tasks]);
+  }, [dispatch, dataForDraggable]);
 
   const onDragEnd = useCallback(
     (result: DropResult) => {
@@ -102,11 +109,19 @@ const Main: React.FC = () => {
     [onDragEnd, state],
   );
 
+  const addTaskToBase = () => {
+    console.log('add');
+    dispatch(addTask());
+  };
+
   console.log('render');
   return (
     <>
       {renderDragContainer}
       <input type="text" value={value} onChange={(e) => setValue(e.target.value)} />
+      <button onClick={addTaskToBase} className="btn btn-primary">
+        Add task
+      </button>
     </>
   );
 };

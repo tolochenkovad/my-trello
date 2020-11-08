@@ -1,6 +1,7 @@
 export type task = {
   id: string;
   content: string;
+  columnId? : string,
 };
 
 export type column = {

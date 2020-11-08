@@ -1,11 +1,12 @@
 @import 'helpers';
 
 //layout
-@import '../layout/Header/Header';
+@import '../common/Header/Header';
 
 // components
 @import '../components/Column/Column';
 @import '../components/Task/Task';
+@import '../pages/NotFound/NotFound';
 
 // pages
 @import '../pages/Main/Main';

@@ -1,10 +1,11 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const NotFound: React.FC = () => {
-  const history = useHistory();
-  console.log(history.location.pathname, 'history.location.pathname');
-  return <div>Not Found!!</div>;
-};
+const NotFound: React.FC = () => (
+  <div className="not-found">
+    <div>Oops, Page Not Found :(</div>
+    <Link to="/">Go to main page</Link>
+  </div>
+);
 
 export default NotFound;

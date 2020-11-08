@@ -10,7 +10,6 @@ type TaskType = {
 
 const Task: React.FC<TaskType> = ({ task, index }) => {
   console.log('render Task');
-  console.log(task, 'task');
   return (
     <Draggable draggableId={task.id} index={index}>
       {({ innerRef, draggableProps, dragHandleProps }, snapshot) => (

@@ -50,7 +50,9 @@ const cssLoaders = (extra) => {
 const babelOptions = (preset) => {
   const opts = {
     presets: ["@babel/preset-env"],
-    plugins: ["@babel/plugin-proposal-class-properties"],
+    plugins: [
+      '@babel/plugin-proposal-class-properties'
+    ]
   };
 
   if (preset) {
@@ -105,7 +107,7 @@ module.exports = {
   output: {
     filename: filename("js"),
     path: path.resolve(__dirname, "dist"),
-    publicPath: "/"
+    publicPath: "/",
   },
   resolve: {
     extensions: [".js", ".json", ".png", ".ts", ".tsx"],
@@ -117,7 +119,7 @@ module.exports = {
     historyApiFallback: true,
     open: true,
   },
-  devtool: "inline-source-map",
+  devtool: isDev ? "source-map" : '',
   plugins: plugins(),
   module: {
     rules: [

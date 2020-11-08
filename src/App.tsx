@@ -1,13 +1,14 @@
 import React from 'react';
-import Header from './layout/Header/Header';
+import Header from './common/Header/Header';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import ReduxToastr from 'react-redux-toastr';
-import { COLLECTIONS } from './constancts';
+import { COLLECTIONS } from './constants';
 import * as firebase from 'firebase/app';
 import Routes from './routes';
+import ErrorBoundary from './common/Error';
 
 const rrfConfig = {
   userProfile: COLLECTIONS.users,
@@ -24,8 +25,10 @@ const App: React.FC = () => (
   <Provider store={store}>
     <ReactReduxFirebaseProvider {...rrfProps}>
       <BrowserRouter>
-        <Header />
-        <Routes />
+        <ErrorBoundary>
+          <Header />
+          <Routes />
+        </ErrorBoundary>
       </BrowserRouter>
       <ReduxToastr
         timeOut={4000}

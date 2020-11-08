@@ -1,12 +1,24 @@
 import * as firebase from 'firebase/app';
 
+export async function getCollectionsFromFirebase(
+  collections: string,
+  authId: string,
+): Promise<firebase.firestore.DocumentData> {
+  const querySnapshot = await fetchCollection(collections).get();
+  let data = {};
+  querySnapshot.forEach((doc) => {
+    if (doc.id === authId) {
+      data = doc.data();
+    }
+  });
+  return data;
+}
+
 function getFirestore() {
   return firebase.firestore();
 }
 
-export function fetchCollection(
-  collection: string,
-): firebase.firestore.CollectionReference<firebase.firestore.DocumentData> {
+function fetchCollection(collection: string): firebase.firestore.CollectionReference<firebase.firestore.DocumentData> {
   return getFirestore().collection(collection);
 }
 
