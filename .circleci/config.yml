@@ -29,6 +29,20 @@ jobs:
           name: Check ESLint
           command: yarn eslint
 
+  test:
+    docker:
+      - image: node:12.16.3
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: ./
+
+      - run:
+          name: Check unit tests
+          command: yarn test
+
   deploy-firebase:
     docker:
       - image: node:12.16.3
@@ -60,6 +74,9 @@ workflows:
     jobs:
       - dependencies
       - eslint:
+          requires:
+            - dependencies
+      - test:
           requires:
             - dependencies
       - deploy-firebase:

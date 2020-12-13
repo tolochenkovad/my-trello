@@ -49,7 +49,7 @@ const cssLoaders = (extra) => {
 
 const babelOptions = (preset) => {
   const opts = {
-    presets: ["@babel/preset-env"],
+    presets: ["@babel/preset-env", "@babel/preset-react"],
     plugins: [
       '@babel/plugin-proposal-class-properties'
     ]
