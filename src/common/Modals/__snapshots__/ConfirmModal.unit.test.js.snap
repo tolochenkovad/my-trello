@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConfirmModal should render 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop="static"
+  dialogAs={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "ModalDialog",
+      "render": [Function],
+    }
+  }
+  enforceFocus={true}
+  keyboard={false}
+  restoreFocus={true}
+  show={false}
+>
+  <ModalBody>
+    <div
+      className="text-center"
+    >
+      Are you sure?
+    </div>
+  </ModalBody>
+  <ModalFooter>
+    <Button
+      active={false}
+      disabled={false}
+      variant="primary"
+    >
+      Confirm
+    </Button>
+  </ModalFooter>
+</Modal>
+`;
+
+exports[`ConfirmModal should render correctly 1`] = `
+<Modal
+  animation={true}
+  autoFocus={true}
+  backdrop="static"
+  dialogAs={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "displayName": "ModalDialog",
+      "render": [Function],
+    }
+  }
+  enforceFocus={true}
+  keyboard={false}
+  onHide={[MockFunction]}
+  restoreFocus={true}
+  show={false}
+>
+  <ModalBody>
+    <div
+      className="text-center"
+    >
+      Are you sure?
+    </div>
+  </ModalBody>
+  <ModalFooter>
+    <Button
+      active={false}
+      disabled={false}
+      onClick={[MockFunction]}
+      variant="primary"
+    >
+      Confirm
+    </Button>
+  </ModalFooter>
+</Modal>
+`;
