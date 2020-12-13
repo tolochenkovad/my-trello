@@ -9,9 +9,7 @@ type ColumnType = {
   tasks: task[];
 };
 
-const Column: React.FC<ColumnType> = ({ column, tasks }) => {
-  console.log('render Column');
-  return (
+const Column: React.FC<ColumnType> = ({ column, tasks }) => (
     <div className="column">
       <h3 className="column__title">{column.title}</h3>
       <Droppable droppableId={column.id} type="TASK">
@@ -32,6 +30,5 @@ const Column: React.FC<ColumnType> = ({ column, tasks }) => {
       </Droppable>
     </div>
   );
-};
 
 export default Column;

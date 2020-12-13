@@ -1,30 +1,25 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import { size } from 'lodash';
 import { initialDataType } from '../../types/tasks';
 import { INITIAL_DATA } from '../../store/Tasks/reducer';
-import { addTask, getTasks } from '../../store/Tasks/actions';
+import { getTasks, saveDataToServer } from '../../store/Tasks/actions';
 import Column from '../../components/Column';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDataForDraggable } from '../../store/Tasks/selectors';
 
 const Main: React.FC = () => {
   const [state, setState] = useState<initialDataType>(INITIAL_DATA);
-  const [value, setValue] = useState('');
+
   const dispatch = useDispatch();
   const dataForDraggable = useSelector(getDataForDraggable);
   const isMounted = useRef(false);
 
-  console.log(state, 'state');
-
   useEffect(() => {
-    if (size(dataForDraggable.tasks) > 0) {
-      setState(dataForDraggable);
+    if (!isMounted.current) {
+      dispatch(getTasks());
+      isMounted.current = true;
     } else {
-      if (!isMounted.current) {
-        dispatch(getTasks());
-        isMounted.current = true;
-      }
+      setState(dataForDraggable);
     }
   }, [dispatch, dataForDraggable]);
 
@@ -87,10 +82,19 @@ const Main: React.FC = () => {
           [newStart.id]: newStart,
           [newFinish.id]: newFinish,
         },
+        tasks: {
+          ...state.tasks,
+          [draggableId]: {
+            ...state.tasks[draggableId],
+            columnId: newFinish.id,
+          },
+        },
       };
       setState(newState);
+
+      dispatch(saveDataToServer(newState));
     },
-    [state],
+    [dispatch, state],
   );
 
   const renderDragContainer = useMemo(
@@ -109,21 +113,7 @@ const Main: React.FC = () => {
     [onDragEnd, state],
   );
 
-  const addTaskToBase = () => {
-    console.log('add');
-    dispatch(addTask());
-  };
-
-  console.log('render');
-  return (
-    <>
-      {renderDragContainer}
-      <input type="text" value={value} onChange={(e) => setValue(e.target.value)} />
-      <button onClick={addTaskToBase} className="btn btn-primary">
-        Add task
-      </button>
-    </>
-  );
+  return <>{renderDragContainer}</>;
 };
 
 export default Main;

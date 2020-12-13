@@ -42,7 +42,6 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
-    "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
@@ -109,7 +108,6 @@
       }
     ],
     "no-multi-str": "warn",
-    "no-unused-vars": "warn",
     "no-native-reassign": "warn",
     "no-negated-in-lhs": "warn",
     "no-new-func": "warn",
@@ -225,6 +223,7 @@
     "unicode-bom": ["warn", "never"],
     "use-isnan": "warn",
     "valid-typeof": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
     "no-restricted-properties": [
       "error",
       {
@@ -298,13 +297,20 @@
     "no-undef": "error",
     "no-array-constructor": "off",
     "no-use-before-define": "off",
-    "no-useless-constructor": "off"
+    "no-useless-constructor": "off",
+    "no-unused-vars": "off",
   },
   "overrides": [
     {
       "files": ["actions.ts", "selectors.ts"],
       "rules": {
         "@typescript-eslint/explicit-module-boundary-types": ["off"]
+      }
+    },
+    {
+      "files": ["src/helpers/*.ts"],
+      "rules": {
+        "@typescript-eslint/ban-types": ["off"]
       }
     }
   ]

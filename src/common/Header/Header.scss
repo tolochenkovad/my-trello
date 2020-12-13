@@ -7,6 +7,9 @@
   &__app-name{
     @include link;
   }
+  &__create-btn {
+    margin-left: 10px;
+  }
   &__user-box {
     display: flex;
     align-items: center;

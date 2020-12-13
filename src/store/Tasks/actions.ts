@@ -2,8 +2,10 @@ import * as Constants from './constants';
 import { initialDataType } from '../../types/tasks';
 import { toastr } from 'react-redux-toastr';
 import { ThunkResult } from '../../types';
-import { addDoc, getCollectionsFromFirebase } from '../../api/firebase/api';
+import { addDoc, getCollectionsFromFirebase, removeData, updateData } from '../../api/firebase/api';
 import { COLLECTIONS } from '../../constants';
+import { getIndexForNewTask } from './helpers';
+import { size } from 'lodash';
 
 // thunks
 export const getTasks = (): ThunkResult => async (dispatch, getState) => {
@@ -18,13 +20,59 @@ export const getTasks = (): ThunkResult => async (dispatch, getState) => {
   }
 };
 
-export const addTask = (): ThunkResult => async (dispatch, getState) => {
+export const addTask = (value: string): ThunkResult => async (dispatch, getState) => {
   dispatch(setLoading());
   try {
     const authId = getState().firebase.auth.uid;
     const { tasks } = getState().tasks.dataForDraggable;
-    const newData = { ...tasks, 'task-3': { id: 'task-3', content: 'Test task', columnId: 'column-1' } };
-    await addDoc(COLLECTIONS.tasks, newData, authId);
+    const index = getIndexForNewTask(tasks);
+    const newTask = { [`task-${index}`]: { id: `task-${index}`, content: value, columnId: 'column-1' } };
+    if (size(tasks) === 0) {
+      await addDoc(COLLECTIONS.tasks, newTask, authId);
+    } else {
+      await updateData(COLLECTIONS.tasks, newTask, authId);
+    }
+    dispatch(getTasks());
+  } catch (error) {
+    toastr.error(error, '');
+    dispatch(setError(error));
+  }
+};
+
+export const editTask = (value: string, taskId: string): ThunkResult => async (dispatch, getState) => {
+  dispatch(setLoading());
+  try {
+    const authId = getState().firebase.auth.uid;
+    const { tasks } = getState().tasks.dataForDraggable;
+    const updatedTask = { [taskId]: tasks[taskId] };
+    updatedTask[taskId].content = value;
+    await updateData(COLLECTIONS.tasks, updatedTask, authId);
+    dispatch(getTasks());
+  } catch (error) {
+    toastr.error(error, '');
+    dispatch(setError(error));
+  }
+};
+
+export const saveDataToServer = (data: initialDataType): ThunkResult => async (dispatch, getState) => {
+  dispatch(setLoading());
+  try {
+    dispatch(saveData(data));
+    const authId = getState().firebase.auth.uid;
+    await updateData(COLLECTIONS.tasks, data.tasks, authId);
+    dispatch(getTasks());
+  } catch (error) {
+    toastr.error(error, '');
+    dispatch(setError(error));
+  }
+};
+
+export const removeTask = (taskId: string): ThunkResult => async (dispatch, getState) => {
+  dispatch(setLoading());
+  try {
+    const authId = getState().firebase.auth.uid;
+    dispatch(deleteTask(taskId));
+    await removeData(COLLECTIONS.tasks, taskId, authId);
     dispatch(getTasks());
   } catch (error) {
     toastr.error(error, '');
@@ -38,13 +86,28 @@ export const setTasks = (tasks: initialDataType['tasks']) => ({
   payload: { tasks },
 });
 
+export const deleteTask = (taskId: string) => ({
+  type: Constants.REMOVE_TASK,
+  payload: { taskId },
+});
+
 const setError = (error: Error) => ({
   type: Constants.SET_ERROR,
   payload: { error },
+});
+
+const saveData = (data: initialDataType) => ({
+  type: Constants.SAVE_DATA,
+  payload: { data },
 });
 
 export const setLoading = () => ({
   type: Constants.SET_LOADING,
 });
 
-export type Actions = ReturnType<typeof setTasks> | ReturnType<typeof setError> | ReturnType<typeof setLoading>;
+export type Actions =
+  | ReturnType<typeof setTasks>
+  | ReturnType<typeof deleteTask>
+  | ReturnType<typeof saveData>
+  | ReturnType<typeof setError>
+  | ReturnType<typeof setLoading>;

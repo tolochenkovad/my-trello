@@ -1,7 +1,8 @@
-import { forEach } from 'lodash';
+import { forEach, isEmpty } from 'lodash';
 import * as Constants from './constants';
 import { Actions } from './actions';
 import { initialDataType } from '../../types/tasks';
+import { sortObjectByKey } from '../../helpers/sortObject';
 
 export const INITIAL_DATA = {
   tasks: {},
@@ -46,15 +47,20 @@ const tasksReducer = (state = initialState, action: Actions): initialStateTypesF
       };
     case Constants.SET_TASKS: {
       const { tasks } = action.payload;
-      const copyDataForDraggable: initialDataType = JSON.parse(JSON.stringify(state.dataForDraggable));
-      forEach(copyDataForDraggable.columns, (columnItem) => {
-        forEach(tasks, (taskItem) => {
-          if (taskItem.columnId === columnItem.id) {
-            columnItem.taskIds.push(taskItem.id);
-          }
+      let copyDataForDraggable: initialDataType = JSON.parse(JSON.stringify(state.dataForDraggable));
+      if (isEmpty(tasks)) {
+        copyDataForDraggable = INITIAL_DATA;
+      } else {
+        forEach(copyDataForDraggable.columns, (columnItem) => {
+          forEach(tasks, (taskItem) => {
+            if (taskItem.columnId === columnItem.id && !columnItem.taskIds.includes(taskItem.id)) {
+              columnItem.taskIds.push(taskItem.id);
+            }
+          });
         });
-      });
-      copyDataForDraggable.tasks = tasks;
+
+        copyDataForDraggable.tasks = tasks;
+      }
 
       return {
         ...state,
@@ -62,6 +68,34 @@ const tasksReducer = (state = initialState, action: Actions): initialStateTypesF
         isLoading: false,
       };
     }
+
+    case Constants.REMOVE_TASK: {
+      const { taskId } = action.payload;
+      const { tasks } = state.dataForDraggable;
+      const newTasks = sortObjectByKey(tasks, taskId);
+      const copyDataForDraggable: initialDataType = JSON.parse(JSON.stringify(state.dataForDraggable));
+      forEach(copyDataForDraggable.columns, (columnItem) => {
+        forEach(copyDataForDraggable.tasks, (taskItem) => {
+          if (taskItem.columnId === columnItem.id && taskItem.id === taskId) {
+            columnItem.taskIds = columnItem.taskIds.filter((item) => item !== taskId);
+          }
+        });
+      });
+
+      copyDataForDraggable.tasks = newTasks;
+
+      return {
+        ...state,
+        dataForDraggable: copyDataForDraggable,
+        isLoading: false,
+      };
+    }
+
+    case Constants.SAVE_DATA:
+      return {
+        ...state,
+        dataForDraggable: action.payload.data,
+      };
 
     case Constants.SET_ERROR:
       return {

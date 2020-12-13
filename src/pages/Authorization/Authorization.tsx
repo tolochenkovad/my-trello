@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 const Authorization: React.FC = () => {
   const auth = useSelector(getAuth);
   if (!isEmpty(auth)) {
-    console.log('to main');
     return <Redirect to="/" />;
   }
   const onSuccessSocialLogin = (): boolean => {

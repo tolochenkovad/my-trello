@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getAuth } from '../store/Authorization/selectors';
 import { isEmpty } from 'react-redux-firebase';
-import { Redirect, Route, RouteProps } from 'react-router-dom';
+import { Route, RouteProps } from 'react-router-dom';
+import { Spinner } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 
 type Props = {
   component: React.FC;
@@ -10,8 +12,22 @@ type Props = {
 
 const AuthRoute: React.FC<Props & RouteProps> = ({ component: Component, ...rest }) => {
   const auth = useSelector(getAuth);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (isEmpty(auth)) {
+      setTimeout(() => {
+        history.push('/login');
+      }, 3000);
+    }
+  }, [auth, history]);
+
   if (isEmpty(auth)) {
-    return <Redirect to="/login" />;
+    return (
+      <div className="text-center">
+        <Spinner animation="border" role="status" />
+      </div>
+    );
   } else {
     return <Route {...rest} render={(props) => <Component {...props} />} />;
   }
