@@ -34,15 +34,23 @@ const Header: React.FC = () => {
   return (
     <div className="header">
       <div>
-        <NavLink className="header__app-name" to="/">
-          My trello
-        </NavLink>
-        {!isEmpty(auth) && (
+        {location.pathname !== '/' && (
+          <NavLink className="header__app-name" to="/">
+            Tasks
+          </NavLink>
+        )}
+
+        {!isEmpty(auth) && location.pathname === '/' && (
           <Button variant="primary" className="header__create-btn" onClick={openModal}>
             Create task
           </Button>
         )}
         {showModal && <TaskModal title="Create task" show onHide={closeModal} onConfirm={addTaskToBase} />}
+        {!isEmpty(auth) && (
+          <NavLink className="header__app-name" to="/analytics" activeClassName="header__analytics">
+            Analytics
+          </NavLink>
+        )}
       </div>
       <div className="header__user-box">
         {isEmpty(auth) ? (

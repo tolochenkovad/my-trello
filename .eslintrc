@@ -52,6 +52,7 @@
     "@typescript-eslint/no-unsafe-call": "off",
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
     "array-callback-return": "warn",
     "react/jsx-boolean-value": ["warn", "never"],
     "object-curly-spacing": ["warn", "always"],
@@ -298,7 +299,7 @@
     "no-array-constructor": "off",
     "no-use-before-define": "off",
     "no-useless-constructor": "off",
-    "no-unused-vars": "off",
+    "no-unused-vars": "off"
   },
   "overrides": [
     {

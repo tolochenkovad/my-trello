@@ -8,6 +8,9 @@
   &__body {
     display: flex;
     justify-content: space-between;
+    .content {
+      width: 100%;
+    }
     .icon {
       cursor: pointer;
       &:first-of-type {
@@ -17,6 +20,12 @@
   }
   &__options {
     display: flex;
+    .icon {
+      cursor: pointer;
+      &:hover {
+        color: #ffffff;
+      }
+    }
   }
   &--isDragDisabled {
     background-color: lightgrey;

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getDataForDraggable } from '../../store/Tasks/selectors';
 
 const Main: React.FC = () => {
+  console.log('render Main')
   const [state, setState] = useState<initialDataType>(INITIAL_DATA);
 
   const dispatch = useDispatch();

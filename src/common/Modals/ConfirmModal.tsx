@@ -1,20 +1,20 @@
 import React from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
+import Buttons from './Buttons';
 
 type Props = {
   show: boolean;
   onHide: () => void;
+  onConfirm: () => void;
 };
 
-const ConfirmModal: React.FC<Props> = ({ show, onHide }) => (
-  <Modal show={show} onHide={onHide} backdrop="static" keyboard={false}>
+const ConfirmModal: React.FC<Props> = ({ show, onHide, onConfirm }) => (
+  <Modal show={show} onHide={onHide} backdrop="static">
     <Modal.Body>
-      <div className="text-center">Are you sure?</div>
+      <div className="text-center font-size-20">Are you sure?</div>
     </Modal.Body>
-    <Modal.Footer>
-      <Button variant="primary" onClick={onHide}>
-        Confirm
-      </Button>
+    <Modal.Footer className="no-border">
+      <Buttons onHide={onHide} onConfirm={onConfirm} />
     </Modal.Footer>
   </Modal>
 );

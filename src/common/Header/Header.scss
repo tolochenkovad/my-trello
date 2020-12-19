@@ -7,8 +7,12 @@
   &__app-name{
     @include link;
   }
+  &__analytics{
+    @include link;
+    margin-left: 20px;
+  }
   &__create-btn {
-    margin-left: 10px;
+    margin: 0 20px;
   }
   &__user-box {
     display: flex;

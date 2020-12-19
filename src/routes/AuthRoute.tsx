@@ -11,6 +11,7 @@ type Props = {
 };
 
 const AuthRoute: React.FC<Props & RouteProps> = ({ component: Component, ...rest }) => {
+  console.log('render AuthRoute')
   const auth = useSelector(getAuth);
   const history = useHistory();
 

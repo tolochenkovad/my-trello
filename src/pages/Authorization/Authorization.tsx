@@ -1,4 +1,5 @@
 import React from 'react';
+// @ts-ignore
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import { toastr } from 'react-redux-toastr';
 import firebase from 'firebase/app';
@@ -8,6 +9,7 @@ import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 const Authorization: React.FC = () => {
+  console.log('render Authorization')
   const auth = useSelector(getAuth);
   if (!isEmpty(auth)) {
     return <Redirect to="/" />;

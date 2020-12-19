@@ -14,6 +14,7 @@ type TaskType = {
 };
 
 const Task: React.FC<TaskType> = ({ task, index }) => {
+  console.log(`render Task ${index}`);
   const [showModal, setShowModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const dispatch = useDispatch();
@@ -26,6 +27,10 @@ const Task: React.FC<TaskType> = ({ task, index }) => {
   const onConfirmModal = () => {
     setShowConfirmModal(false);
     onDeleteTask();
+  };
+
+  const onHideModal = () => {
+    setShowConfirmModal(false);
   };
 
   const setConfirmModal = () => {
@@ -45,11 +50,12 @@ const Task: React.FC<TaskType> = ({ task, index }) => {
               'task--isDragging': snapshot.isDragging,
             })}
             {...draggableProps}
-            {...dragHandleProps}
             ref={innerRef}
           >
             <div className="task__body">
-              <div>{task.content}</div>
+              <div className="content" {...dragHandleProps}>
+                {task.content}
+              </div>
               <div className="task__options">
                 <div className="icon">
                   <PencilSquare onClick={() => setShowModal(true)} />
@@ -72,7 +78,7 @@ const Task: React.FC<TaskType> = ({ task, index }) => {
         />
       )}
 
-      {showConfirmModal && <ConfirmModal show onHide={onConfirmModal} />}
+      {showConfirmModal && <ConfirmModal show onHide={onHideModal} onConfirm={onConfirmModal} />}
     </>
   );
 };

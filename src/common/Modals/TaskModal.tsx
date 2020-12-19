@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import Buttons from './Buttons';
 
 type Props = {
   title: string;
@@ -15,6 +16,10 @@ const TaskModal: React.FC<Props> = ({ title, show, onConfirm, onHide, valueFromP
 
   const onConfirmModal = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    sendValue();
+  };
+
+  const sendValue = () => {
     onConfirm(value.trim());
     setValue('');
   };
@@ -26,8 +31,8 @@ const TaskModal: React.FC<Props> = ({ title, show, onConfirm, onHide, valueFromP
   }, []);
 
   return (
-    <Modal show={show} onHide={onHide} backdrop="static" keyboard={false}>
-      <Modal.Header closeButton>
+    <Modal show={show} onHide={onHide} backdrop="static">
+      <Modal.Header closeButton className="no-border">
         <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -40,16 +45,11 @@ const TaskModal: React.FC<Props> = ({ title, show, onConfirm, onHide, valueFromP
               value={value}
               onChange={(e) => setValue(e.target.value)}
             />
-            <button type="submit" className="btn btn-primary">
-              Confirm
-            </button>
           </form>
         </div>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>
-          Close
-        </Button>
+      <Modal.Footer className="no-border">
+        <Buttons onHide={onHide} onConfirm={sendValue} />
       </Modal.Footer>
     </Modal>
   );
