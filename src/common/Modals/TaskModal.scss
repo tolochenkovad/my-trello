@@ -1,0 +1,28 @@
+.task-modal {
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  &__input {
+    margin-bottom: 10px;
+    padding: 5px 10px;
+  }
+  &__color {
+    display: flex;
+  }
+  &__calendar {
+    margin: 20px auto 0;
+    &.show-calendar {
+      display: block;
+    }
+    &.hide-calendar {
+      display: none;
+    }
+  }
+  &__selected-date {
+    margin-top: 20px;
+    & span {
+      font-weight: bold;
+    }
+  }
+}

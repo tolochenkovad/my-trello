@@ -6,6 +6,7 @@ import { addDoc, getCollectionsFromFirebase, removeData, updateData } from '../.
 import { COLLECTIONS } from '../../constants';
 import { getIndexForNewTask } from './helpers';
 import { size } from 'lodash';
+import moment from 'moment';
 
 // thunks
 export const getTasks = (): ThunkResult => async (dispatch, getState) => {
@@ -20,13 +21,15 @@ export const getTasks = (): ThunkResult => async (dispatch, getState) => {
   }
 };
 
-export const addTask = (value: string): ThunkResult => async (dispatch, getState) => {
+export const addTask = (value: string, color: string, dateOfTheEnd: string): ThunkResult => async (dispatch, getState) => {
   dispatch(setLoading());
   try {
     const authId = getState().firebase.auth.uid;
     const { tasks } = getState().tasks.dataForDraggable;
     const index = getIndexForNewTask(tasks);
-    const newTask = { [`task-${index}`]: { id: `task-${index}`, content: value, columnId: 'column-1' } };
+    const newTask = {
+      [`task-${index}`]: { id: `task-${index}`, content: value, columnId: 'column-1', date: moment().format(), color, dateOfTheEnd },
+    };
     if (size(tasks) === 0) {
       await addDoc(COLLECTIONS.tasks, newTask, authId);
     } else {
@@ -39,13 +42,16 @@ export const addTask = (value: string): ThunkResult => async (dispatch, getState
   }
 };
 
-export const editTask = (value: string, taskId: string): ThunkResult => async (dispatch, getState) => {
+export const editTask = (value: string, color: string, taskId: string, dateOfTheEnd: string): ThunkResult => async (dispatch, getState) => {
   dispatch(setLoading());
   try {
     const authId = getState().firebase.auth.uid;
     const { tasks } = getState().tasks.dataForDraggable;
     const updatedTask = { [taskId]: tasks[taskId] };
     updatedTask[taskId].content = value;
+    updatedTask[taskId].date = moment().format();
+    updatedTask[taskId].color = color;
+    updatedTask[taskId].dateOfTheEnd = dateOfTheEnd;
     await updateData(COLLECTIONS.tasks, updatedTask, authId);
     dispatch(getTasks());
   } catch (error) {

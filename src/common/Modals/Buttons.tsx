@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Button } from 'react-bootstrap';
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   onConfirm: () => void;
 };
 
-const Buttons: React.FC<Props> = ({ onHide, onConfirm }) => (
+const Buttons: FC<Props> = ({ onHide, onConfirm }) => (
   <>
     <Button variant="secondary" className="small-btn" onClick={onHide}>
       Cancel

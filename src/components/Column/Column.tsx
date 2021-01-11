@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { FC, memo } from 'react';
 import { isEqual } from 'lodash';
 import { Droppable } from 'react-beautiful-dnd';
 import classNames from 'classnames';
@@ -10,13 +10,11 @@ type ColumnType = {
   tasks: task[];
 };
 
-const Column: React.FC<ColumnType> = ({ column, tasks }) => {
-  console.log(`render Column ${column.id}`);
-  return (
+const Column: FC<ColumnType> = ({ column, tasks }) => (
     <div className="column">
       <h3 className="column__title">{column.title}</h3>
       <Droppable droppableId={column.id} type="TASK">
-        {({droppableProps, innerRef, placeholder}, snapshot) => (
+        {({ droppableProps, innerRef, placeholder }, snapshot) => (
           <div
             className={classNames('column__task-list', {
               'column__task-list--isDraggingOver': snapshot.isDraggingOver,
@@ -25,14 +23,13 @@ const Column: React.FC<ColumnType> = ({ column, tasks }) => {
             {...droppableProps}
           >
             {tasks.map((task, index) => (
-              <Task key={task.id} task={task} index={index}/>
+              <Task key={task.id} task={task} index={index} />
             ))}
             {placeholder}
           </div>
         )}
       </Droppable>
     </div>
-  )
-}
+  );
 
 export default memo(Column, isEqual);

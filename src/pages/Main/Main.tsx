@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { initialDataType } from '../../types/tasks';
 import { INITIAL_DATA } from '../../store/Tasks/reducer';
@@ -7,8 +7,7 @@ import Column from '../../components/Column';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDataForDraggable } from '../../store/Tasks/selectors';
 
-const Main: React.FC = () => {
-  console.log('render Main')
+const Main: FC = () => {
   const [state, setState] = useState<initialDataType>(INITIAL_DATA);
 
   const dispatch = useDispatch();
@@ -98,23 +97,17 @@ const Main: React.FC = () => {
     [dispatch, state],
   );
 
-  const renderDragContainer = useMemo(
-    () => (
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div className="container">
-          {state.columnOrder.map((columnId) => {
-            const column = state.columns[columnId];
-            const tasks = column.taskIds.map((taskId) => state.tasks[taskId]);
-
-            return <Column key={column.id} column={column} tasks={tasks} />;
-          })}
-        </div>
-      </DragDropContext>
-    ),
-    [onDragEnd, state],
+  return (
+    <DragDropContext onDragEnd={onDragEnd}>
+      <div className="container">
+        {state.columnOrder.map((columnId) => {
+          const column = state.columns[columnId];
+          const tasks = column.taskIds.map((taskId) => state.tasks[taskId]);
+          return <Column key={column.id} column={column} tasks={tasks} />;
+        })}
+      </div>
+    </DragDropContext>
   );
-
-  return <>{renderDragContainer}</>;
 };
 
 export default Main;

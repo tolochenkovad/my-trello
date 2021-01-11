@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState, useMemo } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import classNames from 'classnames';
 import { task } from '../../types/tasks';
@@ -7,21 +7,21 @@ import { useDispatch } from 'react-redux';
 import { editTask, removeTask } from '../../store/Tasks/actions';
 import TaskModal from '../../common/Modals/TaskModal';
 import ConfirmModal from '../../common/Modals/ConfirmModal';
+import moment from 'moment';
 
 type TaskType = {
   task: task;
   index: number;
 };
 
-const Task: React.FC<TaskType> = ({ task, index }) => {
-  console.log(`render Task ${index}`);
-  const [showModal, setShowModal] = useState(false);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
+const Task: FC<TaskType> = ({ task, index }) => {
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
   const dispatch = useDispatch();
 
-  const editTaskContent = (value) => {
+  const editTaskContent = (value: string, color: string, dateOfTheEnd: string) => {
     setShowModal(false);
-    dispatch(editTask(value, task.id));
+    dispatch(editTask(value, color, task.id, dateOfTheEnd));
   };
 
   const onConfirmModal = () => {
@@ -41,28 +41,40 @@ const Task: React.FC<TaskType> = ({ task, index }) => {
     dispatch(removeTask(task.id));
   };
 
+  const isEndOfTermTask = useMemo(() => () => {
+    const currentDate: any = new Date(task.date);
+    const endDate: any = new Date(task.dateOfTheEnd);
+    const difference = Math.ceil((endDate - currentDate) / (60 * 60 * 24 * 1000));
+    return !!(endDate && difference === 1);
+  }, [task.date, task.dateOfTheEnd]);
+
   return (
     <>
       <Draggable draggableId={task.id} index={index}>
         {({ innerRef, draggableProps, dragHandleProps }, snapshot) => (
-          <div
-            className={classNames('task', {
-              'task--isDragging': snapshot.isDragging,
-            })}
-            {...draggableProps}
-            ref={innerRef}
-          >
-            <div className="task__body">
-              <div className="content" {...dragHandleProps}>
-                {task.content}
-              </div>
-              <div className="task__options">
-                <div className="icon">
-                  <PencilSquare onClick={() => setShowModal(true)} />
+          <div style={{ backgroundColor: task.color }}>
+            <div
+              className={classNames('task', {
+                'task--isDragging': snapshot.isDragging,
+                'task--endOfTerm': isEndOfTermTask(),
+              })}
+              {...draggableProps}
+              {...dragHandleProps}
+              ref={innerRef}
+            >
+              <div className="task__box">
+                <div className="task__body">
+                  <div className="content">{task.content}</div>
+                  <div className="task__options">
+                    <div className="icon">
+                      <PencilSquare onClick={() => setShowModal(true)} />
+                    </div>
+                    <div className="icon">
+                      <Trash onClick={setConfirmModal} />
+                    </div>
+                  </div>
                 </div>
-                <div className="icon">
-                  <Trash onClick={setConfirmModal} />
-                </div>
+                <div className="task__date">{moment(task.date).startOf('minutes').fromNow()}</div>
               </div>
             </div>
           </div>
@@ -75,6 +87,9 @@ const Task: React.FC<TaskType> = ({ task, index }) => {
           onHide={() => setShowModal(false)}
           onConfirm={editTaskContent}
           valueFromProps={task.content}
+          colorFromProps={task.color}
+          dateOfTheEndFromProps={task.dateOfTheEnd}
+          isTheEndOfTerm={isEndOfTermTask()}
         />
       )}
 

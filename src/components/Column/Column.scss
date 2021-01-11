@@ -10,7 +10,9 @@
   &__title {
     margin-bottom: 0;
     padding: 10px 20px;
-    background: #cfcff2;
+    background: #8297ac;
+    border: 1px solid black;
+    border-bottom: none;
   }
 
   &__task-list {
@@ -18,7 +20,7 @@
     transition: background-color 0.2s ease;
     flex-grow: 1;
     min-height: 100px;
-    background-color: #ead989;
+    border: 1px solid black;
     &--isDraggingOver {
       background-color: skyblue;
     }

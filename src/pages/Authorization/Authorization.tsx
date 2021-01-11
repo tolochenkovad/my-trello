@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 // @ts-ignore
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import { toastr } from 'react-redux-toastr';
@@ -7,12 +7,12 @@ import { getAuth } from '../../store/Authorization/selectors';
 import { isEmpty } from 'react-redux-firebase';
 import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { ROUTES } from '../../routes/constants';
 
-const Authorization: React.FC = () => {
-  console.log('render Authorization')
+const Authorization: FC = () => {
   const auth = useSelector(getAuth);
   if (!isEmpty(auth)) {
-    return <Redirect to="/" />;
+    return <Redirect to={ROUTES.MAIN} />;
   }
   const onSuccessSocialLogin = (): boolean => {
     toastr.success('Successfully authorized', '');
@@ -24,7 +24,7 @@ const Authorization: React.FC = () => {
       <StyledFirebaseAuth
         uiConfig={{
           signInFlow: 'popup',
-          signInSuccessUrl: '/login',
+          signInSuccessUrl: ROUTES.LOGIN,
           signInOptions: [
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
             firebase.auth.FacebookAuthProvider.PROVIDER_ID,

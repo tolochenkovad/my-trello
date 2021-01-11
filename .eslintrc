@@ -57,7 +57,6 @@
     "react/jsx-boolean-value": ["warn", "never"],
     "object-curly-spacing": ["warn", "always"],
     "dot-location": ["warn", "property"],
-    "eqeqeq": ["warn", "smart"],
     "new-parens": "warn",
     "no-caller": "warn",
     "no-debugger": "off",
@@ -299,7 +298,8 @@
     "no-array-constructor": "off",
     "no-use-before-define": "off",
     "no-useless-constructor": "off",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "eqeqeq": "off",
   },
   "overrides": [
     {

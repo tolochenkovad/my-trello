@@ -1,7 +1,10 @@
 export type task = {
   id: string;
   content: string;
-  columnId? : string,
+  columnId : string,
+  date: string,
+  dateOfTheEnd: string,
+  color: string,
 };
 
 export type column = {

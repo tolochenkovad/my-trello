@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { isEmpty } from 'react-redux-firebase';
 import { getAuth } from '../../store/Authorization/selectors';
@@ -8,9 +8,10 @@ import { addTask } from '../../store/Tasks/actions';
 import { Button } from 'react-bootstrap';
 import TaskModal from '../Modals/TaskModal';
 import { useLocation } from 'react-router-dom';
+import { ROUTES } from '../../routes/constants';
 
-const Header: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
+const Header: FC = () => {
+  const [showModal, setShowModal] = useState<boolean>(false);
   const dispatch = useDispatch();
   const auth = useSelector(getAuth);
   const onLogout = () => {
@@ -18,8 +19,8 @@ const Header: React.FC = () => {
   };
   const location = useLocation();
 
-  const addTaskToBase = (value) => {
-    dispatch(addTask(value));
+  const addTaskToBase = (value: string, color: string, dateOfTheEnd: string) => {
+    dispatch(addTask(value, color, dateOfTheEnd));
     setShowModal(false);
   };
 
@@ -34,20 +35,20 @@ const Header: React.FC = () => {
   return (
     <div className="header">
       <div>
-        {location.pathname !== '/' && (
-          <NavLink className="header__app-name" to="/">
+        {location.pathname !== ROUTES.MAIN && location.pathname !== ROUTES.LOGIN && (
+          <NavLink className="header__app-name" to={ROUTES.MAIN}>
             Tasks
           </NavLink>
         )}
 
-        {!isEmpty(auth) && location.pathname === '/' && (
+        {!isEmpty(auth) && location.pathname === ROUTES.MAIN && (
           <Button variant="primary" className="header__create-btn" onClick={openModal}>
             Create task
           </Button>
         )}
         {showModal && <TaskModal title="Create task" show onHide={closeModal} onConfirm={addTaskToBase} />}
         {!isEmpty(auth) && (
-          <NavLink className="header__app-name" to="/analytics" activeClassName="header__analytics">
+          <NavLink className="header__app-name" to={ROUTES.ANALYTICS} activeClassName="header__analytics">
             Analytics
           </NavLink>
         )}
@@ -56,7 +57,7 @@ const Header: React.FC = () => {
         {isEmpty(auth) ? (
           <div>
             {!location.pathname.includes('login') && (
-              <NavLink className="header__login" to="/login">
+              <NavLink className="header__login" to={ROUTES.LOGIN}>
                 Login
               </NavLink>
             )}
@@ -68,7 +69,7 @@ const Header: React.FC = () => {
         )}
         {!isEmpty(auth) && (
           <div onClick={onLogout}>
-            <NavLink className="header__logout" to="/login">
+            <NavLink className="header__logout" to={ROUTES.LOGIN}>
               Logout
             </NavLink>
           </div>
