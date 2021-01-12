@@ -1,6 +1,6 @@
 import React, { FC, ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import Buttons from './Buttons';
+import Buttons from '../ButtonsForModal/Buttons';
 import ColorPicker from 'react-input-color';
 import Calendar from 'react-calendar';
 import moment from 'moment';

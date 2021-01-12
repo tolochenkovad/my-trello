@@ -6,7 +6,7 @@ import { logout } from '../../store/Authorization/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTask } from '../../store/Tasks/actions';
 import { Button } from 'react-bootstrap';
-import TaskModal from '../Modals/TaskModal';
+import TaskModal from '../Modals/TaskModal/TaskModal';
 import { useLocation } from 'react-router-dom';
 import { ROUTES } from '../../routes/constants';
 
@@ -47,7 +47,7 @@ const Header: FC = () => {
           </Button>
         )}
         {showModal && <TaskModal title="Create task" show onHide={closeModal} onConfirm={addTaskToBase} />}
-        {!isEmpty(auth) && (
+        {!isEmpty(auth) && location.pathname !== ROUTES.ANALYTICS && (
           <NavLink className="header__app-name" to={ROUTES.ANALYTICS} activeClassName="header__analytics">
             Analytics
           </NavLink>

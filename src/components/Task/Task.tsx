@@ -5,8 +5,8 @@ import { task } from '../../types/tasks';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
 import { useDispatch } from 'react-redux';
 import { editTask, removeTask } from '../../store/Tasks/actions';
-import TaskModal from '../../common/Modals/TaskModal';
-import ConfirmModal from '../../common/Modals/ConfirmModal';
+import TaskModal from '../../common/Modals/TaskModal/TaskModal';
+import ConfirmModal from '../../common/Modals/ConfirmModal/ConfirmModal';
 import moment from 'moment';
 
 type TaskType = {

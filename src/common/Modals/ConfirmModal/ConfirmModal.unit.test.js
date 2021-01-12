@@ -34,11 +34,9 @@ describe('ConfirmModal', () => {
     it('footer', () => {
       expect(wrapper.find('ModalFooter')).toHaveLength(1);
     });
-  });
 
-  it('should call onHide when click on close button', () => {
-    expect(wrapper.props().onHide).not.toHaveBeenCalled();
-    wrapper.find('Button').simulate('click');
-    expect(wrapper.props().onHide).toHaveBeenCalled();
+    it('buttons', () => {
+      expect(wrapper.find('Buttons')).toHaveLength(1);
+    });
   });
 });

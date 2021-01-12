@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Buttons should render correctly 1`] = `
+<Fragment>
+  <Button
+    active={false}
+    className="small-btn"
+    disabled={false}
+    onClick={[MockFunction]}
+    variant="secondary"
+  >
+    Cancel
+  </Button>
+  <Button
+    active={false}
+    className="small-btn"
+    disabled={false}
+    onClick={[MockFunction]}
+    variant="primary"
+  >
+    Confirm
+  </Button>
+</Fragment>
+`;

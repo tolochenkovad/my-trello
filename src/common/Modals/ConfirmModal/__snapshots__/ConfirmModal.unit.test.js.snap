@@ -13,27 +13,24 @@ exports[`ConfirmModal should render correctly 1`] = `
     }
   }
   enforceFocus={true}
-  keyboard={false}
+  keyboard={true}
   onHide={[MockFunction]}
   restoreFocus={true}
   show={false}
 >
   <ModalBody>
     <div
-      className="text-center"
+      className="text-center font-size-20"
     >
       Are you sure?
     </div>
   </ModalBody>
-  <ModalFooter>
-    <Button
-      active={false}
-      disabled={false}
-      onClick={[MockFunction]}
-      variant="primary"
-    >
-      Confirm
-    </Button>
+  <ModalFooter
+    className="no-border"
+  >
+    <Buttons
+      onHide={[MockFunction]}
+    />
   </ModalFooter>
 </Modal>
 `;
