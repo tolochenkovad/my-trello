@@ -17,10 +17,13 @@
   "browserslist": "> 0.25%, not dead",
   "keywords": [
     "js",
+    "ts",
     "javascript",
+    "typescript",
+    "firebase",
     "customTrello"
   ],
-  "author": "Vadim TolocheMacnko <vadim.tolochenko@gmail.com>",
+  "author": "Vadim Tolochenko <vadim.tolochenko@gmail.com>",
   "license": "ISCprop-types",
   "devDependencies": {
     "@babel/core": "^7.8.3",

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 type State = {
-  hasEror?: boolean;
+  hasError?: boolean;
   error: Error | null;
 };
 

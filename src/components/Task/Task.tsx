@@ -45,8 +45,8 @@ const Task: FC<TaskType> = ({ task, index }) => {
     const currentDate: any = new Date(task.date);
     const endDate: any = new Date(task.dateOfTheEnd);
     const difference = Math.ceil((endDate - currentDate) / (60 * 60 * 24 * 1000));
-    return !!(endDate && difference === 1);
-  }, [task.date, task.dateOfTheEnd]);
+    return !!(endDate && difference === 1 && task.columnId !== 'column-3');
+  }, [task.date, task.dateOfTheEnd, task.columnId]);
 
   return (
     <>
