@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header should render correctly 1`] = `
+<div
+  className="header"
+>
+  <div>
+    <Button
+      active={false}
+      className="header__create-btn"
+      disabled={false}
+      onClick={[Function]}
+      variant="primary"
+    >
+      Create task
+    </Button>
+    <NavLink
+      activeClassName="header__analytics"
+      className="header__app-name"
+      to="/analytics"
+    >
+      Analytics
+    </NavLink>
+  </div>
+  <div
+    className="header__user-box"
+  >
+    <div
+      className="header__user"
+    >
+      Welcome, 
+      <span>
+        John Konnor
+      </span>
+      !
+    </div>
+    <div
+      onClick={[Function]}
+    >
+      <NavLink
+        className="header__logout"
+        to="/login"
+      >
+        Logout
+      </NavLink>
+    </div>
+  </div>
+</div>
+`;

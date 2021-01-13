@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { isEmpty } from 'react-redux-firebase';
 import { getAuth } from '../../store/Authorization/selectors';
 import { logout } from '../../store/Authorization/actions';
@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTask } from '../../store/Tasks/actions';
 import { Button } from 'react-bootstrap';
 import TaskModal from '../Modals/TaskModal/TaskModal';
-import { useLocation } from 'react-router-dom';
 import { ROUTES } from '../../routes/constants';
 
 const Header: FC = () => {
