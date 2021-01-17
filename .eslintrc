@@ -53,6 +53,8 @@
     "@typescript-eslint/no-unsafe-member-access": "off",
     "@typescript-eslint/no-unsafe-assignment": "off",
     "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/unbound-method": "off",
+    "no-console": "off",
     "array-callback-return": "warn",
     "react/jsx-boolean-value": ["warn", "never"],
     "object-curly-spacing": ["warn", "always"],
@@ -60,7 +62,17 @@
     "new-parens": "warn",
     "no-caller": "warn",
     "no-debugger": "off",
-    "no-console": "off",
+    "no-shadow": "off",
+    "react/prop-types": "off",
+    "default-case": "off",
+    "no-dupe-class-members": "off",
+    "no-undef": "error",
+    "no-array-constructor": "off",
+    "no-use-before-define": "off",
+    "no-useless-constructor": "off",
+    "no-unused-vars": "off",
+    "eqeqeq": "off",
+
     "no-cond-assign": ["warn", "except-parens"],
     "no-const-assign": "warn",
     "no-control-regex": "warn",
@@ -125,7 +137,6 @@
     "no-self-compare": "warn",
     "no-sequences": "warn",
     "no-shadow-restricted-names": "warn",
-    "no-shadow": "off",
     "no-sparse-arrays": "warn",
     "no-template-curly-in-string": "warn",
     "no-this-before-super": "warn",
@@ -202,6 +213,7 @@
         "allowTaggedTemplates": true
       }
     ],
+
     "no-unused-labels": "warn",
     "no-useless-computed-key": "warn",
     "no-useless-concat": "warn",
@@ -238,9 +250,7 @@
       }
     ],
     "getter-return": "warn",
-    "import/first": "error",
-    "import/no-amd": "error",
-    "import/no-webpack-loader-syntax": "error",
+
     "react/forbid-foreign-prop-types": [
       "warn",
       {
@@ -250,7 +260,7 @@
     "react/jsx-no-comment-textnodes": "warn",
     "react/jsx-no-duplicate-props": "warn",
     "react/jsx-no-target-blank": "warn",
-    "react/jsx-no-undef": "error",
+
     "react/jsx-pascal-case": [
       "warn",
       {
@@ -263,10 +273,7 @@
     "react/no-danger-with-children": "warn",
     "react/no-direct-mutation-state": "warn",
     "react/no-is-mounted": "warn",
-    "react/no-typos": "error",
-    "react/prop-types": "off",
-    "react/react-in-jsx-scope": "error",
-    "react/require-render-return": "error",
+
     "react/style-prop-object": "warn",
     "jsx-a11y/accessible-emoji": "warn",
     "jsx-a11y/alt-text": "warn",
@@ -291,15 +298,15 @@
     "jsx-a11y/role-has-required-aria-props": "warn",
     "jsx-a11y/role-supports-aria-props": "warn",
     "jsx-a11y/scope": "warn",
-    "react-hooks/rules-of-hooks": "error",
-    "default-case": "off",
-    "no-dupe-class-members": "off",
-    "no-undef": "error",
-    "no-array-constructor": "off",
-    "no-use-before-define": "off",
-    "no-useless-constructor": "off",
-    "no-unused-vars": "off",
-    "eqeqeq": "off",
+
+    "import/first": "error",
+    "import/no-amd": "error",
+    "import/no-webpack-loader-syntax": "error",
+    "react/jsx-no-undef": "error",
+    "react/no-typos": "error",
+    "react/react-in-jsx-scope": "error",
+    "react/require-render-return": "error",
+    "react-hooks/rules-of-hooks": "error"
   },
   "overrides": [
     {

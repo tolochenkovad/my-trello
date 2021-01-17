@@ -4,10 +4,7 @@ module.exports = {
     ],
     "preset": "ts-jest",
     "transform": {"\\.(js|ts|tsx)$": ['ts-jest']},
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts)$",
-    "testPathIgnorePatterns": [
-        "./src/__tests__/setupEnzyme.js"
-    ],
+    "testRegex": "((\\.|/)(test|spec))\\.(js|ts)$",
     "collectCoverageFrom": [
         "src/**/*.{js,jsx,ts,tsx}",
         "!/node_modules/"
@@ -21,8 +18,10 @@ module.exports = {
     "snapshotSerializers": [
         "enzyme-to-json/serializer"
     ],
+
     "setupFilesAfterEnv": [
-        "<rootDir>/src/__tests__/setupEnzyme.js"
+        "<rootDir>/src/__tests__/setupEnzyme.js",
+        "<rootDir>./src/__tests__/helpers.js"
     ],
     "moduleNameMapper": {
         "\\.(css|less|scss|sass)$": "identity-obj-proxy"
