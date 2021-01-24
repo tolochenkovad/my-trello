@@ -1,26 +1,23 @@
-const path = require("path");
-const HTMLWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCssAssetWebpackPlugin = require("optimize-css-assets-webpack-plugin");
-const TerserWebpackPlugin = require("terser-webpack-plugin");
+const path = require('path');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserWebpackPlugin = require('terser-webpack-plugin');
 
-const isDev = process.env.NODE_ENV === "development";
+const isDev = process.env.NODE_ENV === 'development';
 const isProd = !isDev;
 
 const optimization = () => {
   const config = {
     splitChunks: {
-      chunks: "all",
+      chunks: 'all',
     },
   };
 
   if (isProd) {
-    config.minimizer = [
-      new OptimizeCssAssetWebpackPlugin(),
-      new TerserWebpackPlugin(),
-    ];
+    config.minimizer = [new OptimizeCssAssetWebpackPlugin(), new TerserWebpackPlugin({ extractComments: false })];
   }
 
   return config;
@@ -37,7 +34,12 @@ const cssLoaders = (extra) => {
         reloadAll: true,
       },
     },
-    "css-loader",
+    {
+      loader: 'css-loader',
+      options: {
+        sourceMap: isDev,
+      },
+    },
   ];
 
   if (extra) {
@@ -49,10 +51,8 @@ const cssLoaders = (extra) => {
 
 const babelOptions = (preset) => {
   const opts = {
-    presets: ["@babel/preset-env", "@babel/preset-react"],
-    plugins: [
-      '@babel/plugin-proposal-class-properties'
-    ]
+    presets: ['@babel/preset-env', '@babel/preset-react'],
+    plugins: ['@babel/plugin-proposal-class-properties'],
   };
 
   if (preset) {
@@ -65,13 +65,13 @@ const babelOptions = (preset) => {
 const jsLoaders = () => {
   const loaders = [
     {
-      loader: "babel-loader",
+      loader: 'babel-loader',
       options: babelOptions(),
     },
   ];
 
   if (isDev) {
-    loaders.push("eslint-loader");
+    loaders.push('eslint-loader');
   }
 
   return loaders;
@@ -80,7 +80,7 @@ const jsLoaders = () => {
 const plugins = () => {
   return [
     new HTMLWebpackPlugin({
-      template: path.resolve(__dirname, "public/index.html"),
+      template: path.resolve(__dirname, 'public/index.html'),
       minify: {
         collapseWhitespace: isProd,
       },
@@ -88,28 +88,28 @@ const plugins = () => {
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, "public/favicon.ico"),
-        to: path.resolve(__dirname, "dist"),
+        from: path.resolve(__dirname, 'public/favicon.ico'),
+        to: path.resolve(__dirname, 'dist'),
       },
     ]),
     new MiniCssExtractPlugin({
-      filename: filename("css"),
+      filename: filename('css'),
     }),
   ];
 };
 
 module.exports = {
-  context: path.resolve(__dirname, "src"),
-  mode: "development",
+  context: path.resolve(__dirname, 'src'),
+  mode: 'development',
   entry: {
-    main: ["@babel/polyfill", "./index.tsx"],
+    main: ['@babel/polyfill', './index.tsx'],
   },
   output: {
-    filename: filename("js"),
-    path: path.resolve(__dirname, "dist"),
+    filename: filename('js'),
+    path: path.resolve(__dirname, 'dist'),
   },
   resolve: {
-    extensions: [".js", ".json", ".png", ".ts", ".tsx"],
+    extensions: ['.js', '.json', '.png', '.ts', '.tsx'],
   },
   optimization: optimization(),
   devServer: {
@@ -118,7 +118,7 @@ module.exports = {
     historyApiFallback: true,
     open: true,
   },
-  devtool: isDev ? "source-map" : '',
+  devtool: isDev ? 'source-map' : '',
   plugins: plugins(),
   module: {
     rules: [
@@ -128,15 +128,15 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/,
-        use: cssLoaders("sass-loader"),
+        use: cssLoaders({ loader: 'sass-loader', options: { sourceMap: isDev } }),
       },
       {
         test: /\.(png|jpg|svg|gif)$/,
-        use: ["file-loader"],
+        use: ['file-loader'],
       },
       {
         test: /\.(ttf|woff|woff2|eot)$/,
-        use: ["file-loader"],
+        use: ['file-loader'],
       },
       {
         test: /\.js$/,
@@ -148,10 +148,10 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: "babel-loader",
-            options: babelOptions("@babel/preset-typescript"),
+            loader: 'babel-loader',
+            options: babelOptions('@babel/preset-typescript'),
           },
-          { loader: "ts-loader" },
+          { loader: 'ts-loader' },
         ],
       },
     ],
