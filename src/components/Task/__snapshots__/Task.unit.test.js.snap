@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Task should render correctly 1`] = `
+<Fragment>
+  <Draggable
+    draggableId="1"
+    index={1}
+  >
+    <Component />
+  </Draggable>
+</Fragment>
+`;

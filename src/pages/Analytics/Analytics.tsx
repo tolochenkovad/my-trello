@@ -1,8 +1,9 @@
-import React, { FC } from 'react';
-import { Chart } from 'react-google-charts';
+import React, { FC, Suspense, lazy } from 'react';
 import { useSelector } from 'react-redux';
 import { getQuantityItemsInCategories } from '../../store/Tasks/selectors';
 import { Spinner } from 'react-bootstrap';
+
+const Chart = lazy(() => import('react-google-charts').then((module) => ({ default: module.Chart })));
 
 const Analytics: FC = () => {
   const dataForChart = useSelector(getQuantityItemsInCategories);
@@ -14,28 +15,30 @@ const Analytics: FC = () => {
   return (
     <div className="analytics">
       <h3 className="text-center">Tasks statistics by categories</h3>
-      <Chart
-        chartType="PieChart"
-        options={{
-          chartArea: {
-            left: 0,
-            right: 0,
-            top: 20,
-            bottom: 0,
-          },
-          legend: {
-            position: 'right',
-            alignment: 'center',
-            textStyle: {
-              fontSize: 14,
+      <Suspense fallback={<Spinner animation="border" />}>
+        <Chart
+          chartType="PieChart"
+          options={{
+            chartArea: {
+              left: 0,
+              right: 0,
+              top: 20,
+              bottom: 0,
             },
-          },
-        }}
-        loader={<Spinner animation="border" />}
-        data={dataForChart}
-        width="100%"
-        height="100%"
-      />
+            legend: {
+              position: 'right',
+              alignment: 'center',
+              textStyle: {
+                fontSize: 14,
+              },
+            },
+          }}
+          loader={<Spinner animation="border" />}
+          data={dataForChart}
+          width="100%"
+          height="100%"
+        />
+      </Suspense>
     </div>
   );
 };

@@ -320,6 +320,12 @@
       "rules": {
         "@typescript-eslint/ban-types": ["off"]
       }
+    },
+    {
+      "files": ["*.unit.test.js"],
+      "rules": {
+        "@typescript-eslint/no-unsafe-return": ["off"]
+      }
     }
   ]
 }

@@ -5,24 +5,6 @@ import { ROUTES } from '../../routes/constants';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-jest.mock('react-redux-toastr', () => ({
-  toastr: {
-    error: jest.fn(),
-  },
-}));
-
-jest.mock('react-redux', () => ({
-  useSelector: jest.fn(),
-  useDispatch: jest.fn(),
-}));
-
-jest.mock('react-router-dom', () => ({
-  NavLink: function NavLink() {
-    return <div>Test</div>;
-  },
-  useLocation: jest.fn(),
-}));
-
 let wrapper;
 
 const DISPLAY_NAME = 'John Konnor';
@@ -76,7 +58,7 @@ describe('Header', () => {
     });
   });
 
-  describe('should works corretly', () => {
+  describe('should works correctly', () => {
     it('should open TaskModal if user click on Create Task button', () => {
       setup(ROUTES.MAIN, true);
       expect(wrapper.find('TaskModal')).toHaveLength(0);

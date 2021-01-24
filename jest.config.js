@@ -20,8 +20,8 @@ module.exports = {
     ],
 
     "setupFilesAfterEnv": [
-        "<rootDir>/src/__tests__/setupEnzyme.js",
-        "<rootDir>./src/__tests__/helpers.js"
+        "<rootDir>/src/helpers/testsHelpers/setupEnzyme.js",
+        "<rootDir>/src/helpers/testsHelpers/helpers.js"
     ],
     "moduleNameMapper": {
         "\\.(css|less|scss|sass)$": "identity-obj-proxy"
