@@ -322,7 +322,7 @@
       }
     },
     {
-      "files": ["*.unit.test.js"],
+      "files": ["*.test.js"],
       "rules": {
         "@typescript-eslint/no-unsafe-return": ["off"]
       }
