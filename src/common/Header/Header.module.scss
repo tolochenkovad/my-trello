@@ -1,0 +1,42 @@
+@import 'src/styles/helpers';
+
+.header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+}
+
+.appName {
+  @include link;
+}
+
+.analytics {
+  @include link;
+  margin-left: 20px;
+}
+
+.createBtn {
+  margin: 0 20px;
+}
+
+.userBox {
+  display: flex;
+  align-items: center;
+}
+
+.user {
+  span {
+    font-weight: bold;
+  }
+}
+
+.login {
+  @include link;
+}
+
+.logout {
+  @include link;
+  margin-left: 20px;
+}

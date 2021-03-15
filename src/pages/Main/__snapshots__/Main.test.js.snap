@@ -5,7 +5,7 @@ exports[`Main shallow should render correctly 1`] = `
   onDragEnd={[Function]}
 >
   <div
-    className="container"
+    className="d-flex"
   >
     <Memo(Column)
       column={

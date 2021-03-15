@@ -7,7 +7,7 @@ exports[`Header should render correctly 1`] = `
   <div>
     <Button
       active={false}
-      className="header__create-btn"
+      className="createBtn"
       disabled={false}
       onClick={[Function]}
       variant="primary"
@@ -15,18 +15,18 @@ exports[`Header should render correctly 1`] = `
       Create task
     </Button>
     <NavLink
-      activeClassName="header__analytics"
-      className="header__app-name"
+      activeClassName="analytics"
+      className="appName"
       to="/analytics"
     >
       Analytics
     </NavLink>
   </div>
   <div
-    className="header__user-box"
+    className="userBox"
   >
     <div
-      className="header__user"
+      className="user"
     >
       Welcome, 
       <span>
@@ -38,7 +38,7 @@ exports[`Header should render correctly 1`] = `
       onClick={[Function]}
     >
       <NavLink
-        className="header__logout"
+        className="logout"
         to="/login"
       >
         Logout

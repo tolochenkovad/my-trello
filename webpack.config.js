@@ -25,12 +25,13 @@ const optimization = () => {
 
 const filename = (ext) => (isDev ? `[name].${ext}` : `[name].[hash].${ext}`);
 
-const cssLoaders = (extra) => {
+const cssLoaders = (isSCSS, isModule) => {
   const loaders = [
     {
       loader: MiniCssExtractPlugin.loader,
       options: {
         hmr: isDev,
+        importLoaders: 1,
         reloadAll: true,
       },
     },
@@ -42,8 +43,15 @@ const cssLoaders = (extra) => {
     },
   ];
 
-  if (extra) {
-    loaders.push(extra);
+  if (isSCSS) {
+    loaders.push({ loader: 'sass-loader', options: { sourceMap: isDev } });
+  }
+
+  if (isModule) {
+    const cssLoader = loaders.find((item) => item.loader === 'css-loader');
+    cssLoader.options.modules = {
+      localIdentName: '[name]__[local]--[hash:base64:5]',
+    };
   }
 
   return loaders;
@@ -127,8 +135,13 @@ module.exports = {
         use: cssLoaders(),
       },
       {
-        test: /\.s[ac]ss$/,
-        use: cssLoaders({ loader: 'sass-loader', options: { sourceMap: isDev } }),
+        test: /\.module\.(sass|scss)$/,
+        use: cssLoaders(true, true),
+      },
+      {
+        test: /\.(sass|scss)$/,
+        exclude: /\.module\.(sass|scss)$/,
+        use: cssLoaders(true),
       },
       {
         test: /\.(png|jpg|svg|gif)$/,

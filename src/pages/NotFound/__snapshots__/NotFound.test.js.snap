@@ -2,7 +2,7 @@
 
 exports[`NotFound should render correctly 1`] = `
 <div
-  className="not-found"
+  className="notFound"
 >
   <div>
     Oops, Page Not Found :(

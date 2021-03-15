@@ -5,7 +5,7 @@ exports[`Column should render correctly 1`] = `
   className="column"
 >
   <h3
-    className="column__title"
+    className="title"
   >
     title
   </h3>

@@ -24,6 +24,6 @@ module.exports = {
         "<rootDir>/src/helpers/testsHelpers/helpers.js"
     ],
     "moduleNameMapper": {
-        "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+        "\\.(css|less|scss|sass)$": "<rootDir>/node_modules/jest-css-modules"
     }
 }

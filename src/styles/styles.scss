@@ -1,21 +1,3 @@
 .main-container {
   padding: 0 20px;
 }
-
-@import 'helpers';
-
-//layout
-@import '../common/Header/Header';
-
-// components
-@import '../components/Column/Column';
-@import '../components/Task/Task';
-@import '../pages/NotFound/NotFound';
-
-// pages
-@import '../pages/Main/Main';
-@import '../pages/Authorization/Authorization';
-@import '../pages/Analytics/Analytics';
-
-// common
-@import '../common/Modals/TaskModal/TaskModal';

@@ -99,7 +99,7 @@ const Main: FC = () => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="container">
+      <div className="d-flex">
         {state.columnOrder.map((columnId) => {
           const column = state.columns[columnId];
           const tasks = column.taskIds.map((taskId) => state.tasks[taskId]);

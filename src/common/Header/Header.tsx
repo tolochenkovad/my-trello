@@ -8,6 +8,7 @@ import { addTask } from '../../store/Tasks/actions';
 import { Button } from 'react-bootstrap';
 import TaskModal from '../Modals/TaskModal/TaskModal';
 import { ROUTES } from '../../routes/constants';
+const styles = require('./Header.module.scss');
 
 const Header: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -32,43 +33,43 @@ const Header: FC = () => {
   };
 
   return (
-    <div className="header">
+    <div className={styles.header}>
       <div>
         {location.pathname !== ROUTES.MAIN && location.pathname !== ROUTES.LOGIN && (
-          <NavLink className="header__app-name" to={ROUTES.MAIN}>
+          <NavLink className={styles.appName} to={ROUTES.MAIN}>
             Tasks
           </NavLink>
         )}
 
         {!isEmpty(auth) && location.pathname === ROUTES.MAIN && (
-          <Button variant="primary" className="header__create-btn" onClick={openModal}>
+          <Button variant="primary" className={styles.createBtn} onClick={openModal}>
             Create task
           </Button>
         )}
         {showModal && <TaskModal title="Create task" show onHide={closeModal} onConfirm={addTaskToBase} />}
         {!isEmpty(auth) && location.pathname !== ROUTES.ANALYTICS && (
-          <NavLink className="header__app-name" to={ROUTES.ANALYTICS} activeClassName="header__analytics">
+          <NavLink className={styles.appName} to={ROUTES.ANALYTICS} activeClassName={styles.analytics}>
             Analytics
           </NavLink>
         )}
       </div>
-      <div className="header__user-box">
+      <div className={styles.userBox}>
         {isEmpty(auth) ? (
           <div>
             {!location.pathname.includes('login') && (
-              <NavLink className="header__login" to={ROUTES.LOGIN}>
+              <NavLink className={styles.login} to={ROUTES.LOGIN}>
                 Login
               </NavLink>
             )}
           </div>
         ) : (
-          <div className="header__user">
+          <div className={styles.user}>
             Welcome, <span>{auth.displayName}</span>!
           </div>
         )}
         {!isEmpty(auth) && (
           <div onClick={onLogout}>
-            <NavLink className="header__logout" to={ROUTES.LOGIN}>
+            <NavLink className={styles.logout} to={ROUTES.LOGIN}>
               Logout
             </NavLink>
           </div>

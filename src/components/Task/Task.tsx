@@ -8,6 +8,7 @@ import { editTask, removeTask } from '../../store/Tasks/actions';
 import TaskModal from '../../common/Modals/TaskModal/TaskModal';
 import ConfirmModal from '../../common/Modals/ConfirmModal/ConfirmModal';
 import moment from 'moment';
+const styles = require('./Task.module.scss');
 
 type TaskType = {
   task: task;
@@ -54,27 +55,27 @@ const Task: FC<TaskType> = ({ task, index }) => {
         {({ innerRef, draggableProps, dragHandleProps }, snapshot) => (
           <div style={{ backgroundColor: task.color }}>
             <div
-              className={classNames('task', {
-                'task--isDragging': snapshot.isDragging,
-                'task--endOfTerm': isEndOfTermTask(),
+              className={classNames(styles.task, {
+                [styles.isDragging]: snapshot.isDragging,
+                [styles.endOfTerm]: isEndOfTermTask(),
               })}
               {...draggableProps}
               {...dragHandleProps}
               ref={innerRef}
             >
-              <div className="task__box">
-                <div className="task__body">
-                  <div className="content">{task.content}</div>
-                  <div className="task__options">
-                    <div className="icon">
+              <div className={styles.box}>
+                <div className={styles.body}>
+                  <div className={styles.content}>{task.content}</div>
+                  <div className={styles.options}>
+                    <div className={styles.icon}>
                       <PencilSquare onClick={() => setShowModal(true)} />
                     </div>
-                    <div className="icon">
+                    <div className={styles.icon}>
                       <Trash onClick={setConfirmModal} />
                     </div>
                   </div>
                 </div>
-                <div className="task__date">{moment(task.date).startOf('minutes').fromNow()}</div>
+                <div className={styles.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
               </div>
             </div>
           </div>

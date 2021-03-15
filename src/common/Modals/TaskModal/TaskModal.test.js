@@ -38,7 +38,7 @@ describe('TaskModal', () => {
       });
 
       it('description field should exist', () => {
-        expect(wrapper.find('.task-modal__input')).toHaveLength(1);
+        expect(wrapper.find('.input')).toHaveLength(1);
       });
 
       it('ColorPicker should exist', () => {
@@ -74,7 +74,7 @@ describe('TaskModal', () => {
     });
 
     it('field for description', () => {
-      const inputField = wrapperMount.find('.task-modal__input');
+      const inputField = wrapperMount.find('.input');
       const event = { target: { value: 'Test second' } };
       expect(inputField.text()).toEqual('');
       inputField.simulate('change', event);
@@ -104,14 +104,14 @@ describe('TaskModal', () => {
     });
 
     it('calendar button', () => {
-      expect(wrapper.find('Calendar').props().className).toContain('hide-calendar');
+      expect(wrapper.find('Calendar').props().className).toContain('hideCalendar');
       wrapper.find('Button').at(0).simulate('click');
-      expect(wrapper.find('Calendar').props().className).not.toContain('hide-calendar');
+      expect(wrapper.find('Calendar').props().className).not.toContain('hideCalendar');
     });
 
     it('should display warning if description is empty', () => {
       jest.spyOn(toastr, 'error');
-      const inputField = wrapperMount.find('.task-modal__input');
+      const inputField = wrapperMount.find('.input');
       const event = { target: { value: '' } };
       expect(inputField.text()).toEqual('');
       inputField.simulate('change', event);

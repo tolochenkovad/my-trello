@@ -34,27 +34,27 @@ describe('Header', () => {
   describe('elements display correctly', () => {
     it('Tasks label should display if pathname is analysis', () => {
       setup(ROUTES.ANALYTICS);
-      expect(wrapper.find('.header__app-name').children().text()).toEqual('Tasks');
+      expect(wrapper.find('.appName').children().text()).toEqual('Tasks');
     });
 
     it('Analysis label should display if pathname is /', () => {
       setup(ROUTES.MAIN);
-      expect(wrapper.find('.header__app-name').children().text()).toEqual('Analytics');
+      expect(wrapper.find('.appName').children().text()).toEqual('Analytics');
     });
 
     it('Create task button should display if pathname is /', () => {
       setup(ROUTES.MAIN);
-      expect(wrapper.find('.header__create-btn').children().text()).toEqual('Create task');
+      expect(wrapper.find('.createBtn').children().text()).toEqual('Create task');
     });
 
     it('if user is authorized should display his name', () => {
       setup(ROUTES.MAIN);
-      expect(wrapper.find('.header__user').text()).toContain(DISPLAY_NAME);
+      expect(wrapper.find('.user').text()).toContain(DISPLAY_NAME);
     });
 
     it('if user is authorized should display logout label', () => {
       setup(ROUTES.MAIN);
-      expect(wrapper.find('.header__logout').children().text()).toEqual('Logout');
+      expect(wrapper.find('.logout').children().text()).toEqual('Logout');
     });
   });
 
@@ -62,7 +62,7 @@ describe('Header', () => {
     it('should open TaskModal if user click on Create Task button', () => {
       setup(ROUTES.MAIN, true);
       expect(wrapper.find('TaskModal')).toHaveLength(0);
-      wrapper.find('.header__create-btn').at(0).simulate('click');
+      wrapper.find('.createBtn').at(0).simulate('click');
       expect(wrapper.find('TaskModal')).toHaveLength(1);
     });
   });

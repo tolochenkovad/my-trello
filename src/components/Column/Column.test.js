@@ -24,7 +24,7 @@ describe('Column', () => {
 
   describe('children is exist', () => {
     it('Column title', () => {
-      expect(wrapper.find('.column__title')).toHaveLength(1);
+      expect(wrapper.find('.title')).toHaveLength(1);
     });
 
     it('Droppable', () => {

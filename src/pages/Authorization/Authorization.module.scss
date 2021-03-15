@@ -1,18 +1,19 @@
+@import 'src/styles/helpers';
+
 .auth {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  &__phrase {
-    text-align: center;
-    font-size: 18px;
-  }
+}
+
+.phrase {
+  text-align: center;
+  font-size: 18px;
 }
 
 @media (max-width: $sm-width) {
-  .auth {
-    &__phrase {
-      font-size: initial;
-    }
+  .phrase {
+    font-size: initial;
   }
 }

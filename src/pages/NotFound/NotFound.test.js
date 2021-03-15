@@ -20,7 +20,7 @@ describe('NotFound', () => {
 
   describe('children is exist', () => {
     it('container', () => {
-      expect(wrapper.find('.not-found')).toHaveLength(1);
+      expect(wrapper.find('.notFound')).toHaveLength(1);
     });
 
     it('Droppable', () => {
