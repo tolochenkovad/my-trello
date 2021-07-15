@@ -4,10 +4,10 @@ import classNames from 'classnames';
 import { task } from '../../types/tasks';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
 import { useDispatch } from 'react-redux';
-import { editTask, removeTask } from '../../store/Tasks/actions';
 import TaskModal from '../../common/Modals/TaskModal/TaskModal';
 import ConfirmModal from '../../common/Modals/ConfirmModal/ConfirmModal';
 import moment from 'moment';
+import { editTaskAction, removeTaskAction } from '../../store/Tasks/actions';
 const styles = require('./Task.module.scss');
 
 type TaskType = {
@@ -22,7 +22,7 @@ const Task: FC<TaskType> = ({ task, index }) => {
 
   const editTaskContent = (value: string, color: string, dateOfTheEnd: string) => {
     setShowModal(false);
-    dispatch(editTask(value, color, task.id, dateOfTheEnd));
+    dispatch(editTaskAction.pending({ value, color, taskId: task.id, dateOfTheEnd }));
   };
 
   const onConfirmModal = () => {
@@ -39,7 +39,7 @@ const Task: FC<TaskType> = ({ task, index }) => {
   };
 
   const onDeleteTask = () => {
-    dispatch(removeTask(task.id));
+    dispatch(removeTaskAction.pending({ taskId: task.id }));
   };
 
   const isEndOfTermTask = useMemo(() => () => {

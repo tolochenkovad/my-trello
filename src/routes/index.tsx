@@ -13,7 +13,7 @@ const Routes: FC = () => (
       <AuthRoute exact path={ROUTES.MAIN} component={Main} />
       <Route path={ROUTES.LOGIN} component={Authorization} />
       <AuthRoute path={ROUTES.ANALYTICS} component={Analytics} />
-      <Route component={NotFound} A />
+      <Route component={NotFound} />
     </Switch>
   </div>
 );

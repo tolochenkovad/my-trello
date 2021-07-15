@@ -1,8 +1,8 @@
 import { forEach, isEmpty } from 'lodash';
-import * as Constants from './constants';
-import { Actions } from './actions';
 import { initialDataType } from '../../types/tasks';
 import { sortObjectByKey } from '../../helpers/sortObject';
+import { createReducer } from '@reduxjs/toolkit';
+import { getTasksAction, removeTaskAction, saveDataToServerAction } from './actions';
 
 export const INITIAL_DATA = {
   tasks: {},
@@ -38,20 +38,15 @@ export const initialState: initialStateTypesForReducer = {
   error: '',
 };
 
-const tasksReducer = (state = initialState, action: Actions): initialStateTypesForReducer => {
-  switch (action.type) {
-    case Constants.SET_LOADING:
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case Constants.SET_TASKS: {
+const tasksReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(getTasksAction.fulfilled, (state, action) => {
       const { tasks } = action.payload;
-      let copyDataForDraggable: initialDataType = JSON.parse(JSON.stringify(state.dataForDraggable));
+
       if (isEmpty(tasks)) {
-        copyDataForDraggable = INITIAL_DATA;
+        state.dataForDraggable = INITIAL_DATA;
       } else {
-        forEach(copyDataForDraggable.columns, (columnItem) => {
+        forEach(state.dataForDraggable.columns, (columnItem) => {
           forEach(tasks, (taskItem) => {
             if (taskItem.columnId === columnItem.id && !columnItem.taskIds.includes(taskItem.id)) {
               columnItem.taskIds.push(taskItem.id);
@@ -59,53 +54,27 @@ const tasksReducer = (state = initialState, action: Actions): initialStateTypesF
           });
         });
 
-        copyDataForDraggable.tasks = tasks;
+        state.dataForDraggable.tasks = tasks;
       }
-
-      return {
-        ...state,
-        dataForDraggable: copyDataForDraggable,
-        isLoading: false,
-      };
-    }
-
-    case Constants.REMOVE_TASK: {
+    })
+    .addCase(removeTaskAction.fulfilled, (state, action) => {
       const { taskId } = action.payload;
+
       const { tasks } = state.dataForDraggable;
       const newTasks = sortObjectByKey(tasks, taskId);
-      const copyDataForDraggable: initialDataType = JSON.parse(JSON.stringify(state.dataForDraggable));
-      forEach(copyDataForDraggable.columns, (columnItem) => {
-        forEach(copyDataForDraggable.tasks, (taskItem) => {
+      forEach(state.dataForDraggable.columns, (columnItem) => {
+        forEach(state.dataForDraggable.tasks, (taskItem) => {
           if (taskItem.columnId === columnItem.id && taskItem.id === taskId) {
             columnItem.taskIds = columnItem.taskIds.filter((item) => item !== taskId);
           }
         });
       });
 
-      copyDataForDraggable.tasks = newTasks;
-
-      return {
-        ...state,
-        dataForDraggable: copyDataForDraggable,
-        isLoading: false,
-      };
-    }
-
-    case Constants.SAVE_DATA:
-      return {
-        ...state,
-        dataForDraggable: action.payload.data,
-      };
-
-    case Constants.SET_ERROR:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.payload.error.message,
-      };
-    default:
-      return state;
-  }
-};
+      state.dataForDraggable.tasks = newTasks;
+    })
+    .addCase(saveDataToServerAction.fulfilled, (state, action) => {
+      state.dataForDraggable = action.payload.data;
+    });
+});
 
 export default tasksReducer;
