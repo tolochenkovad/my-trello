@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Task from './Task';
+import Task from './';
 
 const props = {
   task: { id: '1', content: 'test', columnId: '1', date: 'date', dateOfTheEnd: 'dateOfTheEnd', color: '#000000' },

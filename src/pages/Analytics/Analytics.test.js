@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Analytics from './Analytics';
+import Analytics from './';
 import { useSelector } from 'react-redux';
 
 let wrapper;
