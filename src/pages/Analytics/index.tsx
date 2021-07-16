@@ -2,7 +2,7 @@ import React, { FC, Suspense, lazy } from 'react';
 import { useSelector } from 'react-redux';
 import { getQuantityItemsInCategories } from '../../store/Tasks/selectors';
 import { Spinner } from 'react-bootstrap';
-const styles = require('./Analytics.module.scss');
+import classes from './Analytics.module.scss';
 
 const Chart = lazy(() => import('react-google-charts').then((module) => ({ default: module.Chart })));
 
@@ -14,7 +14,7 @@ const Analytics: FC = () => {
   }
 
   return (
-    <div className={styles.analytics}>
+    <div className={classes.analytics}>
       <h3 className="text-center">Tasks statistics by categories</h3>
       <Suspense fallback={<Spinner animation="border" />}>
         <Chart

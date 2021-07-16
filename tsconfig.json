@@ -36,5 +36,6 @@
   ],
   "include": [
     "src"
-  ]
+  ],
+  "files": ["declaration.d.ts"]
 }

@@ -8,7 +8,7 @@ import { Button } from 'react-bootstrap';
 import TaskModal from '../Modals/TaskModal/TaskModal';
 import { ROUTES } from '../../routes/constants';
 import { addTaskAction } from '../../store/Tasks/actions';
-const styles = require('./Header.module.scss');
+import classes from './Header.module.scss';
 
 const Header: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -33,43 +33,43 @@ const Header: FC = () => {
   };
 
   return (
-    <div className={styles.header}>
+    <div className={classes.header}>
       <div>
         {location.pathname !== ROUTES.MAIN && location.pathname !== ROUTES.LOGIN && (
-          <NavLink className={styles.appName} to={ROUTES.MAIN}>
+          <NavLink className={classes.appName} to={ROUTES.MAIN}>
             Tasks
           </NavLink>
         )}
 
         {!isEmpty(auth) && location.pathname === ROUTES.MAIN && (
-          <Button variant="primary" className={styles.createBtn} onClick={openModal}>
+          <Button variant="primary" className={classes.createBtn} onClick={openModal}>
             Create task
           </Button>
         )}
         {showModal && <TaskModal title="Create task" show onHide={closeModal} onConfirm={addTaskToBase} />}
         {!isEmpty(auth) && location.pathname !== ROUTES.ANALYTICS && (
-          <NavLink className={styles.appName} to={ROUTES.ANALYTICS} activeClassName={styles.analytics}>
+          <NavLink className={classes.appName} to={ROUTES.ANALYTICS} activeClassName={classes.analytics}>
             Analytics
           </NavLink>
         )}
       </div>
-      <div className={styles.userBox}>
+      <div className={classes.userBox}>
         {isEmpty(auth) ? (
           <div>
             {!location.pathname.includes('login') && (
-              <NavLink className={styles.login} to={ROUTES.LOGIN}>
+              <NavLink className={classes.login} to={ROUTES.LOGIN}>
                 Login
               </NavLink>
             )}
           </div>
         ) : (
-          <div className={styles.user}>
+          <div className={classes.user}>
             Welcome, <span>{auth.displayName}</span>!
           </div>
         )}
         {!isEmpty(auth) && (
           <div onClick={onLogout}>
-            <NavLink className={styles.logout} to={ROUTES.LOGIN}>
+            <NavLink className={classes.logout} to={ROUTES.LOGIN}>
               Logout
             </NavLink>
           </div>

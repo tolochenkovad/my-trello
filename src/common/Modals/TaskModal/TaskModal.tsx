@@ -6,7 +6,7 @@ import Calendar from 'react-calendar';
 import moment from 'moment';
 import classNames from 'classnames';
 import { toastr } from 'react-redux-toastr';
-const styles = require('./TaskModal.module.scss');
+import classes from './TaskModal.module.scss';
 
 type Props = {
   title: string;
@@ -84,12 +84,12 @@ const TaskModal: FC<Props> = ({
             <input
               type="text"
               ref={inputRef}
-              className={styles.input}
+              className={classes.input}
               value={value}
               onChange={(e) => setValue(e.target.value)}
             />
           </form>
-          <div className={styles.color}>
+          <div className={classes.color}>
             <div className="mr-2">Choose background color of this task</div>
             <ColorPicker initialValue={color} onChange={changeColor} placement="right" />
           </div>
@@ -103,15 +103,15 @@ const TaskModal: FC<Props> = ({
               value={calendarData}
               minDate={new Date()}
               onChange={onChangeCalendar}
-              className={classNames(styles.calendar, {
-                [styles.showCalendar]: showCalendar,
-                [styles.hideCalendar]: !showCalendar,
+              className={classNames(classes.calendar, {
+                [classes.showCalendar]: showCalendar,
+                [classes.hideCalendar]: !showCalendar,
               })}
             />
           </div>
 
           {calendarData && (
-            <div className={styles.selectedDate}>
+            <div className={classes.selectedDate}>
               <div>
                 Date of the end of the task: <span>{moment(calendarData.toString(), 'Date').format('ll')}</span>
               </div>

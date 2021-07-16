@@ -8,7 +8,7 @@ import TaskModal from '../../common/Modals/TaskModal/TaskModal';
 import ConfirmModal from '../../common/Modals/ConfirmModal/ConfirmModal';
 import moment from 'moment';
 import { editTaskAction, removeTaskAction } from '../../store/Tasks/actions';
-const styles = require('./Task.module.scss');
+import classes from './Task.module.scss';
 
 type TaskType = {
   task: task;
@@ -55,27 +55,27 @@ const Task: FC<TaskType> = ({ task, index }) => {
         {({ innerRef, draggableProps, dragHandleProps }, snapshot) => (
           <div style={{ backgroundColor: task.color }}>
             <div
-              className={classNames(styles.task, {
-                [styles.isDragging]: snapshot.isDragging,
-                [styles.endOfTerm]: isEndOfTermTask(),
+              className={classNames(classes.task, {
+                [classes.isDragging]: snapshot.isDragging,
+                [classes.endOfTerm]: isEndOfTermTask(),
               })}
               {...draggableProps}
               {...dragHandleProps}
               ref={innerRef}
             >
-              <div className={styles.box}>
-                <div className={styles.body}>
-                  <div className={styles.content}>{task.content}</div>
-                  <div className={styles.options}>
-                    <div className={styles.icon}>
+              <div className={classes.box}>
+                <div className={classes.body}>
+                  <div className={classes.content}>{task.content}</div>
+                  <div className={classes.options}>
+                    <div className={classes.icon}>
                       <PencilSquare onClick={() => setShowModal(true)} />
                     </div>
-                    <div className={styles.icon}>
+                    <div className={classes.icon}>
                       <Trash onClick={setConfirmModal} />
                     </div>
                   </div>
                 </div>
-                <div className={styles.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
+                <div className={classes.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
               </div>
             </div>
           </div>
