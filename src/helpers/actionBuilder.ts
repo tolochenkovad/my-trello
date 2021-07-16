@@ -9,7 +9,7 @@ interface IGeneric {
 }
 
 function prepareAction<T>() {
-  return (payload: T, meta?: { arg }) => ({ payload, meta });
+  return (payload: T, meta?: { arg: any }) => ({ payload, meta });
 }
 
 function actionBuilder<T extends IGeneric = IGeneric>(action: string) {

@@ -12,7 +12,7 @@ type Props = {
   title: string;
   show: boolean;
   onHide: () => void;
-  onConfirm: (value, color, dateOfTheEnd) => void;
+  onConfirm: (value: string, color: string, dateOfTheEnd: string) => void;
   valueFromProps?: string;
   colorFromProps?: string;
   dateOfTheEndFromProps?: string;
@@ -68,7 +68,7 @@ const TaskModal: FC<Props> = ({
     setShowCalendar((prevState) => !prevState);
   };
 
-  const onChangeCalendar = (value) => {
+  const onChangeCalendar = (value: Date | Date[]) => {
     setCalendarData(value);
     setEndOfTermValue(false);
   };

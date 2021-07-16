@@ -8,15 +8,15 @@ type State = {
 class ErrorBoundary extends Component<any, State> {
   state = { hasError: false, error: null };
 
-  static getDerivedStateFromError(error: Error): any {
+  static getDerivedStateFromError(error: Error) {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error): any {
+  componentDidCatch(error: Error) {
     this.setState({ error });
   }
 
-  render(): any {
+  render() {
     const { children } = this.props;
     const { hasError, error } = this.state;
     if (hasError) {

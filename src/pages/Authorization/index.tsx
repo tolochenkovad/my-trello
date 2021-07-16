@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-// @ts-ignore
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import { toastr } from 'react-redux-toastr';
 import firebase from 'firebase/app';

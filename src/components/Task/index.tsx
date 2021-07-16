@@ -43,9 +43,9 @@ const Task: FC<TaskType> = ({ task, index }) => {
   };
 
   const isEndOfTermTask = useMemo(() => () => {
-    const currentDate: any = new Date(task.date);
-    const endDate: any = new Date(task.dateOfTheEnd);
-    const difference = Math.ceil((endDate - currentDate) / (60 * 60 * 24 * 1000));
+    const currentDate = new Date(task.date);
+    const endDate = new Date(task.dateOfTheEnd);
+    const difference = Math.ceil((endDate.getTime() - currentDate.getTime()) / (60 * 60 * 24 * 1000));
     return !!(endDate && difference === 1 && task.columnId !== 'column-3');
   }, [task.date, task.dateOfTheEnd, task.columnId]);
 
