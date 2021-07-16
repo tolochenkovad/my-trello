@@ -83,3 +83,6 @@ workflows:
           requires:
             - eslint
             - test
+          filters:
+            branches:
+              only: main
