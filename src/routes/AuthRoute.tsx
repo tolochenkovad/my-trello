@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getAuth } from '../store/Authorization/selectors';
-import { isEmpty } from 'react-redux-firebase';
+import { isEmpty, isLoaded } from 'react-redux-firebase';
 import { Route, RouteProps } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
@@ -16,11 +16,9 @@ const AuthRoute: FC<Props & RouteProps> = ({ component: Component, ...rest }) =>
   const history = useHistory();
 
   useEffect(() => {
-    if (isEmpty(auth)) {
-      setTimeout(() => {
-        history.push(ROUTES.LOGIN);
-      }, 3000);
-    }
+   if (isEmpty(auth) && isLoaded((auth))) {
+     history.push(ROUTES.LOGIN);
+   }
   }, [auth, history]);
 
   if (isEmpty(auth)) {

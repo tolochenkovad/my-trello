@@ -28,14 +28,10 @@ export const INITIAL_DATA = {
 
 export type initialStateTypesForReducer = {
   dataForDraggable: initialDataType;
-  isLoading: boolean;
-  error: string;
 };
 
 export const initialState: initialStateTypesForReducer = {
   dataForDraggable: INITIAL_DATA,
-  isLoading: false as boolean,
-  error: '',
 };
 
 const tasksReducer = createReducer(initialState, (builder) => {
