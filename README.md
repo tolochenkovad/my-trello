@@ -7,6 +7,8 @@ Technologies used:
 - Firebase authentication
 - Cloud firestore database
 - Custom setting CI/CD
-- React
 - Typescript
+- React
+- Redux Toolkit
+- CSS(SCSS) modules
 - Unit tests
