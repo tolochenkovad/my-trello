@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { useSelector } from 'react-redux';
-import Authorization from './Authorization';
+import Authorization from './';
 import { ROUTES } from '../../routes/constants';
 
 const authData = {

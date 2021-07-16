@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { size } from 'lodash';
-import Main from './Main';
+import Main from './';
 import { useSelector, useDispatch } from 'react-redux';
 import { INITIAL_DATA } from '../../store/Tasks/reducer';
 

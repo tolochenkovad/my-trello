@@ -2,10 +2,12 @@ import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import { initialDataType } from '../../types/tasks';
 import { INITIAL_DATA } from '../../store/Tasks/reducer';
-import { getTasks, saveDataToServer } from '../../store/Tasks/actions';
 import Column from '../../components/Column';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDataForDraggable } from '../../store/Tasks/selectors';
+import { getTasksAction, saveDataToServerAction } from '../../store/Tasks/actions';
+import { useCheckStatus } from '../../hooks/useCheckStatus';
+import Spinner from '../../common/Spinner';
 
 const Main: FC = () => {
   const [state, setState] = useState<initialDataType>(INITIAL_DATA);
@@ -14,9 +16,11 @@ const Main: FC = () => {
   const dataForDraggable = useSelector(getDataForDraggable);
   const isMounted = useRef(false);
 
+  const { isLoading } = useCheckStatus(getTasksAction.default.type);
+
   useEffect(() => {
     if (!isMounted.current) {
-      dispatch(getTasks());
+      dispatch(getTasksAction.pending({}));
       isMounted.current = true;
     } else {
       setState(dataForDraggable);
@@ -92,10 +96,14 @@ const Main: FC = () => {
       };
       setState(newState);
 
-      dispatch(saveDataToServer(newState));
+      dispatch(saveDataToServerAction.pending(newState));
     },
     [dispatch, state],
   );
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>

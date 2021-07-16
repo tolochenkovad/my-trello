@@ -6,11 +6,12 @@ export const getDataForDraggable = (state: AppStore) => state.tasks.dataForDragg
 
 const getColumnsData = (state: AppStore) => state.tasks.dataForDraggable.columns;
 
+type DataType = [string, number | string];
+
 export const getQuantityItemsInCategories = createSelector(getColumnsData, (columns) => {
-  const data = [['Task', 'Quantity']];
+  const data = [['Task', 'Quantity']] as DataType[];
   forEach(columns, (columnItem) => {
     const quantityOfTasks = columnItem.taskIds.length;
-    // @ts-ignore
     data.push([columnItem.title, quantityOfTasks]);
   });
   return data;

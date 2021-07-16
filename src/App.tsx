@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from './common/Header/Header';
+import Header from './common/Header';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -8,7 +8,7 @@ import ReduxToastr from 'react-redux-toastr';
 import { COLLECTIONS } from './constants';
 import * as firebase from 'firebase/app';
 import Routes from './routes';
-import ErrorBoundary from './common/Error';
+import ErrorBoundary from './common/ErrorBoundary';
 
 const rrfConfig = {
   userProfile: COLLECTIONS.users,

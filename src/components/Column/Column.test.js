@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Column from './Column';
+import Column from './';
 
 const props = {
   column: { id: '1', title: 'title', taskIds: ['a1', 'a2'] },

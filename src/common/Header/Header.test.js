@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import Header from './Header';
+import Header from './';
 import { ROUTES } from '../../routes/constants';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';

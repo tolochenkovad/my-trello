@@ -4,7 +4,7 @@ import { Droppable } from 'react-beautiful-dnd';
 import classNames from 'classnames';
 import Task from '../Task';
 import { column, task } from '../../types/tasks';
-const styles = require('./Column.module.scss');
+import classes from './Column.module.scss';
 
 type ColumnType = {
   column: column;
@@ -12,13 +12,13 @@ type ColumnType = {
 };
 
 const Column: FC<ColumnType> = ({ column, tasks }) => (
-    <div className={styles.column}>
-      <h3 className={styles.title}>{column.title}</h3>
+    <div className={classes.column}>
+      <h3 className={classes.title}>{column.title}</h3>
       <Droppable droppableId={column.id} type="TASK">
         {({ droppableProps, innerRef, placeholder }, snapshot) => (
           <div
-            className={classNames(styles.taskList, {
-              [styles.isDraggingOver] : snapshot.isDraggingOver,
+            className={classNames(classes.taskList, {
+              [classes.isDraggingOver] : snapshot.isDraggingOver,
             })}
             ref={innerRef}
             {...droppableProps}

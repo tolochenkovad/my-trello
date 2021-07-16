@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import NotFound from './NotFound';
+import NotFound from './';
 import { ROUTES } from '../../routes/constants';
 
 let wrapper;

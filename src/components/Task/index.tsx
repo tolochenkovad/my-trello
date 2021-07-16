@@ -4,11 +4,11 @@ import classNames from 'classnames';
 import { task } from '../../types/tasks';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
 import { useDispatch } from 'react-redux';
-import { editTask, removeTask } from '../../store/Tasks/actions';
-import TaskModal from '../../common/Modals/TaskModal/TaskModal';
-import ConfirmModal from '../../common/Modals/ConfirmModal/ConfirmModal';
+import TaskModal from '../../common/Modals/TaskModal';
+import ConfirmModal from '../../common/Modals/ConfirmModal';
 import moment from 'moment';
-const styles = require('./Task.module.scss');
+import { editTaskAction, removeTaskAction } from '../../store/Tasks/actions';
+import classes from './Task.module.scss';
 
 type TaskType = {
   task: task;
@@ -22,7 +22,7 @@ const Task: FC<TaskType> = ({ task, index }) => {
 
   const editTaskContent = (value: string, color: string, dateOfTheEnd: string) => {
     setShowModal(false);
-    dispatch(editTask(value, color, task.id, dateOfTheEnd));
+    dispatch(editTaskAction.pending({ value, color, taskId: task.id, dateOfTheEnd }));
   };
 
   const onConfirmModal = () => {
@@ -39,13 +39,13 @@ const Task: FC<TaskType> = ({ task, index }) => {
   };
 
   const onDeleteTask = () => {
-    dispatch(removeTask(task.id));
+    dispatch(removeTaskAction.pending({ taskId: task.id }));
   };
 
   const isEndOfTermTask = useMemo(() => () => {
-    const currentDate: any = new Date(task.date);
-    const endDate: any = new Date(task.dateOfTheEnd);
-    const difference = Math.ceil((endDate - currentDate) / (60 * 60 * 24 * 1000));
+    const currentDate = new Date(task.date);
+    const endDate = new Date(task.dateOfTheEnd);
+    const difference = Math.ceil((endDate.getTime() - currentDate.getTime()) / (60 * 60 * 24 * 1000));
     return !!(endDate && difference === 1 && task.columnId !== 'column-3');
   }, [task.date, task.dateOfTheEnd, task.columnId]);
 
@@ -55,27 +55,27 @@ const Task: FC<TaskType> = ({ task, index }) => {
         {({ innerRef, draggableProps, dragHandleProps }, snapshot) => (
           <div style={{ backgroundColor: task.color }}>
             <div
-              className={classNames(styles.task, {
-                [styles.isDragging]: snapshot.isDragging,
-                [styles.endOfTerm]: isEndOfTermTask(),
+              className={classNames(classes.task, {
+                [classes.isDragging]: snapshot.isDragging,
+                [classes.endOfTerm]: isEndOfTermTask(),
               })}
               {...draggableProps}
               {...dragHandleProps}
               ref={innerRef}
             >
-              <div className={styles.box}>
-                <div className={styles.body}>
-                  <div className={styles.content}>{task.content}</div>
-                  <div className={styles.options}>
-                    <div className={styles.icon}>
+              <div className={classes.box}>
+                <div className={classes.body}>
+                  <div className={classes.content}>{task.content}</div>
+                  <div className={classes.options}>
+                    <div className={classes.icon}>
                       <PencilSquare onClick={() => setShowModal(true)} />
                     </div>
-                    <div className={styles.icon}>
+                    <div className={classes.icon}>
                       <Trash onClick={setConfirmModal} />
                     </div>
                   </div>
                 </div>
-                <div className={styles.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
+                <div className={classes.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
               </div>
             </div>
           </div>

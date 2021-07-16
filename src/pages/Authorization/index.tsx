@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-// @ts-ignore
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import { toastr } from 'react-redux-toastr';
 import firebase from 'firebase/app';
@@ -8,7 +7,7 @@ import { isEmpty } from 'react-redux-firebase';
 import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { ROUTES } from '../../routes/constants';
-const styles = require('./Authorization.module.scss');
+import classes from './Authorization.module.scss';
 
 const Authorization: FC = () => {
   const auth = useSelector(getAuth);
@@ -20,8 +19,8 @@ const Authorization: FC = () => {
     return true;
   };
   return (
-    <div className={styles.auth}>
-      <div className={styles.phrase}>To use this application, please login in through a convenient service for you</div>
+    <div className={classes.auth}>
+      <div className={classes.phrase}>To use this application, please login in through a convenient service for you</div>
       <StyledFirebaseAuth
         uiConfig={{
           signInFlow: 'popup',
