@@ -6,7 +6,6 @@ import {
   removeTaskAction,
   saveDataToServerAction,
 } from './actions';
-import { toastr } from 'react-redux-toastr';
 import { addDoc, getCollectionsFromFirebase, removeData, updateData } from '../../api/firebase/api';
 import { COLLECTIONS } from '../../constants';
 import { getAuth } from '../Authorization/selectors';
@@ -21,7 +20,7 @@ function* getTasks() {
     const tasks = yield* call (getCollectionsFromFirebase, COLLECTIONS.tasks, auth.uid);
     yield put(getTasksAction.fulfilled({ tasks }));
   } catch (error) {
-    toastr.error(error, '');
+    getTasksAction.rejected({}, { arg: { error } });
   }
 }
 
@@ -47,7 +46,7 @@ function* addTask (
     }
     yield* call(getTasks);
   } catch (error) {
-    toastr.error(error, '');
+    addTaskAction.rejected({}, { arg: { error } });
   }
 }
 
@@ -77,7 +76,7 @@ function* editTask (
     yield* call(updateData, COLLECTIONS.tasks, updatedTask, authId);
     yield* call(getTasks);
   } catch (error) {
-    toastr.error(error, '');
+    editTaskAction.rejected({}, { arg: { error } });
   }
 }
 
@@ -93,7 +92,7 @@ function* saveDataToServer(
     yield* call(updateData, COLLECTIONS.tasks, payload.tasks, authId);
     yield* call(getTasks);
   } catch (error) {
-    toastr.error(error, '');
+    saveDataToServerAction.rejected({}, { arg: { error } });
   }
 }
 
@@ -109,7 +108,7 @@ function* removeTask(
     yield* call(removeData, COLLECTIONS.tasks, payload.taskId, authId);
     yield* call(getTasks);
   } catch (error) {
-    toastr.error(error, '');
+    removeTaskAction.rejected({}, { arg: { error } });
   }
 }
 

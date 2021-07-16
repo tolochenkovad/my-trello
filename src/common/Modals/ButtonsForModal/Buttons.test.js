@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Buttons from './Buttons';
+import Buttons from './';
 
 const props = {
   onConfirm: jest.fn(),

@@ -5,7 +5,6 @@ interface IGeneric {
   pending?: any;
   rejected?: any;
   fulfilled?: any;
-  resetStatus?: any;
 }
 
 function prepareAction<T>() {
@@ -18,7 +17,6 @@ function actionBuilder<T extends IGeneric = IGeneric>(action: string) {
     pending: createAction(`${action}/pending`, prepareAction<T['pending']>()),
     rejected: createAction(`${action}/rejected`, prepareAction<T['rejected']>()),
     fulfilled: createAction(`${action}/fulfilled`, prepareAction<T['fulfilled']>()),
-    resetStatus: createAction(`${action}/resetStatus`, prepareAction<T['resetStatus']>()),
   };
 }
 

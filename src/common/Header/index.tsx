@@ -5,7 +5,7 @@ import { getAuth } from '../../store/Authorization/selectors';
 import { logoutAction } from '../../store/Authorization/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import TaskModal from '../Modals/TaskModal/TaskModal';
+import TaskModal from '../Modals/TaskModal';
 import { ROUTES } from '../../routes/constants';
 import { addTaskAction } from '../../store/Tasks/actions';
 import classes from './Header.module.scss';

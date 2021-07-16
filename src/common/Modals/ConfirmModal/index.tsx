@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Modal } from 'react-bootstrap';
-import Buttons from '../ButtonsForModal/Buttons';
+import Buttons from '../ButtonsForModal';
 
 type Props = {
   show: boolean;

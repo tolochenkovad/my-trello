@@ -6,6 +6,8 @@ import Column from '../../components/Column';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDataForDraggable } from '../../store/Tasks/selectors';
 import { getTasksAction, saveDataToServerAction } from '../../store/Tasks/actions';
+import { useCheckStatus } from '../../hooks/useCheckStatus';
+import Spinner from '../../common/Spinner';
 
 const Main: FC = () => {
   const [state, setState] = useState<initialDataType>(INITIAL_DATA);
@@ -13,6 +15,8 @@ const Main: FC = () => {
   const dispatch = useDispatch();
   const dataForDraggable = useSelector(getDataForDraggable);
   const isMounted = useRef(false);
+
+  const { isLoading } = useCheckStatus(getTasksAction.default.type);
 
   useEffect(() => {
     if (!isMounted.current) {
@@ -96,6 +100,10 @@ const Main: FC = () => {
     },
     [dispatch, state],
   );
+
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>

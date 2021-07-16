@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from './';
 
 const props = {
   show: false,

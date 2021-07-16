@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import TaskModal from './TaskModal';
+import TaskModal from './';
 import { act } from 'react-dom/test-utils';
 import { toastr } from 'react-redux-toastr';
 

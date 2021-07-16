@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import { getAuth } from '../store/Authorization/selectors';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
 import { Route, RouteProps } from 'react-router-dom';
-import { Spinner } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { ROUTES } from './constants';
+import Spinner from '../common/Spinner';
 
 type Props = {
   component: React.FC;
@@ -22,11 +22,7 @@ const AuthRoute: FC<Props & RouteProps> = ({ component: Component, ...rest }) =>
   }, [auth, history]);
 
   if (isEmpty(auth)) {
-    return (
-      <div className="text-center">
-        <Spinner animation="border" role="status" />
-      </div>
-    );
+    return <Spinner />;
   } else {
     return <Route {...rest} render={(props) => <Component {...props} />} />;
   }
