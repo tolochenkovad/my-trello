@@ -1,4 +1,4 @@
-@import 'src/styles/helpers';
+@use 'src/styles/helpers' as *;
 
 .auth {
   position: absolute;
