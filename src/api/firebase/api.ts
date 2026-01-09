@@ -1,4 +1,4 @@
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/compat/app';
 import { task } from '../../types/tasks';
 
 export async function getCollectionsFromFirebase(
@@ -23,7 +23,7 @@ function fetchCollection(collection: string): firebase.firestore.CollectionRefer
   return getFirestore().collection(collection);
 }
 
-export function addDoc<T>(collection: string, doc: firebase.firestore.DocumentData, userId: string): Promise<void> {
+export function addDoc(collection: string, doc: firebase.firestore.DocumentData, userId: string): Promise<void> {
   return fetchCollection(collection).doc(userId).set(doc);
 }
 

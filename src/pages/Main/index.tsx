@@ -1,9 +1,9 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { useDispatch, useSelector } from 'react-redux';
 import { initialDataType } from '../../types/tasks';
 import { INITIAL_DATA } from '../../store/Tasks/reducer';
 import Column from '../../components/Column';
-import { useDispatch, useSelector } from 'react-redux';
 import { getDataForDraggable } from '../../store/Tasks/selectors';
 import { getTasksAction, saveDataToServerAction } from '../../store/Tasks/actions';
 import { useCheckStatus } from '../../hooks/useCheckStatus';

@@ -1,11 +1,11 @@
 import { all, call, put, takeLatest } from 'typed-redux-saga';
-import { logoutAction } from './actions';
-import { getFirebase } from 'react-redux-firebase';
+import { getAuth, signOut } from 'firebase/auth';
 import { toastr } from 'react-redux-toastr';
+import { logoutAction } from './actions';
 
 function* logout(): Generator {
   try {
-    yield* call(getFirebase().logout);
+    yield* call(signOut, getAuth());
     toastr.success('You are logout', '');
     yield put(logoutAction.fulfilled({}));
   } catch (error) {
@@ -14,7 +14,5 @@ function* logout(): Generator {
 }
 
 export default function* authSaga() {
-  yield all([
-    takeLatest(logoutAction.pending, logout),
-  ]);
+  yield all([takeLatest(logoutAction.pending, logout)]);
 }
