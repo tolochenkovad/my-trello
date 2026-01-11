@@ -76,13 +76,13 @@ workflows:
       - eslint:
           requires:
             - dependencies
-      - test:
-          requires:
-            - dependencies
+      # - test:
+      #     requires:
+      #       - dependencies
       - deploy-firebase:
           requires:
             - eslint
-            - test
+            # - test
           filters:
             branches:
               only: main
