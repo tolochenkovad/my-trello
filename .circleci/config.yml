@@ -6,6 +6,11 @@ jobs:
 
     steps:
       - run:
+          name: Install system dependencies
+          command: |
+            apt-get update
+            apt-get install -y build-essential python3 g++
+      - run:
           name: Clone repository
           command: git clone https://github.com/tolochenkovad/my-trello.git .
 
