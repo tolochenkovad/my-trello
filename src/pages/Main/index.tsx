@@ -1,5 +1,5 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { initialDataType } from '../../types/tasks';
 import { INITIAL_DATA } from '../../store/Tasks/reducer';

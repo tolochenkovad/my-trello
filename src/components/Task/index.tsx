@@ -1,5 +1,5 @@
 import React, { FC, useState, useMemo } from 'react';
-import { Draggable } from 'react-beautiful-dnd';
+import { Draggable } from '@hello-pangea/dnd';
 import classNames from 'classnames';
 import { task } from '../../types/tasks';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
@@ -42,12 +42,15 @@ const Task: FC<TaskType> = ({ task, index }) => {
     dispatch(removeTaskAction.pending({ taskId: task.id }));
   };
 
-  const isEndOfTermTask = useMemo(() => () => {
-    const currentDate = new Date(task.date);
-    const endDate = new Date(task.dateOfTheEnd);
-    const difference = Math.ceil((endDate.getTime() - currentDate.getTime()) / (60 * 60 * 24 * 1000));
-    return !!(endDate && difference === 1 && task.columnId !== 'column-3');
-  }, [task.date, task.dateOfTheEnd, task.columnId]);
+  const isEndOfTermTask = useMemo(
+    () => () => {
+      const currentDate = new Date(task.date);
+      const endDate = new Date(task.dateOfTheEnd);
+      const difference = Math.ceil((endDate.getTime() - currentDate.getTime()) / (60 * 60 * 24 * 1000));
+      return !!(endDate && difference === 1 && task.columnId !== 'column-3');
+    },
+    [task.date, task.dateOfTheEnd, task.columnId],
+  );
 
   return (
     <>
