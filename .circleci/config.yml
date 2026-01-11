@@ -1,18 +1,11 @@
-version: 3
+version: 2
 jobs:
   dependencies:
     docker:
       - image: node:24.12.0
 
     steps:
-      - run:
-          name: Install system dependencies
-          command: |
-            apt-get update
-            apt-get install -y build-essential python3 g++
-      - run:
-          name: Clone repository
-          command: git clone https://github.com/tolochenkovad/my-trello.git .
+      - checkout
 
       - run:
           name: Install dependencies
@@ -27,9 +20,7 @@ jobs:
       - image: node:24.12.0
 
     steps:
-      - run:
-          name: Clone repository
-          command: git clone https://github.com/tolochenkovad/my-trello.git .
+      - checkout
 
       - attach_workspace:
           at: ./
@@ -57,9 +48,7 @@ jobs:
       - image: node:24.12.0
 
     steps:
-      - run:
-          name: Clone repository
-          command: git clone https://github.com/tolochenkovad/my-trello.git .
+      - checkout
 
       - attach_workspace:
           at: ./
