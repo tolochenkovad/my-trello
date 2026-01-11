@@ -1,5 +1,5 @@
 import firebase from 'firebase/compat/app';
-import { task } from '../../types/tasks';
+import { task, column } from '../../types/tasks';
 
 export async function getCollectionsFromFirebase(
   collections: string,
@@ -27,7 +27,7 @@ export function addDoc(collection: string, doc: firebase.firestore.DocumentData,
   return fetchCollection(collection).doc(userId).set(doc);
 }
 
-export function updateData(collection: string, data: { [key: string]: task }, userId: string): Promise<void> {
+export function updateData(collection: string, data: { [key: string]: task | column }, userId: string): Promise<void> {
   return fetchCollection(collection).doc(userId).update(data);
 }
 

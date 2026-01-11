@@ -2,7 +2,7 @@ import { forEach, isEmpty } from 'lodash';
 import { initialDataType } from '../../types/tasks';
 import { sortObjectByKey } from '../../helpers/sortObject';
 import { createReducer } from '@reduxjs/toolkit';
-import { getTasksAction, removeTaskAction, saveDataToServerAction } from './actions';
+import { getColumnsAction, getTasksAction, removeTaskAction, saveDataToServerAction } from './actions';
 
 export const INITIAL_DATA = {
   tasks: {},
@@ -40,7 +40,7 @@ const tasksReducer = createReducer(initialState, (builder) => {
       const { tasks } = action.payload;
 
       if (isEmpty(tasks)) {
-        state.dataForDraggable = INITIAL_DATA;
+        return;
       } else {
         forEach(state.dataForDraggable.columns, (columnItem) => {
           forEach(tasks, (taskItem) => {
@@ -51,6 +51,15 @@ const tasksReducer = createReducer(initialState, (builder) => {
         });
 
         state.dataForDraggable.tasks = tasks;
+      }
+    })
+    .addCase(getColumnsAction.fulfilled, (state, action) => {
+      const { columns } = action.payload;
+
+      if (isEmpty(columns)) {
+        return;
+      } else {
+        state.dataForDraggable.columns = columns;
       }
     })
     .addCase(removeTaskAction.fulfilled, (state, action) => {
