@@ -1,16 +1,17 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import eslint from 'vite-plugin-eslint';
+import checker from 'vite-plugin-checker';
 import path from 'path';
 
 export default defineConfig({
   plugins: [
     react(),
-    eslint({
-      cache: false,
-      include: ['src/**/*.{ts,tsx}'],
-      emitWarning: true,
-      emitError: true,
+    checker({
+      eslint: {
+        lintCommand: 'eslint "src/**/*.{ts,tsx}"',
+        cache: false,
+      },
+      overlay: false,
     }),
   ],
 

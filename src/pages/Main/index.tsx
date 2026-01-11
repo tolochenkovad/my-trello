@@ -49,8 +49,6 @@ const Main: FC = () => {
         newTaskIds.splice(source.index, 1);
         newTaskIds.splice(destination.index, 0, draggableId);
 
-        console.log(newTaskIds, 'newTaskIds');
-
         const newColumn = {
           ...start,
           taskIds: newTaskIds,
@@ -63,7 +61,6 @@ const Main: FC = () => {
             [newColumn.id]: newColumn,
           },
         };
-        console.log('reoder in the same column');
 
         setState(newState);
         dispatch(saveDataToServerAction.pending({ data: newState, isReorder: true }));
@@ -100,7 +97,6 @@ const Main: FC = () => {
           },
         },
       };
-      console.log('move to the other column');
       setState(newState);
 
       dispatch(saveDataToServerAction.pending({ data: newState }));
@@ -111,8 +107,6 @@ const Main: FC = () => {
   if (isLoadingColumns || isLoadingTasks) {
     return <Spinner />;
   }
-
-  console.log(state, 'state');
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
