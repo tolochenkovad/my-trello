@@ -30,7 +30,6 @@ export default defineConfig({
 
   css: {
     modules: {
-      // аналог: [name]__[local]--[hash:base64:5]
       generateScopedName: '[name]__[local]--[hash:base64:5]',
     },
 
