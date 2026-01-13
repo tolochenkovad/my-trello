@@ -5,9 +5,7 @@ jobs:
       - image: node:12.16.3
 
     steps:
-      - run:
-          name: Clone repository
-          command: git clone https://github.com/tolochenkovad/my-trello.git .
+      - checkout
 
       - run:
           name: Install dependencies
@@ -22,9 +20,7 @@ jobs:
       - image: node:12.16.3
 
     steps:
-      - run:
-          name: Clone repository
-          command: git clone https://github.com/tolochenkovad/my-trello.git .
+      - checkout
 
       - attach_workspace:
           at: ./
@@ -49,12 +45,10 @@ jobs:
 
   deploy-firebase:
     docker:
-      - image: node:12.16.3
+      - image: node:18-bullseye
 
     steps:
-      - run:
-          name: Clone repository
-          command: git clone https://github.com/tolochenkovad/my-trello.git .
+      - checkout
 
       - attach_workspace:
           at: ./
