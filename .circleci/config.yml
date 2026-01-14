@@ -75,10 +75,10 @@ jobs:
           command: npm install -g firebase-tools
 
       - run:
-        name: Create Google credentials
-        command: |
-          echo "$GCLOUD_SERVICE_KEY" > /tmp/gcloud-key.json
-          export GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcloud-key.json
+          name: Create Google credentials
+          command: |
+            echo "$GCLOUD_SERVICE_KEY" > /tmp/gcloud-key.json
+            export GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcloud-key.json
 
       - run:
           name: Deploy to Firebase Hosting
