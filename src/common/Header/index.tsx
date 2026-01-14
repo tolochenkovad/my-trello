@@ -1,23 +1,23 @@
-import React, { FC, useState } from 'react';
+import { memo, FC, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { isEmpty } from 'react-redux-firebase';
-import { getAuth } from '../../store/Authorization/selectors';
-import { logoutAction } from '../../store/Authorization/actions';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import TaskModal from '../Modals/TaskModal';
+import { logoutAction } from '../../store/Authorization/actions';
 import { ROUTES } from '../../routes/constants';
 import { addTaskAction } from '../../store/Tasks/actions';
+import { useAuth } from '../../hooks/useAuth';
+import TaskModal from '../Modals/TaskModal';
 import classes from './Header.module.scss';
 
 const Header: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const dispatch = useDispatch();
-  const auth = useSelector(getAuth);
+  const location = useLocation();
+  const { user, isAuthenticated } = useAuth();
+
   const onLogout = () => {
     dispatch(logoutAction.pending({}));
   };
-  const location = useLocation();
 
   const addTaskToBase = (value: string, color: string, dateOfTheEnd: string) => {
     dispatch(addTaskAction.pending({ value, color, dateOfTheEnd }));
@@ -41,20 +41,20 @@ const Header: FC = () => {
           </NavLink>
         )}
 
-        {!isEmpty(auth) && location.pathname === ROUTES.MAIN && (
+        {isAuthenticated && location.pathname === ROUTES.MAIN && (
           <Button variant="primary" className={classes.createBtn} onClick={openModal}>
             Create task
           </Button>
         )}
         {showModal && <TaskModal title="Create task" show onHide={closeModal} onConfirm={addTaskToBase} />}
-        {!isEmpty(auth) && location.pathname !== ROUTES.ANALYTICS && (
+        {isAuthenticated && location.pathname !== ROUTES.ANALYTICS && (
           <NavLink className={classes.appName} to={ROUTES.ANALYTICS} activeClassName={classes.analytics}>
             Analytics
           </NavLink>
         )}
       </div>
       <div className={classes.userBox}>
-        {isEmpty(auth) ? (
+        {!isAuthenticated ? (
           <div>
             {!location.pathname.includes('login') && (
               <NavLink className={classes.login} to={ROUTES.LOGIN}>
@@ -64,10 +64,10 @@ const Header: FC = () => {
           </div>
         ) : (
           <div className={classes.user}>
-            Welcome, <span>{auth.displayName}</span>!
+            Welcome, <span>{user?.displayName}</span>!
           </div>
         )}
-        {!isEmpty(auth) && (
+        {isAuthenticated && (
           <div onClick={onLogout}>
             <NavLink className={classes.logout} to={ROUTES.LOGIN}>
               Logout
@@ -79,4 +79,4 @@ const Header: FC = () => {
   );
 };
 
-export default React.memo(Header);
+export default memo(Header);

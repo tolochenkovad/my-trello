@@ -13,6 +13,12 @@ interface IGetTasksAction {
 
 export const getTasksAction = actionBuilder<IGetTasksAction>('tasks/get');
 
+interface IGetColumnsAction {
+  fulfilled: { columns: initialDataType['columns'] };
+}
+
+export const getColumnsAction = actionBuilder<IGetColumnsAction>('columns/get');
+
 interface IAddTaskAction {
   pending: BaseTaskStructure;
 }
@@ -24,10 +30,10 @@ interface IEditTaskAction {
 export const editTaskAction = actionBuilder<IEditTaskAction>('tasks/edit');
 
 interface ISaveDataToServerAction {
-  pending: initialDataType;
+  pending: { data: initialDataType; isReorder?: boolean };
   fulfilled: { data: initialDataType };
 }
-export const saveDataToServerAction = actionBuilder<ISaveDataToServerAction>('tasks/save');
+export const saveDataToServerAction = actionBuilder<ISaveDataToServerAction>('data/save');
 
 interface IRemoveTaskAction {
   pending: {

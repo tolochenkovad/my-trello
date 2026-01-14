@@ -1,4 +1,4 @@
-@import 'src/styles/helpers';
+@use 'src/styles/helpers' as *;
 
 .header {
   padding: 20px;

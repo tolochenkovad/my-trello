@@ -1,11 +1,11 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { DragDropContext, DropResult } from '@hello-pangea/dnd';
+import { useDispatch, useSelector } from 'react-redux';
 import { initialDataType } from '../../types/tasks';
 import { INITIAL_DATA } from '../../store/Tasks/reducer';
 import Column from '../../components/Column';
-import { useDispatch, useSelector } from 'react-redux';
 import { getDataForDraggable } from '../../store/Tasks/selectors';
-import { getTasksAction, saveDataToServerAction } from '../../store/Tasks/actions';
+import { getColumnsAction, getTasksAction, saveDataToServerAction } from '../../store/Tasks/actions';
 import { useCheckStatus } from '../../hooks/useCheckStatus';
 import Spinner from '../../common/Spinner';
 
@@ -16,11 +16,13 @@ const Main: FC = () => {
   const dataForDraggable = useSelector(getDataForDraggable);
   const isMounted = useRef(false);
 
-  const { isLoading } = useCheckStatus(getTasksAction.default.type);
+  const { isLoading: isLoadingTasks } = useCheckStatus(getTasksAction.default.type);
+  const { isLoading: isLoadingColumns } = useCheckStatus(getColumnsAction.default.type);
 
   useEffect(() => {
     if (!isMounted.current) {
       dispatch(getTasksAction.pending({}));
+      dispatch(getColumnsAction.pending({}));
       isMounted.current = true;
     } else {
       setState(dataForDraggable);
@@ -61,6 +63,7 @@ const Main: FC = () => {
         };
 
         setState(newState);
+        dispatch(saveDataToServerAction.pending({ data: newState, isReorder: true }));
         return;
       }
 
@@ -96,12 +99,12 @@ const Main: FC = () => {
       };
       setState(newState);
 
-      dispatch(saveDataToServerAction.pending(newState));
+      dispatch(saveDataToServerAction.pending({ data: newState }));
     },
     [dispatch, state],
   );
 
-  if (isLoading) {
+  if (isLoadingColumns || isLoadingTasks) {
     return <Spinner />;
   }
 

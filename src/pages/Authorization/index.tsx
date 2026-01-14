@@ -1,26 +1,28 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import { toastr } from 'react-redux-toastr';
-import firebase from 'firebase/app';
-import { getAuth } from '../../store/Authorization/selectors';
-import { isEmpty } from 'react-redux-firebase';
+import firebase from 'firebase/compat/app';
 import { Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { ROUTES } from '../../routes/constants';
+import { useAuth } from '../../hooks/useAuth';
 import classes from './Authorization.module.scss';
 
 const Authorization: FC = () => {
-  const auth = useSelector(getAuth);
-  if (!isEmpty(auth)) {
+  const { isAuthenticated } = useAuth();
+
+  if (isAuthenticated) {
     return <Redirect to={ROUTES.MAIN} />;
   }
+
   const onSuccessSocialLogin = (): boolean => {
     toastr.success('Successfully authorized', '');
     return true;
   };
   return (
     <div className={classes.auth}>
-      <div className={classes.phrase}>To use this application, please login in through a convenient service for you</div>
+      <div className={classes.phrase}>
+        To use this application, please login in through a convenient service for you
+      </div>
       <StyledFirebaseAuth
         uiConfig={{
           signInFlow: 'popup',

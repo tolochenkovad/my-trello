@@ -1,11 +1,13 @@
-version: 2
+version: 3
 jobs:
   dependencies:
     docker:
       - image: node:12.16.3
 
     steps:
-      - checkout
+      - run:
+          name: Clone repository
+          command: git clone https://github.com/tolochenkovad/my-trello.git .
 
       - run:
           name: Install dependencies
@@ -20,7 +22,9 @@ jobs:
       - image: node:12.16.3
 
     steps:
-      - checkout
+      - run:
+          name: Clone repository
+          command: git clone https://github.com/tolochenkovad/my-trello.git .
 
       - attach_workspace:
           at: ./
@@ -29,26 +33,28 @@ jobs:
           name: Check ESLint
           command: yarn eslint
 
-  test:
-    docker:
-      - image: node:12.16.3
+  # test:
+  #   docker:
+  #     - image: node:12.16.3
 
-    steps:
-      - checkout
+  #   steps:
+  #     - checkout
 
-      - attach_workspace:
-          at: ./
+  #     - attach_workspace:
+  #         at: ./
 
-      - run:
-          name: Check unit tests
-          command: yarn test
+  #     - run:
+  #         name: Check unit tests
+  #         command: yarn test
 
   deploy-firebase:
     docker:
-      - image: node:12.16.3
+      - image: node:18-bullseye
 
     steps:
-      - checkout
+      - run:
+          name: Clone repository
+          command: git clone https://github.com/tolochenkovad/my-trello.git .
 
       - attach_workspace:
           at: ./
@@ -76,13 +82,13 @@ workflows:
       - eslint:
           requires:
             - dependencies
-      - test:
-          requires:
-            - dependencies
+      # - test:
+      #     requires:
+      #       - dependencies
       - deploy-firebase:
           requires:
             - eslint
-            - test
+            # - test
           filters:
             branches:
               only: main

@@ -1,5 +1,5 @@
-import * as firebase from 'firebase/app';
-import { task } from '../../types/tasks';
+import firebase from 'firebase/compat/app';
+import { task, column } from '../../types/tasks';
 
 export async function getCollectionsFromFirebase(
   collections: string,
@@ -23,18 +23,20 @@ function fetchCollection(collection: string): firebase.firestore.CollectionRefer
   return getFirestore().collection(collection);
 }
 
-export function addDoc<T>(collection: string, doc: T, userId: string): Promise<void> {
+export function addDoc(collection: string, doc: firebase.firestore.DocumentData, userId: string): Promise<void> {
   return fetchCollection(collection).doc(userId).set(doc);
 }
 
-export function updateData(collection: string, data: { [key: string]: task }, userId: string): Promise<void> {
+export function updateData(collection: string, data: { [key: string]: task | column }, userId: string): Promise<void> {
   return fetchCollection(collection).doc(userId).update(data);
 }
 
 export function removeData(collection: string, key: string, userId: string): Promise<void> {
-  return fetchCollection(collection).doc(userId).update({
-    [key]: firebase.firestore.FieldValue.delete()
-  });
+  return fetchCollection(collection)
+    .doc(userId)
+    .update({
+      [key]: firebase.firestore.FieldValue.delete(),
+    });
 }
 
 export function deleteDoc(collection: string, docId: string): Promise<void> {

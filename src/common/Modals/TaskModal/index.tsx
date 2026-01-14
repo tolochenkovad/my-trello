@@ -2,7 +2,7 @@ import React, { FC, ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import Buttons from '../ButtonsForModal';
 import ColorPicker from 'react-input-color';
-import Calendar from 'react-calendar';
+import Calendar, { CalendarProps } from 'react-calendar';
 import moment from 'moment';
 import classNames from 'classnames';
 import { toastr } from 'react-redux-toastr';
@@ -32,7 +32,7 @@ const TaskModal: FC<Props> = ({
   const [value, setValue] = useState<string>(valueFromProps || '');
   const [color, setColor] = useState<string>(colorFromProps || '#cfcff2');
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
-  const [calendarData, setCalendarData] = useState<null | Date | Date[]>(
+  const [calendarData, setCalendarData] = useState<CalendarProps['value']>(
     dateOfTheEndFromProps ? new Date(dateOfTheEndFromProps) : null,
   );
   const [isEndOfTermValue, setEndOfTermValue] = useState(() => !!isTheEndOfTerm);
@@ -68,7 +68,7 @@ const TaskModal: FC<Props> = ({
     setShowCalendar((prevState) => !prevState);
   };
 
-  const onChangeCalendar = (value: Date | Date[]) => {
+  const onChangeCalendar = (value: CalendarProps['value']) => {
     setCalendarData(value);
     setEndOfTermValue(false);
   };
