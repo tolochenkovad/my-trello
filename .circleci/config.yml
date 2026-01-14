@@ -2,7 +2,7 @@ version: 3
 jobs:
   dependencies:
     docker:
-      - image: node:12.16.3
+      - image: node:24.12.0
 
     steps:
       - run:
@@ -19,7 +19,7 @@ jobs:
 
   eslint:
     docker:
-      - image: node:12.16.3
+      - image: node:24.12.0
 
     steps:
       - run:
@@ -35,7 +35,7 @@ jobs:
 
   # test:
   #   docker:
-  #     - image: node:12.16.3
+  #     - image: node:24.12.0
 
   #   steps:
   #     - checkout
@@ -49,7 +49,7 @@ jobs:
 
   deploy-firebase:
     docker:
-      - image: node:18-bullseye
+      - image: node:24.12.0
 
     steps:
       - run:
