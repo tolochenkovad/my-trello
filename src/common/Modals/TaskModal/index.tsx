@@ -1,11 +1,10 @@
 import React, { FC, ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import Buttons from '../ButtonsForModal';
 import ColorPicker from 'react-input-color';
 import Calendar, { CalendarProps } from 'react-calendar';
 import moment from 'moment';
 import classNames from 'classnames';
-import { toastr } from 'react-redux-toastr';
+import Buttons from '../ButtonsForModal';
 import classes from './TaskModal.module.scss';
 
 type Props = {
@@ -53,7 +52,8 @@ const TaskModal: FC<Props> = ({
   const sendValue = () => {
     const dateOfTheEnd = calendarData ? calendarData.toString() : '';
     if (value.trim() === '') {
-      toastr.error('You do not have a description of this task. Please, fill this field', '');
+      // TODO: replace old toastr and use new
+      // toastr.error('You do not have a description of this task. Please, fill this field', '');
     } else {
       onConfirm(value.trim(), color, dateOfTheEnd);
       setValue('');

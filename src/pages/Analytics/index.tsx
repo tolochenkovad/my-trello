@@ -1,13 +1,12 @@
 import React, { FC, Suspense, lazy } from 'react';
-import { useSelector } from 'react-redux';
-import { getQuantityItemsInCategories } from '../../store/Tasks/selectors';
+import { useQuantityItemsInCategories } from '../../store/Tasks/selectors';
 import { Spinner } from 'react-bootstrap';
 import classes from './Analytics.module.scss';
 
 const Chart = lazy(() => import('react-google-charts').then((module) => ({ default: module.Chart })));
 
 const Analytics: FC = () => {
-  const dataForChart = useSelector(getQuantityItemsInCategories);
+  const dataForChart = useQuantityItemsInCategories();
 
   if (dataForChart.slice(1).every((item) => item[1] == '0')) {
     return <div className="text-center">No data. Please create tasks to display analytics.</div>;

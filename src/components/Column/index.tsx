@@ -23,9 +23,7 @@ const Column: FC<ColumnType> = ({ column, tasks }) => (
           ref={innerRef}
           {...droppableProps}
         >
-          {tasks.map((task, index) => (
-            <Task key={task.id} task={task} index={index} />
-          ))}
+          {tasks.map((task, index) => task && <Task key={task.id} task={task} index={index} />)}
           {placeholder}
         </div>
       )}

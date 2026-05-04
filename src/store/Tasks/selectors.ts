@@ -1,18 +1,38 @@
-import { AppStore } from '../../types';
+import { useShallow } from 'zustand/shallow';
 import { forEach } from 'lodash';
 import { createSelector } from 'reselect';
+import { useTasksStore } from './store';
+import { TasksAsyncActions, TasksStore } from './types';
 
-export const getDataForDraggable = (state: AppStore) => state.tasks.dataForDraggable;
+export const useDataForDraggable = () => useTasksStore((state) => state.dataForDraggable);
+export const useColumnsData = () => useTasksStore((state) => state.dataForDraggable.columns);
+export const useTasksData = () => useTasksStore((state) => state.dataForDraggable.tasks);
+export const useIsLoadingTasks = () => useTasksStore((state) => state.isLoadingTasks);
+export const useIsLoadingColumns = () => useTasksStore((state) => state.isLoadingColumns);
 
-const getColumnsData = (state: AppStore) => state.tasks.dataForDraggable.columns;
+export const useTasksAsyncActions = () =>
+  useTasksStore(
+    useShallow(
+      (state): TasksAsyncActions => ({
+        getTasks: state.actions.getTasks,
+        getColumns: state.actions.getColumns,
+        addTask: state.actions.addTask,
+        editTask: state.actions.editTask,
+        saveDataToServer: state.actions.saveDataToServer,
+        removeTask: state.actions.removeTask,
+      }),
+    ),
+  );
 
-type DataType = [string, number | string];
+export const selectQuantityItemsInCategories = createSelector(
+  [(state: TasksStore) => state.dataForDraggable.columns],
+  (columns) => {
+    const data: [string, string | number][] = [['Task', 'Quantity']];
+    forEach(columns, (columnItem) => {
+      data.push([columnItem.title, columnItem.taskIds.length]);
+    });
+    return data;
+  },
+);
 
-export const getQuantityItemsInCategories = createSelector(getColumnsData, (columns) => {
-  const data = [['Task', 'Quantity']] as DataType[];
-  forEach(columns, (columnItem) => {
-    const quantityOfTasks = columnItem.taskIds.length;
-    data.push([columnItem.title, quantityOfTasks]);
-  });
-  return data;
-});
+export const useQuantityItemsInCategories = () => useTasksStore(selectQuantityItemsInCategories);

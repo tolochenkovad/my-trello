@@ -1,13 +1,12 @@
 import React, { FC, useState, useMemo } from 'react';
 import { Draggable } from '@hello-pangea/dnd';
 import classNames from 'classnames';
+import { useTasksAsyncActions } from '../../store/Tasks/selectors';
 import { task } from '../../types/tasks';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
-import { useDispatch } from 'react-redux';
 import TaskModal from '../../common/Modals/TaskModal';
 import ConfirmModal from '../../common/Modals/ConfirmModal';
 import moment from 'moment';
-import { editTaskAction, removeTaskAction } from '../../store/Tasks/actions';
 import classes from './Task.module.scss';
 
 type TaskType = {
@@ -18,11 +17,11 @@ type TaskType = {
 const Task: FC<TaskType> = ({ task, index }) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
-  const dispatch = useDispatch();
+  const { editTask, removeTask } = useTasksAsyncActions();
 
   const editTaskContent = (value: string, color: string, dateOfTheEnd: string) => {
     setShowModal(false);
-    dispatch(editTaskAction.pending({ value, color, taskId: task.id, dateOfTheEnd }));
+    editTask({ value, color, taskId: task.id, dateOfTheEnd });
   };
 
   const onConfirmModal = () => {
@@ -39,7 +38,7 @@ const Task: FC<TaskType> = ({ task, index }) => {
   };
 
   const onDeleteTask = () => {
-    dispatch(removeTaskAction.pending({ taskId: task.id }));
+    removeTask(task.id);
   };
 
   const isEndOfTermTask = useMemo(

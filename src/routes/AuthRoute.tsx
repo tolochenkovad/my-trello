@@ -17,8 +17,7 @@ const AuthRoute: FC<Props & RouteProps> = ({ component: Component, ...rest }) =>
     if (!isAuthenticated && !loading) {
       history.push(ROUTES.LOGIN);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, history]);
+  }, [isAuthenticated, history, loading]);
 
   if (!isAuthenticated) {
     return <Spinner />;
