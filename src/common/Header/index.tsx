@@ -1,26 +1,23 @@
 import { memo, FC, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { Button } from 'react-bootstrap';
-import { logoutAction } from '../../store/Authorization/actions';
+import { useTasksAsyncActions } from '../../store/Tasks/selectors';
+import { useAuthStore } from '../../store/Auth/store';
 import { ROUTES } from '../../routes/constants';
-import { addTaskAction } from '../../store/Tasks/actions';
 import { useAuth } from '../../hooks/useAuth';
 import TaskModal from '../Modals/TaskModal';
 import classes from './Header.module.scss';
 
 const Header: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const dispatch = useDispatch();
   const location = useLocation();
   const { user, isAuthenticated } = useAuth();
+   const { addTask } = useTasksAsyncActions();
 
-  const onLogout = () => {
-    dispatch(logoutAction.pending({}));
-  };
+  const onLogout = useAuthStore((s) => s.actions.logout);
 
   const addTaskToBase = (value: string, color: string, dateOfTheEnd: string) => {
-    dispatch(addTaskAction.pending({ value, color, dateOfTheEnd }));
+    addTask({ value, color, dateOfTheEnd });
     setShowModal(false);
   };
 

@@ -1,33 +1,35 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { isEmpty } from 'lodash';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
-import { useDispatch, useSelector } from 'react-redux';
 import { initialDataType } from '../../types/tasks';
-import { INITIAL_DATA } from '../../store/Tasks/reducer';
+import { INITIAL_DATA } from '../../store/Tasks/store';
+import {
+  useIsLoadingTasks,
+  useDataForDraggable,
+  useTasksAsyncActions,
+  useIsLoadingColumns,
+} from '../../store/Tasks/selectors';
 import Column from '../../components/Column';
-import { getDataForDraggable } from '../../store/Tasks/selectors';
-import { getColumnsAction, getTasksAction, saveDataToServerAction } from '../../store/Tasks/actions';
-import { useCheckStatus } from '../../hooks/useCheckStatus';
 import Spinner from '../../common/Spinner';
 
 const Main: FC = () => {
   const [state, setState] = useState<initialDataType>(INITIAL_DATA);
-
-  const dispatch = useDispatch();
-  const dataForDraggable = useSelector(getDataForDraggable);
   const isMounted = useRef(false);
 
-  const { isLoading: isLoadingTasks } = useCheckStatus(getTasksAction.default.type);
-  const { isLoading: isLoadingColumns } = useCheckStatus(getColumnsAction.default.type);
+  const dataForDraggable = useDataForDraggable();
+  const isLoadingTasks = useIsLoadingTasks();
+  const isLoadingColumns = useIsLoadingColumns();
+  const { getTasks, getColumns, saveDataToServer } = useTasksAsyncActions();
 
   useEffect(() => {
     if (!isMounted.current) {
-      dispatch(getTasksAction.pending({}));
-      dispatch(getColumnsAction.pending({}));
+      getTasks();
+      getColumns();
       isMounted.current = true;
     } else {
       setState(dataForDraggable);
     }
-  }, [dispatch, dataForDraggable]);
+  }, [dataForDraggable, getTasks, getColumns]);
 
   const onDragEnd = useCallback(
     (result: DropResult) => {
@@ -63,7 +65,7 @@ const Main: FC = () => {
         };
 
         setState(newState);
-        dispatch(saveDataToServerAction.pending({ data: newState, isReorder: true }));
+        saveDataToServer({ data: newState, isReorder: true });
         return;
       }
 
@@ -99,23 +101,24 @@ const Main: FC = () => {
       };
       setState(newState);
 
-      dispatch(saveDataToServerAction.pending({ data: newState }));
+      saveDataToServer({ data: newState });
     },
-    [dispatch, state],
+    [state, saveDataToServer],
   );
 
-  if (isLoadingColumns || isLoadingTasks) {
+  if ((isLoadingTasks || isLoadingColumns) && !isMounted.current) {
     return <Spinner />;
   }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="d-flex">
-        {state.columnOrder.map((columnId) => {
-          const column = state.columns[columnId];
-          const tasks = column.taskIds.map((taskId) => state.tasks[taskId]);
-          return <Column key={column.id} column={column} tasks={tasks} />;
-        })}
+        {!isEmpty(state.tasks) &&
+          state.columnOrder.map((columnId) => {
+            const column = state.columns[columnId];
+            const tasks = column.taskIds.map((taskId) => state.tasks[taskId]);
+            return <Column key={column.id} column={column} tasks={tasks} />;
+          })}
       </div>
     </DragDropContext>
   );

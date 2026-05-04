@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { StyledFirebaseAuth } from 'react-firebaseui';
-import { toastr } from 'react-redux-toastr';
 import firebase from 'firebase/compat/app';
 import { Redirect } from 'react-router-dom';
 import { ROUTES } from '../../routes/constants';
@@ -14,10 +13,11 @@ const Authorization: FC = () => {
     return <Redirect to={ROUTES.MAIN} />;
   }
 
-  const onSuccessSocialLogin = (): boolean => {
-    toastr.success('Successfully authorized', '');
-    return true;
-  };
+  // TODO: replace old toastr and use new inside this function
+  // toastr.success('Successfully authorized', '')
+  // eslint-disable-next-line arrow-body-style
+  const onSuccessSocialLogin = (): boolean => true;
+
   return (
     <div className={classes.auth}>
       <div className={classes.phrase}>

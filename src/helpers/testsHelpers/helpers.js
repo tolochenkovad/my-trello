@@ -3,17 +3,6 @@ import React from 'react';
 jest.spyOn(window.localStorage.__proto__, 'setItem');
 jest.spyOn(window.localStorage.__proto__, 'getItem');
 
-jest.mock('react-redux', () => ({
-  useDispatch: jest.fn(),
-  useSelector: jest.fn(),
-}));
-
-jest.mock('react-redux-toastr', () => ({
-  toastr: {
-    error: jest.fn(),
-  },
-}));
-
 jest.mock('react-beautiful-dnd', () => ({
   Draggable: function Draggable() {
     return <div>Test</div>;
