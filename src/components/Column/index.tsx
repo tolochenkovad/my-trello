@@ -2,13 +2,14 @@ import { FC, memo } from 'react';
 import { isEqual } from 'lodash';
 import { Droppable } from '@hello-pangea/dnd';
 import classNames from 'classnames';
+import { ColumnItem, TaskItem } from '@/types/tasks';
 import Task from '../Task';
-import { column, task } from '../../types/tasks';
 import classes from './Column.module.scss';
 
+
 type ColumnType = {
-  column: column;
-  tasks: task[];
+  column: ColumnItem;
+  tasks: TaskItem[];
 };
 
 const Column: FC<ColumnType> = ({ column, tasks }) => (
@@ -23,7 +24,7 @@ const Column: FC<ColumnType> = ({ column, tasks }) => (
           ref={innerRef}
           {...droppableProps}
         >
-          {tasks.map((task, index) => task && <Task key={task.id} task={task} index={index} />)}
+          {tasks.map((task, index) => (task ? <Task key={task.id} task={task} index={index} /> : null))}
           {placeholder}
         </div>
       )}

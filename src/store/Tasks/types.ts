@@ -1,4 +1,4 @@
-import { initialDataType } from '../../types/tasks';
+import { InitialDataType } from '@/types/tasks';
 
 export interface AddTaskPayload {
   value: string;
@@ -11,22 +11,22 @@ export interface EditTaskPayload extends AddTaskPayload {
 }
 
 export interface SaveDataToServerPayload {
-  data: initialDataType;
+  data: InitialDataType;
   isReorder?: boolean;
 }
 
 type TasksState = {
-  dataForDraggable: initialDataType;
+  dataForDraggable: InitialDataType;
   isLoadingTasks: boolean;
   isLoadingColumns: boolean;
   error: string | null;
 };
 
 type TasksStateActions = {
-  setTasksData: (tasks: initialDataType['tasks']) => void;
-  setColumnsData: (columns: initialDataType['columns']) => void;
+  setTasksData: (tasks: InitialDataType['tasks']) => void;
+  setColumnsData: (columns: InitialDataType['columns']) => void;
   removeTaskData: (taskId: string) => void;
-  saveDataLocally: (data: initialDataType) => void;
+  saveDataLocally: (data: InitialDataType) => void;
   setError: (error: string | null) => void;
 };
 

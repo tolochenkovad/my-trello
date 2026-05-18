@@ -1,10 +1,10 @@
 import { memo, FC, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
-import { useTasksAsyncActions } from '../../store/Tasks/selectors';
-import { useAuthStore } from '../../store/Auth/store';
-import { ROUTES } from '../../routes/constants';
-import { useAuth } from '../../hooks/useAuth';
+import { useTasksAsyncActions } from '@/store/Tasks/selectors';
+import { useAuthStore } from '@/store/Auth/store';
+import { ROUTES } from '@/routes/constants';
+import { useAuth } from '@/hooks/useAuth';
 import TaskModal from '../Modals/TaskModal';
 import classes from './Header.module.scss';
 

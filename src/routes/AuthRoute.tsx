@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from 'react';
 import { Route, RouteProps } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
-import Spinner from '../common/Spinner';
-import { useAuth } from '../hooks/useAuth';
+import Spinner from '@/common/Spinner';
+import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from './constants';
 
 type Props = {

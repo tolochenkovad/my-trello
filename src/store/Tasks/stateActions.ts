@@ -1,12 +1,12 @@
 import { isEmpty } from 'lodash';
 import { StoreApi } from 'zustand';
-import { sortObjectByKey } from '../../helpers/sortObject';
+import { sortObjectByKey } from '@/helpers';
+import { InitialDataType } from '@/types/tasks';
 import { fillColumnsWithTasks, removeTaskFromColumn } from './helpers';
-import { initialDataType } from '../../types/tasks';
 import { TasksStore } from './types';
 
 export const createStateActions = (set: StoreApi<TasksStore>['setState']) => ({
-  setTasksData: (tasks: initialDataType['tasks']) => {
+  setTasksData: (tasks: InitialDataType['tasks']) => {
     if (isEmpty(tasks)) return;
 
     set((state: TasksStore) => {
@@ -23,7 +23,7 @@ export const createStateActions = (set: StoreApi<TasksStore>['setState']) => ({
     });
   },
 
-  setColumnsData: (columns: initialDataType['columns']) => {
+  setColumnsData: (columns: InitialDataType['columns']) => {
     if (isEmpty(columns)) return;
 
     set((state: TasksStore) => ({
@@ -53,7 +53,7 @@ export const createStateActions = (set: StoreApi<TasksStore>['setState']) => ({
     });
   },
 
-  saveDataLocally: (data: initialDataType) => {
+  saveDataLocally: (data: InitialDataType) => {
     set({ dataForDraggable: data });
   },
 

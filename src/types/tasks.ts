@@ -1,4 +1,4 @@
-export type task = {
+export type TaskItem = {
   id: string;
   content: string;
   columnId : string,
@@ -7,18 +7,18 @@ export type task = {
   color: string,
 };
 
-export type column = {
+export type ColumnItem = {
   id: string;
   title: string;
   taskIds: string[];
 };
 
-export type initialDataType = {
+export type InitialDataType = {
   tasks: {
-    [key: string]: task;
+    [key: string]: TaskItem;
   };
   columns: {
-    [key: string]: column;
+    [key: string]: ColumnItem;
   };
   columnOrder: string[];
 };
