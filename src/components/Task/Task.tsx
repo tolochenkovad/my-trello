@@ -55,7 +55,7 @@ const Task: FC<TaskType> = ({ task, index }) => {
     <>
       <Draggable draggableId={task.id} index={index}>
         {({ innerRef, draggableProps, dragHandleProps }, snapshot) => (
-          <div style={{ backgroundColor: task.color }}>
+          <div className={classes.container} style={{ backgroundColor: task.color }}>
             <div
               className={classNames(classes.task, {
                 [classes.isDragging]: snapshot.isDragging,
@@ -68,16 +68,18 @@ const Task: FC<TaskType> = ({ task, index }) => {
               <div className={classes.box}>
                 <div className={classes.body}>
                   <div className={classes.content}>{task.content}</div>
-                  <div className={classes.options}>
-                    <div className={classes.icon}>
-                      <PencilSquare onClick={() => setShowModal(true)} />
+                  <div className={classes.actions}>
+                    <div className={classes.options}>
+                      <div className={classes.icon}>
+                        <PencilSquare onClick={() => setShowModal(true)} />
+                      </div>
+                      <div className={classes.icon}>
+                        <Trash onClick={setConfirmModal} />
+                      </div>
                     </div>
-                    <div className={classes.icon}>
-                      <Trash onClick={setConfirmModal} />
-                    </div>
+                    <div className={classes.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
                   </div>
                 </div>
-                <div className={classes.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
               </div>
             </div>
           </div>

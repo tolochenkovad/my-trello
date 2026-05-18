@@ -1,11 +1,13 @@
 @use 'src/styles/helpers' as *;
 
 .header {
-  padding: 20px;
+  padding: 0 30px 0 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: #f8f9fa;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0px 2px 5px #171a1f17;
 }
 
 .appName {
@@ -18,7 +20,7 @@
 }
 
 .createBtn {
-  margin: 0 20px;
+  margin: 20px 20px 20px 10px;
 }
 
 .userBox {

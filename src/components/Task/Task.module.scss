@@ -1,3 +1,7 @@
+.container {
+  border-radius: var(--task-radius);
+}
+
 .task {
   border: 1px solid lightgrey;
   border-radius: 2px;
@@ -13,7 +17,7 @@
 
 .body {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
 .content {
@@ -27,8 +31,15 @@
   }
 }
 
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
 .options {
   display: flex;
+  margin-right: 10px;
 }
 
 .icon {

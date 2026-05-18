@@ -4,7 +4,7 @@ import { Droppable } from '@hello-pangea/dnd';
 import classNames from 'classnames';
 import { ColumnItem, TaskItem } from '@/types/tasks';
 import Task from '../Task';
-import classes from './Column.module.scss';
+import styles from './Column.module.scss';
 
 
 type ColumnType = {
@@ -13,13 +13,13 @@ type ColumnType = {
 };
 
 const Column: FC<ColumnType> = ({ column, tasks }) => (
-  <div className={classes.column}>
-    <h3 className={classes.title}>{column.title}</h3>
+  <div className={styles.column}>
+    <h3 className={styles.title}>{column.title}</h3>
     <Droppable droppableId={column.id} type="TASK">
       {({ droppableProps, innerRef, placeholder }, snapshot) => (
         <div
-          className={classNames(classes.taskList, {
-            [classes.isDraggingOver]: snapshot.isDraggingOver,
+          className={classNames(styles.taskList, {
+            [styles.isDraggingOver]: snapshot.isDraggingOver,
           })}
           ref={innerRef}
           {...droppableProps}
