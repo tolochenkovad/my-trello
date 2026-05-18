@@ -4,6 +4,7 @@ import ColorPicker from 'react-input-color';
 import Calendar, { CalendarProps } from 'react-calendar';
 import moment from 'moment';
 import classNames from 'classnames';
+import { showToast } from '@/helpers';
 import Buttons from '../ButtonsForModal';
 import classes from './TaskModal.module.scss';
 
@@ -52,8 +53,7 @@ const TaskModal: FC<Props> = ({
   const sendValue = () => {
     const dateOfTheEnd = calendarData ? calendarData.toString() : '';
     if (value.trim() === '') {
-      // TODO: replace old toastr and use new
-      // toastr.error('You do not have a description of this task. Please, fill this field', '');
+      showToast("You don't have a description of this task. Please, fill this field", 'error');
     } else {
       onConfirm(value.trim(), color, dateOfTheEnd);
       setValue('');

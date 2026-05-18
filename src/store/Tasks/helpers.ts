@@ -1,6 +1,6 @@
 import { last, size, forEach, get } from 'lodash';
 import { getAuth } from 'firebase/auth';
-import { initialDataType } from '../../types/tasks';
+import { InitialDataType } from '@/types/tasks';
 
 function sortTasksIds(a: string, b: string): number {
   if (a.includes('-') && b.includes('-')) {
@@ -13,7 +13,7 @@ function sortTasksIds(a: string, b: string): number {
   return -1;
 }
 
-export function getIndexForNewTask(tasks: initialDataType['tasks']): number {
+export function getIndexForNewTask(tasks: InitialDataType['tasks']): number {
   const lastKey = size(tasks) > 0 && last(Object.keys(tasks).sort(sortTasksIds));
   const lastIndex = lastKey ? last(lastKey.split('-')) : 0;
   return lastIndex ? +lastIndex + 1 : 1;
@@ -25,9 +25,9 @@ export function getAuthUserId(): string | undefined  {
 };
 
 export function fillColumnsWithTasks(
-  columns: initialDataType['columns'],
-  tasks: initialDataType['tasks'],
-): initialDataType['columns'] {
+  columns: InitialDataType['columns'],
+  tasks: InitialDataType['tasks'],
+): InitialDataType['columns'] {
   const updatedColumns = { ...columns };
 
   forEach(updatedColumns, (columnItem) => {
@@ -42,10 +42,10 @@ export function fillColumnsWithTasks(
 }
 
 export function removeTaskFromColumn(
-  columns: initialDataType['columns'],
-  tasks: initialDataType['tasks'],
+  columns: InitialDataType['columns'],
+  tasks: InitialDataType['tasks'],
   taskId: string,
-): initialDataType['columns'] {
+): InitialDataType['columns'] {
   const task = tasks[taskId];
   if (!task) return columns;
 

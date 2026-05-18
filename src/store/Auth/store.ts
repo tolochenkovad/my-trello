@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { getAuth, signOut } from 'firebase/auth';
+import { showToast } from '@/helpers';
 
 type AuthState = {
   isLoading: boolean;
@@ -20,14 +21,12 @@ export const useAuthStore = create<AuthState & { actions: AuthActions }>((set) =
 
       try {
         await signOut(getAuth());
-         // TODO: replace old toastr and use new
-        // toastr.success('You are logout', '');
+        showToast('You are logout', 'success');
 
         set({ isLoading: false });
       } catch (error) {
         set({ isLoading: false, error });
-         // TODO: replace old toastr and use new
-        // toastr.error('Logout error', '');
+        showToast('Logout error', 'error');
       }
     },
   },

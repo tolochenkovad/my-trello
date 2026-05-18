@@ -1,8 +1,8 @@
 import { size } from 'lodash';
 import { StoreApi } from 'zustand';
 import moment from 'moment';
-import { addDoc, getCollectionsFromFirebase, removeData, updateData } from '../../api/firebase/api';
-import { COLLECTIONS } from '../../constants';
+import { addDoc, getCollectionsFromFirebase, removeData, updateData } from '@/api/firebase/api';
+import { COLLECTIONS } from '@/constants';
 import { getAuthUserId, getIndexForNewTask } from './helpers';
 import { AddTaskPayload, EditTaskPayload, SaveDataToServerPayload, TasksStore } from './types';
 

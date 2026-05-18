@@ -1,19 +1,19 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { isEmpty } from 'lodash';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
-import { initialDataType } from '../../types/tasks';
-import { INITIAL_DATA } from '../../store/Tasks/store';
+import { INITIAL_DATA } from '@/store/Tasks/store';
+import { InitialDataType } from '@/types/tasks';
 import {
   useIsLoadingTasks,
   useDataForDraggable,
   useTasksAsyncActions,
   useIsLoadingColumns,
-} from '../../store/Tasks/selectors';
-import Column from '../../components/Column';
-import Spinner from '../../common/Spinner';
+} from '@/store/Tasks/selectors';
+import Column from '@/components/Column';
+import Spinner from '@/common/Spinner';
 
 const Main: FC = () => {
-  const [state, setState] = useState<initialDataType>(INITIAL_DATA);
+  const [state, setState] = useState<InitialDataType>(INITIAL_DATA);
   const isMounted = useRef(false);
 
   const dataForDraggable = useDataForDraggable();

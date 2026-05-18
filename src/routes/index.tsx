@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Main from '../pages/Main';
-import Authorization from '../pages/Authorization';
-import NotFound from '../pages/NotFound';
+import Main from '@/pages/Main';
+import Authorization from '@/pages/Authorization';
+import NotFound from '@/pages/NotFound';
+import Analytics from '@/pages/Analytics';
 import AuthRoute from './AuthRoute';
-import Analytics from '../pages/Analytics';
 import { ROUTES } from './constants';
 
 const Routes: FC = () => (

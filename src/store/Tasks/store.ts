@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { initialDataType } from '../../types/tasks';
+import { InitialDataType } from '@/types/tasks';
 import { TasksStore } from './types';
 import { createStateActions } from './stateActions';
 import { createAsyncActions } from './asyncActions';
 
-export const INITIAL_DATA: initialDataType = {
+export const INITIAL_DATA: InitialDataType = {
   tasks: {},
   columns: {
     'column-1': {

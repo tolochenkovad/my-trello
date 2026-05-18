@@ -1,16 +1,16 @@
 import React, { FC, useState, useMemo } from 'react';
 import { Draggable } from '@hello-pangea/dnd';
-import classNames from 'classnames';
-import { useTasksAsyncActions } from '../../store/Tasks/selectors';
-import { task } from '../../types/tasks';
-import { PencilSquare, Trash } from 'react-bootstrap-icons';
-import TaskModal from '../../common/Modals/TaskModal';
-import ConfirmModal from '../../common/Modals/ConfirmModal';
 import moment from 'moment';
+import classNames from 'classnames';
+import { PencilSquare, Trash } from 'react-bootstrap-icons';
+import { useTasksAsyncActions } from '@/store/Tasks/selectors';
+import { TaskItem } from '@/types/tasks';
+import TaskModal from '@/common/Modals/TaskModal';
+import ConfirmModal from '@/common/Modals/ConfirmModal';
 import classes from './Task.module.scss';
 
 type TaskType = {
-  task: task;
+  task: TaskItem;
   index: number;
 };
 

@@ -30,6 +30,7 @@ module.exports = {
   rules: {
     // TypeScript
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unsafe-return': 'off',
     '@typescript-eslint/no-floating-promises': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
