@@ -12,7 +12,7 @@ const Header: FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const location = useLocation();
   const { user, isAuthenticated } = useAuth();
-   const { addTask } = useTasksAsyncActions();
+  const { addTask } = useTasksAsyncActions();
 
   const onLogout = useAuthStore((s) => s.actions.logout);
 

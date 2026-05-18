@@ -3,6 +3,7 @@ import { isEmpty } from 'lodash';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import { INITIAL_DATA } from '@/store/Tasks/store';
 import { InitialDataType } from '@/types/tasks';
+import AppSpinner from '@/shared/ui/Spinners/AppSpinner';
 import {
   useIsLoadingTasks,
   useDataForDraggable,
@@ -10,7 +11,6 @@ import {
   useIsLoadingColumns,
 } from '@/store/Tasks/selectors';
 import Column from '@/components/Column';
-import Spinner from '@/common/Spinner';
 
 const Main: FC = () => {
   const [state, setState] = useState<InitialDataType>(INITIAL_DATA);
@@ -107,7 +107,8 @@ const Main: FC = () => {
   );
 
   if ((isLoadingTasks || isLoadingColumns) && !isMounted.current) {
-    return <Spinner />;
+    return <AppSpinner />;
+
   }
 
   return (

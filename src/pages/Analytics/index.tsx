@@ -1,6 +1,6 @@
 import React, { FC, Suspense, lazy } from 'react';
 import { useQuantityItemsInCategories } from '@/store/Tasks/selectors';
-import { Spinner } from 'react-bootstrap';
+import Spinner from '@/shared/ui/Spinners/Spinner';
 import classes from './Analytics.module.scss';
 
 const Chart = lazy(() => import('react-google-charts').then((module) => ({ default: module.Chart })));
@@ -15,7 +15,7 @@ const Analytics: FC = () => {
   return (
     <div className={classes.analytics}>
       <h3 className="text-center">Tasks statistics by categories</h3>
-      <Suspense fallback={<Spinner animation="border" />}>
+      <Suspense fallback={<Spinner size="large" />}>
         <Chart
           chartType="PieChart"
           options={{
@@ -33,7 +33,7 @@ const Analytics: FC = () => {
               },
             },
           }}
-          loader={<Spinner animation="border" />}
+          loader={<Spinner size="large" />}
           data={dataForChart}
           width="100%"
           height="100%"

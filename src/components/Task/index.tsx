@@ -5,8 +5,8 @@ import classNames from 'classnames';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
 import { useTasksAsyncActions } from '@/store/Tasks/selectors';
 import { TaskItem } from '@/types/tasks';
-import TaskModal from '@/common/Modals/TaskModal';
-import ConfirmModal from '@/common/Modals/ConfirmModal';
+import TaskModal from '@/shared/ui/Modals/TaskModal';
+import ConfirmModal from '@/shared/ui/Modals/ConfirmModal';
 import classes from './Task.module.scss';
 
 type TaskType = {

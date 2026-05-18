@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { Route, RouteProps } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
-import Spinner from '@/common/Spinner';
+import AppSpinner from '@/shared/ui/Spinners/AppSpinner';
 import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from './constants';
 
@@ -20,7 +20,7 @@ const AuthRoute: FC<Props & RouteProps> = ({ component: Component, ...rest }) =>
   }, [isAuthenticated, history, loading]);
 
   if (!isAuthenticated) {
-    return <Spinner />;
+    return <AppSpinner />;
   } else {
     return <Route {...rest} render={(props) => <Component {...props} />} />;
   }

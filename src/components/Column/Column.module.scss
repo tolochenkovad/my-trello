@@ -1,5 +1,3 @@
-@use 'src/styles/helpers' as *;
-
 .column {
   margin: 8px;
   border: 1px solid lightgrey;
@@ -29,7 +27,7 @@
   background-color: skyblue;
 }
 
-@media (max-width: $md-width) {
+@media (max-width: 'var(--width-md)') {
   .title {
     font-size: 20px;
   }
