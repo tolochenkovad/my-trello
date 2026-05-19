@@ -1,6 +1,5 @@
-import React, { FC } from 'react';
-import { Modal } from 'react-bootstrap';
-import Buttons from '../ButtonsForModal';
+import { FC } from 'react';
+import { Modal } from 'antd';
 
 type Props = {
   show: boolean;
@@ -9,13 +8,20 @@ type Props = {
 };
 
 const ConfirmModal: FC<Props> = ({ show, onHide, onConfirm }) => (
-  <Modal show={show} onHide={onHide} backdrop="static">
-    <Modal.Body>
-      <div className="text-center font-size-20">Are you sure?</div>
-    </Modal.Body>
-    <Modal.Footer className="no-border">
-      <Buttons onHide={onHide} onConfirm={onConfirm} />
-    </Modal.Footer>
+  <Modal
+    open={show}
+    onOk={onConfirm}
+    onCancel={onHide}
+    closable={false}
+    mask={{ closable: false }}
+    footer={(_, { OkBtn, CancelBtn }) => (
+      <>
+        <CancelBtn />
+        <OkBtn />
+      </>
+    )}
+  >
+    <div className="text-center">Are you sure you want to delete this task?</div>
   </Modal>
 );
 

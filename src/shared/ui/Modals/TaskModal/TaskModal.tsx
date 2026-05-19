@@ -1,10 +1,9 @@
 import { FC, ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal } from 'antd';
 import Calendar, { CalendarProps } from 'react-calendar';
 import moment from 'moment';
 import classNames from 'classnames';
 import { showToast } from '@/helpers';
-import Buttons from '../ButtonsForModal';
 import classes from './TaskModal.module.scss';
 
 type Props = {
@@ -66,58 +65,61 @@ const TaskModal: FC<Props> = ({
   };
 
   return (
-    <Modal show={show} onHide={onHide} backdrop="static">
-      <Modal.Header closeButton className="no-border">
-        <Modal.Title>{title}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
+    <Modal
+      open={show}
+      onCancel={onHide}
+      onOk={sendValue}
+      title={title}
+      closable={false}
+      mask={{ closable: false }}
+      footer={(_, { OkBtn, CancelBtn }) => (
+        <>
+          <CancelBtn />
+          <OkBtn />
+        </>
+      )}
+    >
+      <div>
+        <form onSubmit={onConfirmModal}>
+          <input
+            type="text"
+            ref={inputRef}
+            className={classes.input}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+        </form>
+
         <div>
-          <form onSubmit={onConfirmModal}>
-            <input
-              type="text"
-              ref={inputRef}
-              className={classes.input}
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-            />
-          </form>
-
-          <div>
-            <div className="mb-2">You can select an end date for this task</div>
-            <Button variant="primary" className="small-btn" onClick={changeShowCalendarStatus}>
-              {showCalendar ? 'Hide calendar' : 'Show calendar'}
-            </Button>
-            <Calendar
-              value={calendarData}
-              minDate={new Date()}
-              onChange={onChangeCalendar}
-              className={classNames(classes.calendar, {
-                [classes.showCalendar]: showCalendar,
-                [classes.hideCalendar]: !showCalendar,
-              })}
-            />
-          </div>
-
-          {calendarData && (
-            <div className={classes.selectedDate}>
-              <div>
-                Date of the end of the task: <span>{moment(calendarData.toString(), 'Date').format('ll')}</span>
-              </div>
-              {isEndOfTermValue && (
-                <span style={{ color: 'red' }}>In one day, the deadline for this task will end!</span>
-              )}
-              <div className="mt-3">
-                <Button variant="primary" className="small-btn" onClick={() => setCalendarData(null)}>
-                  Reset date of the end
-                </Button>
-              </div>
-            </div>
-          )}
+          <div className="mb-2">You can select an end date for this task</div>
+          <Button type="primary" className="small-btn" onClick={changeShowCalendarStatus}>
+            {showCalendar ? 'Hide calendar' : 'Show calendar'}
+          </Button>
+          <Calendar
+            value={calendarData}
+            minDate={new Date()}
+            onChange={onChangeCalendar}
+            className={classNames(classes.calendar, {
+              [classes.showCalendar]: showCalendar,
+              [classes.hideCalendar]: !showCalendar,
+            })}
+          />
         </div>
-      </Modal.Body>
-      <Modal.Footer className="no-border">
-        <Buttons onHide={onHide} onConfirm={sendValue} />
-      </Modal.Footer>
+
+        {calendarData && (
+          <div className={classes.selectedDate}>
+            <div>
+              Date of the end of the task: <span>{moment(calendarData.toString(), 'Date').format('ll')}</span>
+            </div>
+            {isEndOfTermValue && <span style={{ color: 'red' }}>In one day, the deadline for this task will end!</span>}
+            <div className="mt-3">
+              <Button type="primary" className="small-btn" onClick={() => setCalendarData(null)}>
+                Reset date of the end
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
     </Modal>
   );
 };

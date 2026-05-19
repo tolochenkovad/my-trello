@@ -1,8 +1,8 @@
-import React, { FC, useState, useMemo } from 'react';
+import { FC, useState, useMemo, memo } from 'react';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
 import moment from 'moment';
 import classNames from 'classnames';
-import { PencilSquare, Trash } from 'react-bootstrap-icons';
+import { SquarePen, Trash2 } from 'lucide-react';
 import { useTasksAsyncActions } from '@/store/Tasks/selectors';
 import { TaskItem } from '@/types/tasks';
 import TaskModal from '@/shared/ui/Modals/TaskModal';
@@ -80,10 +80,10 @@ const Task: FC<TaskType> = ({
             <div className={classes.actions}>
               <div className={classes.options}>
                 <div className={classes.icon}>
-                  <PencilSquare onClick={() => setShowModal(true)} />
+                  <SquarePen onClick={() => setShowModal(true)} size={16} />
                 </div>
                 <div className={classes.icon}>
-                  <Trash onClick={setConfirmModal} />
+                  <Trash2 onClick={setConfirmModal} size={16} />
                 </div>
               </div>
               <div className={classes.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
@@ -120,4 +120,4 @@ const Task: FC<TaskType> = ({
   );
 };
 
-export default React.memo(Task);
+export default memo(Task);

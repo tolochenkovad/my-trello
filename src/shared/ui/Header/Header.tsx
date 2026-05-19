@@ -1,6 +1,6 @@
 import { memo, FC, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button } from 'antd';
 import { useTasksAsyncActions } from '@/store/Tasks/selectors';
 import { useAuthStore } from '@/store/Auth/store';
 import { ROUTES } from '@/routes/constants';
@@ -39,7 +39,7 @@ const Header: FC = () => {
         )}
 
         {isAuthenticated && location.pathname === ROUTES.MAIN && (
-          <Button variant="primary" className={classes.createBtn} onClick={openModal}>
+          <Button type="primary" className={classes.createBtn} onClick={openModal}>
             Create task
           </Button>
         )}
