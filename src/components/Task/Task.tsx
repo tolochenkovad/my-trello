@@ -1,5 +1,5 @@
 import React, { FC, useState, useMemo } from 'react';
-import { Draggable } from '@hello-pangea/dnd';
+import { Draggable, DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
 import moment from 'moment';
 import classNames from 'classnames';
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
@@ -12,9 +12,18 @@ import classes from './Task.module.scss';
 type TaskType = {
   task: TaskItem;
   index: number;
+  provided?: DraggableProvided;
+  snapshot?: DraggableStateSnapshot;
+  isClone?: boolean;
 };
 
-const Task: FC<TaskType> = ({ task, index }) => {
+const Task: FC<TaskType> = ({
+  task,
+  index,
+  provided: externalProvided,
+  snapshot: externalSnapshot,
+  isClone = false,
+}) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
   const { editTask, removeTask } = useTasksAsyncActions();
@@ -51,39 +60,48 @@ const Task: FC<TaskType> = ({ task, index }) => {
     [task.date, task.dateOfTheEnd, task.columnId],
   );
 
+  const renderContent = (provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
+    <div
+      className={classes.container}
+      ref={provided.innerRef}
+      {...provided.draggableProps}
+      {...provided.dragHandleProps}
+      style={provided.draggableProps.style}
+    >
+      <div
+        className={classNames(classes.task, {
+          [classes.isDragging]: snapshot.isDragging,
+          [classes.endOfTerm]: isEndOfTermTask(),
+        })}
+      >
+        <div className={classes.box}>
+          <div className={classes.body}>
+            <div className={classes.content}>{task.content}</div>
+            <div className={classes.actions}>
+              <div className={classes.options}>
+                <div className={classes.icon}>
+                  <PencilSquare onClick={() => setShowModal(true)} />
+                </div>
+                <div className={classes.icon}>
+                  <Trash onClick={setConfirmModal} />
+                </div>
+              </div>
+              <div className={classes.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (isClone && externalProvided && externalSnapshot) {
+    return renderContent(externalProvided, externalSnapshot);
+  }
+
   return (
     <>
       <Draggable draggableId={task.id} index={index}>
-        {({ innerRef, draggableProps, dragHandleProps }, snapshot) => (
-          <div className={classes.container}>
-            <div
-              className={classNames(classes.task, {
-                [classes.isDragging]: snapshot.isDragging,
-                [classes.endOfTerm]: isEndOfTermTask(),
-              })}
-              {...draggableProps}
-              {...dragHandleProps}
-              ref={innerRef}
-            >
-              <div className={classes.box}>
-                <div className={classes.body}>
-                  <div className={classes.content}>{task.content}</div>
-                  <div className={classes.actions}>
-                    <div className={classes.options}>
-                      <div className={classes.icon}>
-                        <PencilSquare onClick={() => setShowModal(true)} />
-                      </div>
-                      <div className={classes.icon}>
-                        <Trash onClick={setConfirmModal} />
-                      </div>
-                    </div>
-                    <div className={classes.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        {(provided, snapshot) => renderContent(provided, snapshot)}
       </Draggable>
       {showModal && (
         <TaskModal

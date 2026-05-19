@@ -109,7 +109,6 @@ const Main: FC = () => {
 
   if ((isLoadingTasks || isLoadingColumns) && !isMounted.current) {
     return <AppSpinner />;
-
   }
 
   return (

@@ -6,7 +6,6 @@ import { ColumnItem, TaskItem } from '@/types/tasks';
 import Task from '../Task';
 import styles from './Column.module.scss';
 
-
 type ColumnType = {
   column: ColumnItem;
   tasks: TaskItem[];
@@ -18,7 +17,16 @@ const Column: FC<ColumnType> = ({ column, tasks }) => (
       <h3>{column.title}</h3>
       <span>{tasks.length}</span>
     </div>
-    <Droppable droppableId={column.id} type="TASK">
+
+    <Droppable
+      droppableId={column.id}
+      type="TASK"
+      renderClone={(provided, snapshot, rubric) => {
+        const task = tasks[rubric.source.index];
+
+        return <Task task={task} index={rubric.source.index} provided={provided} snapshot={snapshot} isClone />;
+      }}
+    >
       {({ droppableProps, innerRef, placeholder }, snapshot) => (
         <div
           className={classNames(styles.taskList, {
