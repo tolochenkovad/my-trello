@@ -1,10 +1,9 @@
 export type TaskItem = {
   id: string;
   content: string;
-  columnId : string,
-  date: string,
-  dateOfTheEnd: string,
-  color: string,
+  columnId: string;
+  date: string;
+  dateOfTheEnd: string;
 };
 
 export type ColumnItem = {

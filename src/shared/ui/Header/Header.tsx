@@ -16,8 +16,8 @@ const Header: FC = () => {
 
   const onLogout = useAuthStore((s) => s.actions.logout);
 
-  const addTaskToBase = (value: string, color: string, dateOfTheEnd: string) => {
-    addTask({ value, color, dateOfTheEnd });
+  const addTaskToBase = (value: string, dateOfTheEnd: string) => {
+    addTask({ value, dateOfTheEnd });
     setShowModal(false);
   };
 

@@ -1,6 +1,5 @@
-import React, { FC, ChangeEvent, useEffect, useRef, useState } from 'react';
+import { FC, ChangeEvent, useEffect, useRef, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import ColorPicker from 'react-input-color';
 import Calendar, { CalendarProps } from 'react-calendar';
 import moment from 'moment';
 import classNames from 'classnames';
@@ -12,9 +11,8 @@ type Props = {
   title: string;
   show: boolean;
   onHide: () => void;
-  onConfirm: (value: string, color: string, dateOfTheEnd: string) => void;
+  onConfirm: (value: string, dateOfTheEnd: string) => void;
   valueFromProps?: string;
-  colorFromProps?: string;
   dateOfTheEndFromProps?: string;
   isTheEndOfTerm?: boolean;
 };
@@ -25,12 +23,10 @@ const TaskModal: FC<Props> = ({
   onConfirm,
   onHide,
   valueFromProps,
-  colorFromProps,
   dateOfTheEndFromProps,
   isTheEndOfTerm,
 }) => {
   const [value, setValue] = useState<string>(valueFromProps || '');
-  const [color, setColor] = useState<string>(colorFromProps || '#cfcff2');
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [calendarData, setCalendarData] = useState<CalendarProps['value']>(
     dateOfTheEndFromProps ? new Date(dateOfTheEndFromProps) : null,
@@ -55,13 +51,9 @@ const TaskModal: FC<Props> = ({
     if (value.trim() === '') {
       showToast("You don't have a description of this task. Please, fill this field", 'error');
     } else {
-      onConfirm(value.trim(), color, dateOfTheEnd);
+      onConfirm(value.trim(), dateOfTheEnd);
       setValue('');
     }
-  };
-
-  const changeColor = ({ hex }: { hex: string }) => {
-    setColor(hex);
   };
 
   const changeShowCalendarStatus = () => {
@@ -89,10 +81,6 @@ const TaskModal: FC<Props> = ({
               onChange={(e) => setValue(e.target.value)}
             />
           </form>
-          <div className={classes.color}>
-            <div className="mr-2">Choose background color of this task</div>
-            <ColorPicker initialValue={color} onChange={changeColor} placement="right" />
-          </div>
 
           <div>
             <div className="mb-2">You can select an end date for this task</div>

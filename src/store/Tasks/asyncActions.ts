@@ -40,7 +40,7 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
   addTask: async (payload: AddTaskPayload) => {
     try {
       set({ isLoadingTasks: true, error: null });
-      const { color, dateOfTheEnd, value } = payload;
+      const { dateOfTheEnd, value } = payload;
       const authId = getAuthUserId();
 
       if (authId) {
@@ -54,7 +54,6 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
             content: value,
             columnId: 'column-1',
             date: moment().format(),
-            color,
             dateOfTheEnd,
           },
         };
@@ -83,7 +82,7 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
   editTask: async (payload: EditTaskPayload) => {
     try {
       set({ isLoadingTasks: true, error: null });
-      const { color, dateOfTheEnd, value, taskId } = payload;
+      const { dateOfTheEnd, value, taskId } = payload;
       const authId = getAuthUserId();
 
       if (authId) {
@@ -97,7 +96,6 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
             ...taskData[taskId],
             content: value,
             date: moment().format(),
-            color,
             dateOfTheEnd,
           },
         };

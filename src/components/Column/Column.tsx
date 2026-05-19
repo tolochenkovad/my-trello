@@ -14,7 +14,10 @@ type ColumnType = {
 
 const Column: FC<ColumnType> = ({ column, tasks }) => (
   <div className={styles.column}>
-    <h3 className={styles.title}>{column.title}</h3>
+    <div className={styles.columnTitle}>
+      <h3>{column.title}</h3>
+      <span>{tasks.length}</span>
+    </div>
     <Droppable droppableId={column.id} type="TASK">
       {({ droppableProps, innerRef, placeholder }, snapshot) => (
         <div

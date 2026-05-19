@@ -2,7 +2,6 @@ import { InitialDataType } from '@/types/tasks';
 
 export interface AddTaskPayload {
   value: string;
-  color: string;
   dateOfTheEnd: string;
 }
 

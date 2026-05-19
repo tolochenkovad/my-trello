@@ -19,9 +19,9 @@ const Task: FC<TaskType> = ({ task, index }) => {
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
   const { editTask, removeTask } = useTasksAsyncActions();
 
-  const editTaskContent = (value: string, color: string, dateOfTheEnd: string) => {
+  const editTaskContent = (value: string, dateOfTheEnd: string) => {
     setShowModal(false);
-    editTask({ value, color, taskId: task.id, dateOfTheEnd });
+    editTask({ value, taskId: task.id, dateOfTheEnd });
   };
 
   const onConfirmModal = () => {
@@ -55,7 +55,7 @@ const Task: FC<TaskType> = ({ task, index }) => {
     <>
       <Draggable draggableId={task.id} index={index}>
         {({ innerRef, draggableProps, dragHandleProps }, snapshot) => (
-          <div className={classes.container} style={{ backgroundColor: task.color }}>
+          <div className={classes.container}>
             <div
               className={classNames(classes.task, {
                 [classes.isDragging]: snapshot.isDragging,
@@ -92,7 +92,6 @@ const Task: FC<TaskType> = ({ task, index }) => {
           onHide={() => setShowModal(false)}
           onConfirm={editTaskContent}
           valueFromProps={task.content}
-          colorFromProps={task.color}
           dateOfTheEndFromProps={task.dateOfTheEnd}
           isTheEndOfTerm={isEndOfTermTask()}
         />
