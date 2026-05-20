@@ -2,11 +2,10 @@ import { useState, useMemo, memo } from 'react';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
 import moment from 'moment';
 import classNames from 'classnames';
-import { SquarePen, Trash2 } from 'lucide-react';
 import { useTasksAsyncActions } from '@/entities/tasks/store/selectors';
 import { TaskItem } from '@/entities/tasks/types';
 import { AddTaskModal } from '@/modules/Board/components/AddTaskModal';
-import Modal from '@/shared/ui/Modal';
+import { Icon, Modal } from '@/shared/ui';
 import classes from './Task.module.scss';
 
 type TaskProps = {
@@ -80,10 +79,10 @@ const TaskComponent = ({
             <div className={classes.actions}>
               <div className={classes.options}>
                 <div className={classes.icon}>
-                  <SquarePen onClick={() => setShowModal(true)} size={16} />
+                  <Icon tooltip={{ title: 'Edit' }} name="edit" onClick={() => setShowModal(true)} size={16} />
                 </div>
                 <div className={classes.icon}>
-                  <Trash2 onClick={setConfirmModal} size={16} />
+                  <Icon tooltip={{ title: 'Delete' }} name="remove" onClick={setConfirmModal} size={16} />
                 </div>
               </div>
               <div className={classes.date}>{moment(task.date).startOf('minutes').fromNow()}</div>

@@ -4,7 +4,7 @@
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.08), 0 16px 48px rgb(0 0 0 / 0.04);
 
   &:hover {
-    cursor: pointer;
+    cursor: grab;
     background-color: var(--background-task-title-hover);
   }
 }
@@ -33,8 +33,15 @@
 
 .icon {
   cursor: pointer;
+  padding: 0 5px;
+  border-radius: 5px;
+
   &:first-of-type {
     margin-right: 10px;
+  }
+
+  &:hover {
+   background-color: var(--color-icon-hover);
   }
 }
 
@@ -47,13 +54,6 @@
 .options {
   display: flex;
   margin-right: 10px;
-}
-
-.icon {
-  cursor: pointer;
-  &:hover {
-    color: var(--color-icon-hover);
-  }
 }
 
 .date {

@@ -4,7 +4,7 @@ import Calendar, { CalendarProps } from 'react-calendar';
 import moment from 'moment';
 import classNames from 'classnames';
 import { showToast } from '@/shared/utils';
-import Modal from '@/shared/ui/Modal';
+import { Modal } from '@/shared/ui';
 import classes from './AddTaskModal.module.scss';
 
 type AddTaskModalProps = {

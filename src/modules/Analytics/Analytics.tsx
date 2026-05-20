@@ -1,6 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { useQuantityItemsInCategories } from '@/entities/tasks/store/selectors';
-import Spinner from '@/shared/ui/Spinners/Spinner';
+import { Spinner } from '@/shared/ui';
 import classes from './Analytics.module.scss';
 
 const Chart = lazy(() => import('react-google-charts').then((module) => ({ default: module.Chart })));

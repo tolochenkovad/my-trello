@@ -1,7 +1,7 @@
 import { ComponentType, useEffect } from 'react';
 import { Route, RouteProps } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
-import AppSpinner from '@/shared/ui/Spinners/AppSpinner';
+import { AppSpinner } from '@/shared/ui';
 import { useAuth } from '@/shared/hooks/useAuth';
 import { ROUTES } from './constants';
 

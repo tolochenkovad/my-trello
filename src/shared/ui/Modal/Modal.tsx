@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { Modal as AntdModal, ModalProps } from 'antd';
 
-const Modal = ({ children, ...rest }: PropsWithChildren<ModalProps>) => (
+export const Modal = ({ children, ...rest }: PropsWithChildren<ModalProps>) => (
   <AntdModal
     closable={false}
     mask={{ closable: false }}
@@ -16,5 +16,3 @@ const Modal = ({ children, ...rest }: PropsWithChildren<ModalProps>) => (
     {children}
   </AntdModal>
 );
-
-export default Modal;

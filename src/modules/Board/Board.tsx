@@ -4,7 +4,7 @@ import { isEmpty } from 'lodash';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import { INITIAL_DATA } from '@/entities/tasks/store/store';
 import { InitialDataType } from '@/entities/tasks/types';
-import AppSpinner from '@/shared/ui/Spinners/AppSpinner';
+import { AppSpinner } from '@/shared/ui';
 import {
   useIsLoadingTasks,
   useDataForDraggable,

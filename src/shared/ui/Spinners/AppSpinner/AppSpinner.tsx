@@ -1,12 +1,10 @@
-import Spinner from '../Spinner';
+import { Spinner } from '../Spinner';
 import styles from './AppSpinner.module.scss';
 
-const AppSpinner = () => {
+export const AppSpinner = () => {
   return (
     <div className={styles.container}>
       <Spinner size="large" />
     </div>
   );
 };
-
-export default AppSpinner;
