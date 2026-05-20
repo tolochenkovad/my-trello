@@ -2,6 +2,7 @@ import { size } from 'lodash';
 import { StoreApi } from 'zustand';
 import moment from 'moment';
 import { addDoc, getCollectionsFromFirebase, removeData, updateData } from '@/api/firebase/api';
+import { showToast } from '@/shared/utils';
 import { getAuthUserId, getIndexForNewTask } from './helpers';
 import { AddTaskPayload, EditTaskPayload, SaveDataToServerPayload, TasksStore, COLLECTIONS } from './types';
 
@@ -71,6 +72,7 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
         } else {
           await updateData(COLLECTIONS.columns, updatedState.dataForDraggable.columns, authId);
         }
+        showToast('New task was successfully created', 'success');
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to add task';
@@ -143,6 +145,7 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
         await updateData(COLLECTIONS.columns, state.dataForDraggable.columns, authId);
         await get().actions.getColumns();
         await get().actions.getTasks();
+        showToast('Task was successfully removed', 'success');
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to remove task';

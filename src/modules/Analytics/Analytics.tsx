@@ -32,6 +32,9 @@ export const Analytics = () => {
                 fontSize: 14,
               },
             },
+            pieHole: 0.4,
+            is3D: false,
+            colors: ['#3b82f6', '#22c55e', '#9ca3af'],
           }}
           loader={<Spinner size="large" />}
           data={dataForChart}
