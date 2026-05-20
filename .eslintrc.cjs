@@ -1,4 +1,3 @@
-// .eslintrc.cjs
 module.exports = {
   root: true,
   env: {
@@ -62,6 +61,7 @@ module.exports = {
     'no-use-before-define': 'off',
     'no-unused-vars': 'off',
     'no-dupe-class-members': 'off',
+    'arrow-body-style': 'off',
     'no-new-object': 'warn',
     'no-new-func': 'warn',
     'no-empty-pattern': 'warn',
@@ -70,7 +70,6 @@ module.exports = {
     'no-redeclare': 'warn',
     'prefer-const': 'warn',
     semi: 'warn',
-    'arrow-body-style': 'warn',
     'no-trailing-spaces': 'warn',
     'block-spacing': 'warn',
     'object-curly-spacing': ['warn', 'always'],

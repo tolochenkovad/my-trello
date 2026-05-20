@@ -1,16 +1,15 @@
-import React, { FC } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Main from '@/pages/Main';
-import Authorization from '@/pages/Authorization';
-import NotFound from '@/pages/NotFound';
-import Analytics from '@/pages/Analytics';
-import AuthRoute from './AuthRoute';
+import { Board } from '@/modules/Board';
+import { Authorization } from '@/modules/Authorization';
+import { NotFound } from '@/modules/NotFound';
+import { Analytics } from '@/modules/Analytics';
+import { AuthRoute } from './AuthRoute';
 import { ROUTES } from './constants';
 
-const Routes: FC = () => (
+const Routes = () => (
   <div className="main-container">
     <Switch>
-      <AuthRoute exact path={ROUTES.MAIN} component={Main} />
+      <AuthRoute exact path={ROUTES.MAIN} component={Board} />
       <Route path={ROUTES.LOGIN} component={Authorization} />
       <AuthRoute path={ROUTES.ANALYTICS} component={Analytics} />
       <Route component={NotFound} />

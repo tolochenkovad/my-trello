@@ -1,0 +1,77 @@
+.container {
+  border-radius: var(--radius-task);
+  background-color: var(--background-task-title) !important;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.08), 0 16px 48px rgb(0 0 0 / 0.04);
+
+  &:hover {
+    cursor: pointer;
+    background-color: var(--background-task-title-hover);
+  }
+}
+
+.task {
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+  padding: 8px;
+  margin-bottom: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  width: 100%;
+}
+
+.icon {
+  cursor: pointer;
+  &:first-of-type {
+    margin-right: 10px;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.options {
+  display: flex;
+  margin-right: 10px;
+}
+
+.icon {
+  cursor: pointer;
+  &:hover {
+    color: var(--color-icon-hover);
+  }
+}
+
+.date {
+  text-align: right;
+  font-size: 12px;
+  color: var(--color-black);
+  opacity: 0.7;
+  margin-top: 5px;
+}
+
+.isDragDisabled {
+  background-color: lightgrey;
+}
+
+.isDragging {
+  background-color: inherit;
+}
+
+.endOfTerm {
+  border: 5px solid red;
+}
