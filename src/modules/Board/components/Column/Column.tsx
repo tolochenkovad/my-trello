@@ -13,9 +13,9 @@ type ColumnProps = {
 
 const ColumnComponent = ({ column, tasks }: ColumnProps) => (
   <div className={styles.column}>
-    <div className={styles.columnTitle}>
+    <div className={styles.columnHeader}>
       <h3>{column.title}</h3>
-      <span>{tasks.length}</span>
+      <span className={styles.taskCount}>{tasks.length}</span>
     </div>
 
     <Droppable

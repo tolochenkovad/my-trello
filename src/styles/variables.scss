@@ -1,6 +1,9 @@
 :root {
-  --background-app: #ECEFF1;
-  --background-column-title: #384252FF;
+  --background-app: #f5f6f8;
+  --background-column-title: #374151;
+  --background-task-count: #ffffff26;
+  --background-column: #ebecf0;
+  --background-column-dragging: #1890ff0a;
   --background-task-title: #E4FBECFF;
   --background-task-title-hover: #D3F8ECFF;
   --background-toast-success: #49aa19;
@@ -17,7 +20,7 @@
   --width-sm: 576px;
 
   --column-radius: 6px;
-  --column-title-size: 24px;
+  --column-title-size: 20px;
 
   --radius-task: 4px;
   --height-header: 75px;
