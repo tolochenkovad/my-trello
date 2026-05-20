@@ -1,0 +1,45 @@
+@use 'src/styles/mixins' as *;
+
+.header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0px 2px 5px #171a1f17;
+  height: var(--height-header);
+}
+
+.appName {
+  @include link;
+}
+
+.analytics {
+  @include link;
+  margin-left: 20px;
+}
+
+.createBtn {
+  margin-right: 20px;
+}
+
+.userBox {
+  display: flex;
+  align-items: center;
+}
+
+.user {
+  span {
+    font-weight: bold;
+  }
+}
+
+.login {
+  @include link;
+}
+
+.logout {
+  @include link;
+  margin-left: 20px;
+}

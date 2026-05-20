@@ -1,15 +1,15 @@
-import React, { FC, useEffect } from 'react';
+import { ComponentType, useEffect } from 'react';
 import { Route, RouteProps } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import AppSpinner from '@/shared/ui/Spinners/AppSpinner';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/shared/hooks/useAuth';
 import { ROUTES } from './constants';
 
-type Props = {
-  component: React.FC;
-};
+type AuthRouteProps = {
+  component: ComponentType;
+} & RouteProps;
 
-const AuthRoute: FC<Props & RouteProps> = ({ component: Component, ...rest }) => {
+export const AuthRoute = ({ component: Component, ...rest }: AuthRouteProps) => {
   const { isAuthenticated, loading } = useAuth();
   const history = useHistory();
 
@@ -25,5 +25,3 @@ const AuthRoute: FC<Props & RouteProps> = ({ component: Component, ...rest }) =>
     return <Route {...rest} render={(props) => <Component {...props} />} />;
   }
 };
-
-export default AuthRoute;

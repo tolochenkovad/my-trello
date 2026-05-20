@@ -1,8 +1,7 @@
-import { FC } from 'react';
 import Spinner from '../Spinner';
 import styles from './AppSpinner.module.scss';
 
-const AppSpinner: FC = () => {
+const AppSpinner = () => {
   return (
     <div className={styles.container}>
       <Spinner size="large" />
