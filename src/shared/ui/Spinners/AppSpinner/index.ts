@@ -1,1 +1,1 @@
-export { default } from './AppSpinner';
+export { AppSpinner } from './AppSpinner';

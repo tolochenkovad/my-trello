@@ -4,14 +4,16 @@
   flex-direction: column;
   border-radius: 6px 6px 0px 0px;
   align-items: stretch;
+  background-color: var(--background-column);
 }
 
-.columnTitle {
+.columnHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0;
-  padding: 10px 20px;
+  padding: 10px 18px;
+  // padding: 14px 18px;
   background: var(--background-column-title);
   color: var(--color-white);
   border: 1px solid var(--color-border);
@@ -20,8 +22,22 @@
 
   h3 {
     font-size: var(--column-title-size);
+    letter-spacing: -0.02em;
   }
 
+}
+
+.taskCount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--background-task-count);
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .taskList {
@@ -35,7 +51,7 @@
 }
 
 .isDraggingOver {
-  background-color: skyblue;
+  background: var(--background-column-dragging);
 }
 
 @media (max-width: 'var(--width-md)') {

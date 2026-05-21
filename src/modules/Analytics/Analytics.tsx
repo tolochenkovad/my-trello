@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react';
-import { useQuantityItemsInCategories } from '@/entities/tasks/store/selectors';
-import Spinner from '@/shared/ui/Spinners/Spinner';
-import classes from './Analytics.module.scss';
+import { useQuantityItemsInCategories } from '@/store/tasks/selectors';
+import { Spinner } from '@/shared/ui';
+import styles from './Analytics.module.scss';
 
 const Chart = lazy(() => import('react-google-charts').then((module) => ({ default: module.Chart })));
 
@@ -13,7 +13,7 @@ export const Analytics = () => {
   }
 
   return (
-    <div className={classes.analytics}>
+    <div className={styles.analytics}>
       <h3 className="text-center">Tasks statistics by categories</h3>
       <Suspense fallback={<Spinner size="large" />}>
         <Chart
@@ -32,6 +32,9 @@ export const Analytics = () => {
                 fontSize: 14,
               },
             },
+            pieHole: 0.4,
+            is3D: false,
+            colors: ['#3b82f6', '#22c55e', '#9ca3af'],
           }}
           loader={<Spinner size="large" />}
           data={dataForChart}

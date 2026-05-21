@@ -1,12 +1,12 @@
 import { memo, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Button } from 'antd';
-import { useTasksAsyncActions } from '@/entities/tasks/store/selectors';
-import { useAuthStore } from '@/entities/auth/store';
+import { useTasksAsyncActions } from '@/store/tasks/selectors';
+import { useAuthStore } from '@/store/auth/store';
 import { ROUTES } from '@/routes/constants';
 import { useAuth } from '@/shared/hooks/useAuth';
 import { AddTaskModal } from '@/modules/Board/components';
-import classes from './Header.module.scss';
+import styles from './Header.module.scss';
 
 const HeaderComponent = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -30,43 +30,43 @@ const HeaderComponent = () => {
   };
 
   return (
-    <div className={classes.header}>
+    <div className={styles.header}>
       <div>
         {location.pathname !== ROUTES.MAIN && location.pathname !== ROUTES.LOGIN && (
-          <NavLink className={classes.appName} to={ROUTES.MAIN}>
+          <NavLink className={styles.appName} to={ROUTES.MAIN}>
             Tasks
           </NavLink>
         )}
 
         {isAuthenticated && location.pathname === ROUTES.MAIN && (
-          <Button type="primary" className={classes.createBtn} onClick={openModal}>
+          <Button type="primary" className={styles.createBtn} onClick={openModal}>
             Create task
           </Button>
         )}
         {showModal && <AddTaskModal title="Create task" show onHide={closeModal} onConfirm={addTaskToBase} />}
         {isAuthenticated && location.pathname !== ROUTES.ANALYTICS && (
-          <NavLink className={classes.appName} to={ROUTES.ANALYTICS} activeClassName={classes.analytics}>
+          <NavLink className={styles.appName} to={ROUTES.ANALYTICS} activeClassName={styles.analytics}>
             Analytics
           </NavLink>
         )}
       </div>
-      <div className={classes.userBox}>
+      <div className={styles.userBox}>
         {!isAuthenticated ? (
           <div>
             {!location.pathname.includes('login') && (
-              <NavLink className={classes.login} to={ROUTES.LOGIN}>
+              <NavLink className={styles.login} to={ROUTES.LOGIN}>
                 Login
               </NavLink>
             )}
           </div>
         ) : (
-          <div className={classes.user}>
+          <div className={styles.user}>
             Welcome, <span>{user?.displayName}</span>!
           </div>
         )}
         {isAuthenticated && (
           <div onClick={onLogout}>
-            <NavLink className={classes.logout} to={ROUTES.LOGIN}>
+            <NavLink className={styles.logout} to={ROUTES.LOGIN}>
               Logout
             </NavLink>
           </div>

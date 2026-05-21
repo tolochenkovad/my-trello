@@ -2,12 +2,11 @@ import { useState, useMemo, memo } from 'react';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
 import moment from 'moment';
 import classNames from 'classnames';
-import { SquarePen, Trash2 } from 'lucide-react';
-import { useTasksAsyncActions } from '@/entities/tasks/store/selectors';
-import { TaskItem } from '@/entities/tasks/types';
+import { TaskItem } from '@/store/tasks/types';
+import { useTasksAsyncActions } from '@/store/tasks/selectors';
 import { AddTaskModal } from '@/modules/Board/components/AddTaskModal';
-import Modal from '@/shared/ui/Modal';
-import classes from './Task.module.scss';
+import { Icon, Modal } from '@/shared/ui';
+import styles from './Task.module.scss';
 
 type TaskProps = {
   task: TaskItem;
@@ -62,31 +61,31 @@ const TaskComponent = ({
 
   const renderContent = (provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
     <div
-      className={classes.container}
+      className={styles.container}
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
       style={provided.draggableProps.style}
     >
       <div
-        className={classNames(classes.task, {
-          [classes.isDragging]: snapshot.isDragging,
-          [classes.endOfTerm]: isEndOfTermTask(),
+        className={classNames(styles.task, {
+          [styles.isDragging]: snapshot.isDragging,
+          [styles.endOfTerm]: isEndOfTermTask(),
         })}
       >
-        <div className={classes.box}>
-          <div className={classes.body}>
-            <div className={classes.content}>{task.content}</div>
-            <div className={classes.actions}>
-              <div className={classes.options}>
-                <div className={classes.icon}>
-                  <SquarePen onClick={() => setShowModal(true)} size={16} />
+        <div className={styles.box}>
+          <div className={styles.body}>
+            <div className={styles.content}>{task.content}</div>
+            <div className={styles.actions}>
+              <div className={styles.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
+              <div className={styles.options}>
+                <div className={styles.icon}>
+                  <Icon tooltip={{ title: 'Edit' }} name="edit" onClick={() => setShowModal(true)} size={16} />
                 </div>
-                <div className={classes.icon}>
-                  <Trash2 onClick={setConfirmModal} size={16} />
+                <div className={styles.icon}>
+                  <Icon tooltip={{ title: 'Delete' }} name="remove" onClick={setConfirmModal} size={16} />
                 </div>
               </div>
-              <div className={classes.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
             </div>
           </div>
         </div>

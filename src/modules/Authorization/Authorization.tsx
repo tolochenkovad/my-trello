@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { showToast } from '@/shared/utils/showToast';
 import { ROUTES } from '@/routes/constants';
 import { useAuth } from '@/shared/hooks/useAuth';
-import classes from './Authorization.module.scss';
+import styles from './Authorization.module.scss';
 
 export const Authorization = () => {
   const { isAuthenticated } = useAuth();
@@ -19,10 +19,8 @@ export const Authorization = () => {
   };
 
   return (
-    <div className={classes.auth}>
-      <div className={classes.phrase}>
-        To use this application, please login in through a convenient service for you
-      </div>
+    <div className={styles.auth}>
+      <div className={styles.phrase}>To use this application, please login in through a convenient service for you</div>
       <StyledFirebaseAuth
         uiConfig={{
           signInFlow: 'popup',

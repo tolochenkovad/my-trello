@@ -1,2 +1,2 @@
-export { default as AppSpinner } from './AppSpinner';
-export { default as Spinner } from './Spinner';
+export { AppSpinner } from './AppSpinner';
+export { Spinner } from './Spinner';

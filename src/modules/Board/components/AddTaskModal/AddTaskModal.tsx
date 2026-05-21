@@ -1,11 +1,14 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
+import type { InputRef } from 'antd';
 import Calendar, { CalendarProps } from 'react-calendar';
 import moment from 'moment';
 import classNames from 'classnames';
 import { showToast } from '@/shared/utils';
-import Modal from '@/shared/ui/Modal';
-import classes from './AddTaskModal.module.scss';
+import { Modal } from '@/shared/ui';
+import styles from './AddTaskModal.module.scss';
+
+const { TextArea } = Input;
 
 type AddTaskModalProps = {
   title: string;
@@ -33,12 +36,14 @@ export const AddTaskModal = ({
   );
   const [isEndOfTermValue, setEndOfTermValue] = useState(() => !!isTheEndOfTerm);
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<InputRef>(null);
 
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    requestAnimationFrame(() => {
+      inputRef.current?.focus({
+        cursor: 'end',
+      });
+    });
   }, []);
 
   const onConfirmModal = (e: ChangeEvent<HTMLFormElement>) => {
@@ -65,17 +70,15 @@ export const AddTaskModal = ({
     setEndOfTermValue(false);
   };
 
+  const onChangeTextArea = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(e.target.value);
+  };
+
   return (
     <Modal open={show} onCancel={onHide} onOk={sendValue} title={title}>
       <div>
         <form onSubmit={onConfirmModal}>
-          <input
-            type="text"
-            ref={inputRef}
-            className={classes.input}
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-          />
+          <TextArea rows={4} ref={inputRef} className={styles.input} value={value} onChange={onChangeTextArea} />
         </form>
 
         <div>
@@ -87,15 +90,15 @@ export const AddTaskModal = ({
             value={calendarData}
             minDate={new Date()}
             onChange={onChangeCalendar}
-            className={classNames(classes.calendar, {
-              [classes.showCalendar]: showCalendar,
-              [classes.hideCalendar]: !showCalendar,
+            className={classNames(styles.calendar, {
+              [styles.showCalendar]: showCalendar,
+              [styles.hideCalendar]: !showCalendar,
             })}
           />
         </div>
 
         {calendarData && (
-          <div className={classes.selectedDate}>
+          <div className={styles.selectedDate}>
             <div>
               Date of the end of the task: <span>{moment(calendarData.toString(), 'Date').format('ll')}</span>
             </div>

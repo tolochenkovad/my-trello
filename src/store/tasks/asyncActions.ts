@@ -2,13 +2,14 @@ import { size } from 'lodash';
 import { StoreApi } from 'zustand';
 import moment from 'moment';
 import { addDoc, getCollectionsFromFirebase, removeData, updateData } from '@/api/firebase/api';
+import { showToast } from '@/shared/utils';
 import { getAuthUserId, getIndexForNewTask } from './helpers';
 import { AddTaskPayload, EditTaskPayload, SaveDataToServerPayload, TasksStore, COLLECTIONS } from './types';
 
 export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: StoreApi<TasksStore>['getState']) => ({
   getTasks: async () => {
     try {
-      set({ isLoadingTasks: true, error: null });
+      set({ isLoadingTasks: true });
       const authId = getAuthUserId();
 
       if (authId) {
@@ -17,13 +18,14 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to fetch tasks';
-      set({ error: errorMessage, isLoadingTasks: false });
+      set({ isLoadingTasks: false });
+      showToast(errorMessage, 'error');
     }
   },
 
   getColumns: async () => {
     try {
-      set({ isLoadingColumns: true, error: null });
+      set({ isLoadingColumns: true });
       const authId = getAuthUserId();
 
       if (authId) {
@@ -32,13 +34,14 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to fetch columns';
-      set({ error: errorMessage, isLoadingColumns: false });
+      set({ isLoadingColumns: false });
+      showToast(errorMessage, 'error');
     }
   },
 
   addTask: async (payload: AddTaskPayload) => {
     try {
-      set({ isLoadingTasks: true, error: null });
+      set({ isLoadingTasks: true });
       const { dateOfTheEnd, value } = payload;
       const authId = getAuthUserId();
 
@@ -71,16 +74,18 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
         } else {
           await updateData(COLLECTIONS.columns, updatedState.dataForDraggable.columns, authId);
         }
+        showToast('New task was successfully created', 'success');
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to add task';
-      set({ error: errorMessage, isLoadingTasks: false });
+      set({ isLoadingTasks: false });
+      showToast(errorMessage, 'error');
     }
   },
 
   editTask: async (payload: EditTaskPayload) => {
     try {
-      set({ isLoadingTasks: true, error: null });
+      set({ isLoadingTasks: true });
       const { dateOfTheEnd, value, taskId } = payload;
       const authId = getAuthUserId();
 
@@ -104,13 +109,14 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to edit task';
-      set({ error: errorMessage, isLoadingTasks: false });
+      set({ isLoadingTasks: false });
+      showToast(errorMessage, 'error');
     }
   },
 
   saveDataToServer: async (payload: SaveDataToServerPayload) => {
     try {
-      set({ isLoadingTasks: true, isLoadingColumns: true, error: null });
+      set({ isLoadingTasks: true, isLoadingColumns: true });
       const { data, isReorder = false } = payload;
       get().actions.saveDataLocally(data);
 
@@ -127,13 +133,14 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to save data to server';
-      set({ error: errorMessage, isLoadingTasks: false, isLoadingColumns: false });
+      set({ isLoadingTasks: false, isLoadingColumns: false });
+      showToast(errorMessage, 'error');
     }
   },
 
   removeTask: async (taskId: string) => {
     try {
-      set({ isLoadingTasks: true, error: null });
+      set({ isLoadingTasks: true });
       const authId = getAuthUserId();
 
       if (authId) {
@@ -143,10 +150,12 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
         await updateData(COLLECTIONS.columns, state.dataForDraggable.columns, authId);
         await get().actions.getColumns();
         await get().actions.getTasks();
+        showToast('Task was successfully removed', 'success');
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to remove task';
-      set({ error: errorMessage, isLoadingTasks: false });
+      set({ isLoadingTasks: false });
+      showToast(errorMessage, 'error');
     }
   },
 });

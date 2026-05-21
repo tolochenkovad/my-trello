@@ -1,7 +1,7 @@
 import { isEmpty } from 'lodash';
 import { StoreApi } from 'zustand';
 import { sortObjectByKey } from '@/shared/utils';
-import { InitialDataType } from '@/entities/tasks/types';
+import { InitialDataType } from '@/store/tasks/types';
 import { fillColumnsWithTasks, removeTaskFromColumn } from './helpers';
 import { TasksStore } from './types';
 
@@ -55,9 +55,5 @@ export const createStateActions = (set: StoreApi<TasksStore>['setState']) => ({
 
   saveDataLocally: (data: InitialDataType) => {
     set({ dataForDraggable: data });
-  },
-
-  setError: (error: string | null) => {
-    set({ error, isLoadingTasks: false, isLoadingColumns: false });
-  },
+  }
 });

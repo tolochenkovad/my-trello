@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { isEqual } from 'lodash';
 import { Droppable } from '@hello-pangea/dnd';
 import classNames from 'classnames';
-import { ColumnItem, TaskItem } from '@/entities/tasks/types';
+import { ColumnItem, TaskItem } from '@/store/tasks/types';
 import { Task } from '../Task';
 import styles from './Column.module.scss';
 
@@ -13,9 +13,9 @@ type ColumnProps = {
 
 const ColumnComponent = ({ column, tasks }: ColumnProps) => (
   <div className={styles.column}>
-    <div className={styles.columnTitle}>
+    <div className={styles.columnHeader}>
       <h3>{column.title}</h3>
-      <span>{tasks.length}</span>
+      <span className={styles.taskCount}>{tasks.length}</span>
     </div>
 
     <Droppable

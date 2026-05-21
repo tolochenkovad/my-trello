@@ -1,10 +1,11 @@
 import { PropsWithChildren } from 'react';
 import { Modal as AntdModal, ModalProps } from 'antd';
 
-const Modal = ({ children, ...rest }: PropsWithChildren<ModalProps>) => (
+export const Modal = ({ children, ...rest }: PropsWithChildren<ModalProps>) => (
   <AntdModal
     closable={false}
     mask={{ closable: false }}
+    centered
     footer={(_, { OkBtn, CancelBtn }) => (
       <>
         <CancelBtn />
@@ -16,5 +17,3 @@ const Modal = ({ children, ...rest }: PropsWithChildren<ModalProps>) => (
     {children}
   </AntdModal>
 );
-
-export default Modal;
