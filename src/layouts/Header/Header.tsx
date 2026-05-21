@@ -1,8 +1,8 @@
 import { memo, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Button } from 'antd';
-import { useTasksAsyncActions } from '@/entities/tasks/store/selectors';
-import { useAuthStore } from '@/entities/auth/store';
+import { useTasksAsyncActions } from '@/store/tasks/selectors';
+import { useAuthStore } from '@/store/auth/store';
 import { ROUTES } from '@/routes/constants';
 import { useAuth } from '@/shared/hooks/useAuth';
 import { AddTaskModal } from '@/modules/Board/components';

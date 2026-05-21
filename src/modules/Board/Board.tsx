@@ -2,15 +2,15 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Flex } from 'antd';
 import { isEmpty } from 'lodash';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
-import { INITIAL_DATA } from '@/entities/tasks/store/store';
-import { InitialDataType } from '@/entities/tasks/types';
+import { INITIAL_DATA } from '@/store/tasks/store';
+import { InitialDataType } from '@/store/tasks/types';
 import { AppSpinner } from '@/shared/ui';
 import {
   useIsLoadingTasks,
   useDataForDraggable,
   useTasksAsyncActions,
   useIsLoadingColumns,
-} from '@/entities/tasks/store/selectors';
+} from '@/store/tasks/selectors';
 import { Column } from './components/Column';
 
 export const Board = () => {

@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { useQuantityItemsInCategories } from '@/entities/tasks/store/selectors';
+import { useQuantityItemsInCategories } from '@/store/tasks/selectors';
 import { Spinner } from '@/shared/ui';
 import styles from './Analytics.module.scss';
 

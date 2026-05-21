@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { isEqual } from 'lodash';
 import { Droppable } from '@hello-pangea/dnd';
 import classNames from 'classnames';
-import { ColumnItem, TaskItem } from '@/entities/tasks/types';
+import { ColumnItem, TaskItem } from '@/store/tasks/types';
 import { Task } from '../Task';
 import styles from './Column.module.scss';
 

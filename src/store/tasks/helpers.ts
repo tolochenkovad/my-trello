@@ -1,6 +1,6 @@
 import { last, size, forEach, get } from 'lodash';
 import { getAuth } from 'firebase/auth';
-import { InitialDataType } from '@/entities/tasks/types';
+import { InitialDataType } from '@/store/tasks/types';
 
 function sortTasksIds(a: string, b: string): number {
   if (a.includes('-') && b.includes('-')) {

@@ -4,7 +4,6 @@ import { showToast } from '@/shared/utils';
 
 type AuthState = {
   isLoading: boolean;
-  error: unknown;
 };
 
 type AuthActions = {
@@ -13,20 +12,19 @@ type AuthActions = {
 
 export const useAuthStore = create<AuthState & { actions: AuthActions }>((set) => ({
   isLoading: false,
-  error: null,
 
   actions: {
     logout: async () => {
-      set({ isLoading: true, error: null });
+      set({ isLoading: true });
 
       try {
         await signOut(getAuth());
         showToast('You are logout', 'success');
-
-        set({ isLoading: false });
       } catch (error) {
-        set({ isLoading: false, error });
-        showToast('Logout error', 'error');
+        const errorMessage = error instanceof Error ? error.message : 'Logout error';
+        showToast(errorMessage, 'error');
+      } finally {
+        set({ isLoading: false });
       }
     },
   },

@@ -5,6 +5,7 @@ export const Modal = ({ children, ...rest }: PropsWithChildren<ModalProps>) => (
   <AntdModal
     closable={false}
     mask={{ closable: false }}
+    centered
     footer={(_, { OkBtn, CancelBtn }) => (
       <>
         <CancelBtn />

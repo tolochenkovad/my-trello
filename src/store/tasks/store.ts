@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { InitialDataType } from '@/entities/tasks/types';
+import { InitialDataType } from '@/store/tasks/types';
 import { TasksStore } from './types';
 import { createStateActions } from './stateActions';
 import { createAsyncActions } from './asyncActions';
@@ -32,7 +32,6 @@ export const useTasksStore = create<TasksStore>()(
     dataForDraggable: INITIAL_DATA,
     isLoadingTasks: false,
     isLoadingColumns: false,
-    error: null,
 
     actions: {
       ...createStateActions(set),
