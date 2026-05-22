@@ -1,6 +1,6 @@
-import { last, size, forEach, get } from 'lodash';
+import { last, size, forEach, get, uniqBy } from 'lodash';
 import { getAuth } from 'firebase/auth';
-import { InitialDataType } from '@/store/tasks/types';
+import { InitialDataType, Tag } from '@/store/tasks/types';
 
 function sortTasksIds(a: string, b: string): number {
   if (a.includes('-') && b.includes('-')) {
@@ -59,4 +59,13 @@ export function removeTaskFromColumn(
       taskIds: column.taskIds.filter((id) => id !== taskId),
     },
   };
+}
+
+export function getTagsForServer(tagsFromStore: Tag[], currentTags: Tag[]): { tags: Tag[] } {
+  const allTags = [...tagsFromStore, ...currentTags];
+  return { tags: uniqBy(allTags, 'id') };
+}
+
+export function getTagIds(tags: Tag[] | []): string[] | [] {
+  return tags.length ? tags.map(({ id }) => id) : [];
 }

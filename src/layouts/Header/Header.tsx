@@ -5,6 +5,7 @@ import { useTasksAsyncActions } from '@/store/tasks/selectors';
 import { useAuthStore } from '@/store/auth/store';
 import { ROUTES } from '@/routes/constants';
 import { useAuth } from '@/shared/hooks/useAuth';
+import { Tag } from '@/store/tasks/types';
 import { AddTaskModal } from '@/modules/Board/components';
 import styles from './Header.module.scss';
 
@@ -16,8 +17,8 @@ const HeaderComponent = () => {
 
   const onLogout = useAuthStore((s) => s.actions.logout);
 
-  const addTaskToBase = (value: string, dateOfTheEnd: string) => {
-    addTask({ value, dateOfTheEnd });
+  const addTaskToBase = (value: string, dateOfTheEnd: string, tags: Tag[]) => {
+    addTask({ value, dateOfTheEnd, tags });
     setShowModal(false);
   };
 

@@ -10,6 +10,7 @@ import {
   useDataForDraggable,
   useTasksAsyncActions,
   useIsLoadingColumns,
+  useIsLoadingTags,
 } from '@/store/tasks/selectors';
 import { Column } from './components/Column';
 
@@ -20,17 +21,19 @@ export const Board = () => {
   const dataForDraggable = useDataForDraggable();
   const isLoadingTasks = useIsLoadingTasks();
   const isLoadingColumns = useIsLoadingColumns();
-  const { getTasks, getColumns, saveDataToServer } = useTasksAsyncActions();
+  const isLoadingTags = useIsLoadingTags();
+  const { getTasks, getColumns, saveDataToServer, getTags } = useTasksAsyncActions();
 
   useEffect(() => {
     if (!isMounted.current) {
       getTasks();
       getColumns();
+      getTags();
       isMounted.current = true;
     } else {
       setState(dataForDraggable);
     }
-  }, [dataForDraggable, getTasks, getColumns]);
+  }, [dataForDraggable, getTasks, getColumns, getTags]);
 
   const onDragEnd = useCallback(
     (result: DropResult) => {
@@ -107,7 +110,7 @@ export const Board = () => {
     [state, saveDataToServer],
   );
 
-  if ((isLoadingTasks || isLoadingColumns) && !isMounted.current) {
+  if ((isLoadingTasks || isLoadingColumns || isLoadingTags) && !isMounted.current) {
     return <AppSpinner />;
   }
 

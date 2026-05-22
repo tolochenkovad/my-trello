@@ -25,6 +25,7 @@ export const INITIAL_DATA: InitialDataType = {
     },
   },
   columnOrder: ['column-1', 'column-2', 'column-3'],
+  tags: []
 };
 
 export const useTasksStore = create<TasksStore>()(

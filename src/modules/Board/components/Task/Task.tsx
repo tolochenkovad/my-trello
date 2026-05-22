@@ -2,7 +2,7 @@ import { useState, useMemo, memo } from 'react';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
 import moment from 'moment';
 import classNames from 'classnames';
-import { TaskItem } from '@/store/tasks/types';
+import { Tag, TaskItem } from '@/store/tasks/types';
 import { useTasksAsyncActions } from '@/store/tasks/selectors';
 import { AddTaskModal } from '@/modules/Board/components/AddTaskModal';
 import { Icon, Modal } from '@/shared/ui';
@@ -27,9 +27,9 @@ const TaskComponent = ({
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
   const { editTask, removeTask } = useTasksAsyncActions();
 
-  const editTaskContent = (value: string, dateOfTheEnd: string) => {
+  const editTaskContent = (value: string, dateOfTheEnd: string, tags: Tag[]) => {
     setShowModal(false);
-    editTask({ value, taskId: task.id, dateOfTheEnd });
+    editTask({ value, taskId: task.id, dateOfTheEnd, tags });
   };
 
   const onConfirmModal = () => {
@@ -111,6 +111,7 @@ const TaskComponent = ({
           valueFromProps={task.content}
           dateOfTheEndFromProps={task.dateOfTheEnd}
           isTheEndOfTerm={isEndOfTermTask()}
+          tagIds={task.tagIds}
         />
       )}
 

@@ -3,8 +3,15 @@ import { StoreApi } from 'zustand';
 import moment from 'moment';
 import { addDoc, getCollectionsFromFirebase, removeData, updateData } from '@/api/firebase/api';
 import { showToast } from '@/shared/utils';
-import { getAuthUserId, getIndexForNewTask } from './helpers';
-import { AddTaskPayload, EditTaskPayload, SaveDataToServerPayload, TasksStore, COLLECTIONS } from './types';
+import { getAuthUserId, getIndexForNewTask, getTagsForServer, getTagIds } from './utils';
+import {
+  AddTaskPayload,
+  EditTaskPayload,
+  SaveDataToServerPayload,
+  TasksStore,
+  COLLECTIONS,
+  TaskItem,
+} from './types';
 
 export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: StoreApi<TasksStore>['getState']) => ({
   getTasks: async () => {
@@ -19,6 +26,22 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to fetch tasks';
       set({ isLoadingTasks: false });
+      showToast(errorMessage, 'error');
+    }
+  },
+
+  getTags: async () => {
+    try {
+      set({ isLoadingTags: true });
+      const authId = getAuthUserId();
+
+      if (authId) {
+        const tags = await getCollectionsFromFirebase(COLLECTIONS.tags, authId);
+        get().actions.setTagsData(tags ? tags.tags : []);
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch tags';
+      set({ isLoadingTags: false });
       showToast(errorMessage, 'error');
     }
   },
@@ -42,22 +65,27 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
   addTask: async (payload: AddTaskPayload) => {
     try {
       set({ isLoadingTasks: true });
-      const { dateOfTheEnd, value } = payload;
+      const { dateOfTheEnd, value, tags: currentTags } = payload;
       const authId = getAuthUserId();
 
       if (authId) {
         const state = get();
-        const { tasks } = state.dataForDraggable;
+        const { tasks, tags } = state.dataForDraggable;
         const index = getIndexForNewTask(tasks);
+        const tagsServer = getTagsForServer(tags, currentTags);
+        const currentTagIds = getTagIds(currentTags);
+
+        const newTaskValue: TaskItem = {
+          id: `task-${index}`,
+          content: value,
+          columnId: 'column-1',
+          date: moment().format(),
+          dateOfTheEnd,
+          tagIds: currentTagIds,
+        };
 
         const newTask = {
-          [`task-${index}`]: {
-            id: `task-${index}`,
-            content: value,
-            columnId: 'column-1',
-            date: moment().format(),
-            dateOfTheEnd,
-          },
+          [`task-${index}`]: newTaskValue,
         };
 
         if (size(tasks) === 0) {
@@ -74,6 +102,14 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
         } else {
           await updateData(COLLECTIONS.columns, updatedState.dataForDraggable.columns, authId);
         }
+
+        if (size(tags) === 0) {
+          await addDoc(COLLECTIONS.tags, tagsServer, authId);
+        } else {
+          await updateData(COLLECTIONS.tags, tagsServer, authId);
+          get().actions.setTagsData(tagsServer.tags);
+        }
+
         showToast('New task was successfully created', 'success');
       }
     } catch (error) {
@@ -86,26 +122,36 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
   editTask: async (payload: EditTaskPayload) => {
     try {
       set({ isLoadingTasks: true });
-      const { dateOfTheEnd, value, taskId } = payload;
+      const { dateOfTheEnd, value, taskId, tags: currentTags } = payload;
       const authId = getAuthUserId();
 
       if (authId) {
         const state = get();
-        const { tasks } = state.dataForDraggable;
+        const { tasks, tags } = state.dataForDraggable;
         const taskData = { [taskId]: tasks[taskId] };
+        const tagsServer = getTagsForServer(tags, currentTags);
+        const currentTagIds = getTagIds(currentTags);
+
+        const updatedTaskValue: TaskItem = {
+          ...taskData[taskId],
+          content: value,
+          date: moment().format(),
+          dateOfTheEnd,
+          tagIds: currentTagIds,
+        };
 
         const updatedTask = {
           ...taskData,
-          [taskId]: {
-            ...taskData[taskId],
-            content: value,
-            date: moment().format(),
-            dateOfTheEnd,
-          },
+          [taskId]: updatedTaskValue,
         };
 
         await updateData(COLLECTIONS.tasks, updatedTask, authId);
+        await updateData(COLLECTIONS.tags, tagsServer, authId);
+
+        await get().actions.getTags();
         await get().actions.getTasks();
+
+        showToast('Task was successfully updated', 'success');
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to edit task';

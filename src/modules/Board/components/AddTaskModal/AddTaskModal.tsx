@@ -1,11 +1,14 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Button, Input } from 'antd';
+import { Button, Input, Select, SelectProps } from 'antd';
 import type { InputRef } from 'antd';
 import Calendar, { CalendarProps } from 'react-calendar';
 import moment from 'moment';
 import classNames from 'classnames';
 import { showToast } from '@/shared/utils';
 import { Modal } from '@/shared/ui';
+import { useTagsData } from '@/store/tasks/selectors';
+import { Tag } from '@/store/tasks/types';
+import { getNormalizedTags, getTagsByIds } from './utils';
 import styles from './AddTaskModal.module.scss';
 
 const { TextArea } = Input;
@@ -14,9 +17,10 @@ type AddTaskModalProps = {
   title: string;
   show: boolean;
   onHide: () => void;
-  onConfirm: (value: string, dateOfTheEnd: string) => void;
+  onConfirm: (value: string, dateOfTheEnd: string, tags: Tag[]) => void;
   valueFromProps?: string;
   dateOfTheEndFromProps?: string;
+  tagIds?: string[];
   isTheEndOfTerm?: boolean;
 };
 
@@ -27,13 +31,16 @@ export const AddTaskModal = ({
   onHide,
   valueFromProps,
   dateOfTheEndFromProps,
+  tagIds,
   isTheEndOfTerm,
 }: AddTaskModalProps) => {
-  const [value, setValue] = useState<string>(valueFromProps || '');
+  const [taskValue, setTaskValue] = useState<string>(valueFromProps || '');
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [calendarData, setCalendarData] = useState<CalendarProps['value']>(
     dateOfTheEndFromProps ? new Date(dateOfTheEndFromProps) : null,
   );
+  const allTags = useTagsData();
+  const [currentTags, setCurrentTags] = useState<Tag[]>(tagIds ? getTagsByIds(allTags, tagIds) : []);
   const [isEndOfTermValue, setEndOfTermValue] = useState(() => !!isTheEndOfTerm);
 
   const inputRef = useRef<InputRef>(null);
@@ -48,16 +55,17 @@ export const AddTaskModal = ({
 
   const onConfirmModal = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    sendValue();
+    onSave();
   };
 
-  const sendValue = () => {
+  const onSave = () => {
     const dateOfTheEnd = calendarData ? calendarData.toString() : '';
-    if (value.trim() === '') {
+    if (taskValue.trim() === '') {
       showToast("You don't have a description of this task. Please, fill this field", 'error');
     } else {
-      onConfirm(value.trim(), dateOfTheEnd);
-      setValue('');
+      onConfirm(taskValue.trim(), dateOfTheEnd, currentTags);
+      setTaskValue('');
+      setCurrentTags([]);
     }
   };
 
@@ -71,14 +79,19 @@ export const AddTaskModal = ({
   };
 
   const onChangeTextArea = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
+    setTaskValue(e.target.value);
+  };
+
+  const onChangeTag: SelectProps<Tag[]>['onChange'] = (data, options) => {
+    const normalizedTags = getNormalizedTags(data, options as Tag[]);
+    setCurrentTags(normalizedTags);
   };
 
   return (
-    <Modal open={show} onCancel={onHide} onOk={sendValue} title={title}>
+    <Modal open={show} onCancel={onHide} onOk={onSave} title={title}>
       <div>
         <form onSubmit={onConfirmModal}>
-          <TextArea rows={4} ref={inputRef} className={styles.input} value={value} onChange={onChangeTextArea} />
+          <TextArea rows={4} ref={inputRef} className={styles.input} value={taskValue} onChange={onChangeTextArea} />
         </form>
 
         <div>
@@ -94,6 +107,15 @@ export const AddTaskModal = ({
               [styles.showCalendar]: showCalendar,
               [styles.hideCalendar]: !showCalendar,
             })}
+          />
+          <Select<Tag[], Tag>
+            labelInValue
+            value={currentTags}
+            mode="tags"
+            style={{ width: '100%' }}
+            placeholder="You can chose or create tag(s)"
+            onChange={onChangeTag}
+            options={allTags}
           />
         </div>
 

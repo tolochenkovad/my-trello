@@ -7,8 +7,10 @@ import { TasksAsyncActions, TasksStore } from './types';
 export const useDataForDraggable = () => useTasksStore((state) => state.dataForDraggable);
 export const useColumnsData = () => useTasksStore((state) => state.dataForDraggable.columns);
 export const useTasksData = () => useTasksStore((state) => state.dataForDraggable.tasks);
+export const useTagsData = () => useTasksStore((state) => state.dataForDraggable.tags);
 export const useIsLoadingTasks = () => useTasksStore((state) => state.isLoadingTasks);
 export const useIsLoadingColumns = () => useTasksStore((state) => state.isLoadingColumns);
+export const useIsLoadingTags = () => useTasksStore((state) => state.isLoadingTags);
 
 export const useTasksAsyncActions = () =>
   useTasksStore(
@@ -20,6 +22,7 @@ export const useTasksAsyncActions = () =>
         editTask: state.actions.editTask,
         saveDataToServer: state.actions.saveDataToServer,
         removeTask: state.actions.removeTask,
+        getTags: state.actions.getTags
       }),
     ),
   );
