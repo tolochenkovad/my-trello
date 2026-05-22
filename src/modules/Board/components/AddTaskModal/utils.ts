@@ -8,12 +8,3 @@ export function getNormalizedTags(data: Tag[], options: Tag[]): Tag[] {
     id: get(options, `${index}.id`, `tag-${item.value}-${index}`),
   }));
 }
-
-export function getTagsByIds(allTags: Tag[], tagIds: string[]): Tag[] | [] {
-  return allTags.reduce<Tag[]>((acc, tag) => {
-    if (tagIds.includes(tag.id)) {
-      return [...acc, tag];
-    }
-    return acc;
-  }, []);
-}

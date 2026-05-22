@@ -1,5 +1,5 @@
 .input {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   padding: 5px 10px;
 }
 
@@ -14,9 +14,6 @@
 
 .selectedDate {
   margin-top: 20px;
-  & span {
-    font-weight: bold;
-  }
 }
 
 .showCalendar {
@@ -30,4 +27,8 @@
 .form {
   display: flex;
   flex-direction: column;
+}
+
+.select {
+  margin-top: 20px;
 }

@@ -1,0 +1,25 @@
+.container {
+  :global {
+    .ant-select-selection-item {
+      margin: 3px !important;
+      padding-inline: 12px !important;
+      border-radius: 20px !important;
+      font-weight: 500;
+      transition: 0.2s ease, transform 0.15s ease;
+
+      &:hover {
+        transform: translateY(-1px);
+      }
+    }
+
+    .ant-select-selection-item-remove {
+      opacity: 0.55;
+
+      transition: opacity 0.15s ease;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}

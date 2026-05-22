@@ -1,14 +1,15 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Button, Input, Select, SelectProps } from 'antd';
+import { Button, Input, SelectProps } from 'antd';
 import type { InputRef } from 'antd';
 import Calendar, { CalendarProps } from 'react-calendar';
 import moment from 'moment';
 import classNames from 'classnames';
 import { showToast } from '@/shared/utils';
-import { Modal } from '@/shared/ui';
+import { Modal, Select } from '@/shared/ui';
 import { useTagsData } from '@/store/tasks/selectors';
 import { Tag } from '@/store/tasks/types';
-import { getNormalizedTags, getTagsByIds } from './utils';
+import { getTagsByIds } from '../../utils';
+import { getNormalizedTags } from './utils';
 import styles from './AddTaskModal.module.scss';
 
 const { TextArea } = Input;
@@ -87,6 +88,10 @@ export const AddTaskModal = ({
     setCurrentTags(normalizedTags);
   };
 
+  const onReset = () => {
+    setCalendarData(null);
+  };
+
   return (
     <Modal open={show} onCancel={onHide} onOk={onSave} title={title}>
       <div>
@@ -96,7 +101,7 @@ export const AddTaskModal = ({
 
         <div>
           <div className="mb-2">You can select an end date for this task</div>
-          <Button type="primary" className="small-btn" onClick={changeShowCalendarStatus}>
+          <Button type="primary" onClick={changeShowCalendarStatus}>
             {showCalendar ? 'Hide calendar' : 'Show calendar'}
           </Button>
           <Calendar
@@ -108,7 +113,7 @@ export const AddTaskModal = ({
               [styles.hideCalendar]: !showCalendar,
             })}
           />
-          <Select<Tag[], Tag>
+          <Select
             labelInValue
             value={currentTags}
             mode="tags"
@@ -116,6 +121,7 @@ export const AddTaskModal = ({
             placeholder="You can chose or create tag(s)"
             onChange={onChangeTag}
             options={allTags}
+            className={styles.select}
           />
         </div>
 
@@ -126,7 +132,7 @@ export const AddTaskModal = ({
             </div>
             {isEndOfTermValue && <span style={{ color: 'red' }}>In one day, the deadline for this task will end!</span>}
             <div className="mt-3">
-              <Button type="primary" className="small-btn" onClick={() => setCalendarData(null)}>
+              <Button type="primary" onClick={onReset}>
                 Reset date of the end
               </Button>
             </div>

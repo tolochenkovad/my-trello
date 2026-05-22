@@ -3,9 +3,10 @@ import { Draggable, DraggableProvided, DraggableStateSnapshot } from '@hello-pan
 import moment from 'moment';
 import classNames from 'classnames';
 import { Tag, TaskItem } from '@/store/tasks/types';
-import { useTasksAsyncActions } from '@/store/tasks/selectors';
+import { useTagsData, useTasksAsyncActions } from '@/store/tasks/selectors';
 import { AddTaskModal } from '@/modules/Board/components/AddTaskModal';
 import { Icon, Modal } from '@/shared/ui';
+import { getTagsByIds } from '../../utils';
 import styles from './Task.module.scss';
 
 type TaskProps = {
@@ -26,6 +27,13 @@ const TaskComponent = ({
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
   const { editTask, removeTask } = useTasksAsyncActions();
+  const allTags = useTagsData();
+  const currentTags = useMemo<Tag[]>(() => {
+    if (task.tagIds?.length) {
+      return getTagsByIds(allTags, task.tagIds);
+    }
+    return [];
+  }, [task, allTags]);
 
   const editTaskContent = (value: string, dateOfTheEnd: string, tags: Tag[]) => {
     setShowModal(false);
@@ -87,6 +95,10 @@ const TaskComponent = ({
                 </div>
               </div>
             </div>
+
+            <ul className={styles.tags}>
+              {currentTags.length ? currentTags.map(({ id, label }) => <li key={id}>{label}</li>) : null}
+            </ul>
           </div>
         </div>
       </div>
