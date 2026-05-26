@@ -11,6 +11,7 @@ export const useTagsData = () => useTasksStore((state) => state.dataForDraggable
 export const useIsLoadingTasks = () => useTasksStore((state) => state.isLoadingTasks);
 export const useIsLoadingColumns = () => useTasksStore((state) => state.isLoadingColumns);
 export const useIsLoadingTags = () => useTasksStore((state) => state.isLoadingTags);
+export const useIsInitialLoading = () => useTasksStore((state) => state.isInitialLoading);
 
 export const useTasksAsyncActions = () =>
   useTasksStore(
@@ -22,7 +23,8 @@ export const useTasksAsyncActions = () =>
         editTask: state.actions.editTask,
         saveDataToServer: state.actions.saveDataToServer,
         removeTask: state.actions.removeTask,
-        getTags: state.actions.getTags
+        getTags: state.actions.getTags,
+        getAllData: state.actions.getAllData
       }),
     ),
   );

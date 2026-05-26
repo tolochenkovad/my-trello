@@ -52,6 +52,7 @@ type TasksState = {
   isLoadingTasks: boolean;
   isLoadingColumns: boolean;
   isLoadingTags: boolean;
+  isInitialLoading: boolean;
 };
 
 type TasksStateActions = {
@@ -71,6 +72,7 @@ export type TasksAsyncActions = {
   editTask: (payload: EditTaskPayload) => Promise<void>;
   saveDataToServer: (payload: SaveDataToServerPayload) => Promise<void>;
   removeTask: (taskId: string) => Promise<void>;
+  getAllData: () => Promise<void>;
 };
 
 export type TasksActions = TasksStateActions & TasksAsyncActions;

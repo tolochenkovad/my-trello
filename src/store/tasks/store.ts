@@ -33,6 +33,8 @@ export const useTasksStore = create<TasksStore>()(
     dataForDraggable: INITIAL_DATA,
     isLoadingTasks: false,
     isLoadingColumns: false,
+    isLoadingTags: false,
+    isInitialLoading: true,
 
     actions: {
       ...createStateActions(set),

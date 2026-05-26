@@ -1,34 +1,16 @@
-import { memo, useState } from 'react';
+import { memo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Button } from 'antd';
-import { useTasksAsyncActions } from '@/store/tasks/selectors';
 import { useAuthStore } from '@/store/auth/store';
 import { ROUTES } from '@/routes/constants';
 import { useAuth } from '@/shared/hooks/useAuth';
-import { Tag } from '@/store/tasks/types';
-import { AddTaskModal } from '@/modules/Board/components';
+import { CreateTask } from '@/modules/Board/components';
 import styles from './Header.module.scss';
 
 const HeaderComponent = () => {
-  const [showModal, setShowModal] = useState<boolean>(false);
   const location = useLocation();
   const { user, isAuthenticated } = useAuth();
-  const { addTask } = useTasksAsyncActions();
 
   const onLogout = useAuthStore((s) => s.actions.logout);
-
-  const addTaskToBase = (value: string, dateOfTheEnd: string, tags: Tag[]) => {
-    addTask({ value, dateOfTheEnd, tags });
-    setShowModal(false);
-  };
-
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
 
   return (
     <div className={styles.header}>
@@ -39,12 +21,7 @@ const HeaderComponent = () => {
           </NavLink>
         )}
 
-        {isAuthenticated && location.pathname === ROUTES.MAIN && (
-          <Button type="primary" className={styles.createBtn} onClick={openModal}>
-            Create task
-          </Button>
-        )}
-        {showModal && <AddTaskModal title="Create task" show onHide={closeModal} onConfirm={addTaskToBase} />}
+        {isAuthenticated && location.pathname === ROUTES.MAIN && <CreateTask className={styles.createBtn} />}
         {isAuthenticated && location.pathname !== ROUTES.ANALYTICS && (
           <NavLink className={styles.appName} to={ROUTES.ANALYTICS} activeClassName={styles.analytics}>
             Analytics

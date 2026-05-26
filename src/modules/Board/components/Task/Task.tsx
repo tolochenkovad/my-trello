@@ -88,10 +88,10 @@ const TaskComponent = ({
               <div className={styles.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
               <div className={styles.options}>
                 <div className={styles.icon}>
-                  <Icon tooltip={{ title: 'Edit' }} name="edit" onClick={() => setShowModal(true)} size={16} />
+                  <Icon tooltip={{ title: 'Edit' }} name="edit" onClick={() => setShowModal(true)} />
                 </div>
                 <div className={styles.icon}>
-                  <Icon tooltip={{ title: 'Delete' }} name="remove" onClick={setConfirmModal} size={16} />
+                  <Icon tooltip={{ title: 'Delete' }} name="remove" onClick={setConfirmModal} />
                 </div>
               </div>
             </div>

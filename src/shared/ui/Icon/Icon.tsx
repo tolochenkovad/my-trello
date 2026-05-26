@@ -1,9 +1,10 @@
 import { Tooltip, TooltipProps } from 'antd';
-import { LucideProps, SquarePen, Trash2 } from 'lucide-react';
+import { LucideProps, SquarePen, Trash2, ClipboardList } from 'lucide-react';
 
 const icons = {
   edit: SquarePen,
   remove: Trash2,
+  clipboardList: ClipboardList,
 };
 
 type IconProps = {
