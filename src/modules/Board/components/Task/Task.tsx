@@ -6,7 +6,9 @@ import { Tag, TaskItem } from '@/store/tasks/types';
 import { useTagsData, useTasksAsyncActions } from '@/store/tasks/selectors';
 import { AddTaskModal } from '@/modules/Board/components/AddTaskModal';
 import { Icon, Modal } from '@/shared/ui';
-import { getTagsByIds } from '../../utils';
+import { getDeadlineTaskStatus, getTagsByIds } from '../../utils';
+import { TaskDeadlineStatusUI } from '../../types';
+import { TASK_DEADLINE_TRANSLATIONS } from '../../const';
 import styles from './Task.module.scss';
 
 type TaskProps = {
@@ -57,15 +59,12 @@ const TaskComponent = ({
     removeTask(task.id);
   };
 
-  const isEndOfTermTask = useMemo(
-    () => () => {
-      const currentDate = new Date(task.date);
-      const endDate = new Date(task.dateOfTheEnd);
-      const difference = Math.ceil((endDate.getTime() - currentDate.getTime()) / (60 * 60 * 24 * 1000));
-      return !!(endDate && difference === 1 && task.columnId !== 'column-3');
-    },
-    [task.date, task.dateOfTheEnd, task.columnId],
-  );
+  const taskDeadlineStatus = useMemo<TaskDeadlineStatusUI>(() => {
+    if (task.columnId === 'column-3') {
+      return null;
+    }
+    return getDeadlineTaskStatus(task.dateOfTheEnd);
+  }, [task.dateOfTheEnd, task.columnId]);
 
   const renderContent = (provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
     <div
@@ -78,7 +77,6 @@ const TaskComponent = ({
       <div
         className={classNames(styles.task, {
           [styles.isDragging]: snapshot.isDragging,
-          [styles.endOfTerm]: isEndOfTermTask(),
         })}
       >
         <div className={styles.box}>
@@ -87,6 +85,16 @@ const TaskComponent = ({
             <div className={styles.actions}>
               <div className={styles.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
               <div className={styles.options}>
+                {taskDeadlineStatus && (
+                  <div className={styles.icon}>
+                    <Icon
+                      className={styles.deadlineIcon}
+                      tooltip={{ title: TASK_DEADLINE_TRANSLATIONS[taskDeadlineStatus] }}
+                      name="warning"
+                    />
+                  </div>
+                )}
+
                 <div className={styles.icon}>
                   <Icon tooltip={{ title: 'Edit' }} name="edit" onClick={() => setShowModal(true)} />
                 </div>
@@ -122,7 +130,7 @@ const TaskComponent = ({
           onConfirm={editTaskContent}
           valueFromProps={task.content}
           dateOfTheEndFromProps={task.dateOfTheEnd}
-          isTheEndOfTerm={isEndOfTermTask()}
+          taskDeadlineStatusFromProps={taskDeadlineStatus}
           tagIds={task.tagIds}
         />
       )}
