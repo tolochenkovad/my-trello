@@ -1,10 +1,10 @@
 import { CSSProperties } from 'react';
 import { toast } from 'sonner';
 
-enum TOAST_COLORS {
-  success = 'var(--background-toast-success)',
-  error = 'var(--background-toast-error)',
-  info = 'var(--background-toast-info)',
+enum ToastColors {
+  success = 'var(--color-toast-success)',
+  error = 'var(--color-error)',
+  info = 'var(--color-toast-info)',
 }
 
 export function showToast(message: string, type: 'success' | 'error' | 'info' = 'info', styles?: CSSProperties): void {
@@ -12,7 +12,7 @@ export function showToast(message: string, type: 'success' | 'error' | 'info' = 
     style: {
       color: 'white',
       border: 'none',
-      background: TOAST_COLORS[type],
+      background: ToastColors[type],
       ...styles,
     },
   });

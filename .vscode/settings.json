@@ -1,3 +1,5 @@
 {
-    "editor.formatOnSaveMode": "modificationsIfAvailable"
+    "editor.formatOnSaveMode": "modificationsIfAvailable",
+    "editor.tabSize": 2,
+
 }

@@ -1,11 +1,11 @@
 .container {
-  border-radius: var(--radius-task);
-  background-color: var(--background-task-title) !important;
+  border-radius: 4px;
+  background-color: var(--color-task-title) !important;
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.08), 0 16px 48px rgb(0 0 0 / 0.04);
 
   &:hover {
     cursor: grab;
-    background-color: var(--background-task-title-hover);
+    background-color: var(--color-task-title-hover);
   }
 }
 
@@ -36,13 +36,13 @@
   padding: 0 5px;
   border-radius: 5px;
 
-  &:first-of-type {
-    margin-right: 10px;
-  }
-
   &:hover {
-   background-color: var(--color-icon-hover);
+    background-color: var(--color-icon-hover);
   }
+}
+
+.deadlineIcon {
+  color: var(--color-error)
 }
 
 .actions {
@@ -53,6 +53,7 @@
 
 .options {
   display: flex;
+  gap: 5px;
 }
 
 .date {
@@ -71,6 +72,18 @@
   background-color: inherit;
 }
 
-.endOfTerm {
-  border: 5px solid red;
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px 0 0 0;
+
+  li {
+    background: var(--color-bg-multiple-items);
+    border-radius: 20px;
+    margin: 4px 4px 4px 0;
+    padding-inline: 12px !important;
+    font-weight: 500;
+    font-size: 12px;
+    transition: 0.2s ease, transform 0.15s ease;
+  }
 }

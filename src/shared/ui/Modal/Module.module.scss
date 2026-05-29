@@ -1,0 +1,10 @@
+.container {
+  :global {
+    .ant-modal-header {
+      margin-bottom: 20px;
+    }
+    .ant-modal-footer {
+      margin-top: 30px;
+    }
+  }
+}

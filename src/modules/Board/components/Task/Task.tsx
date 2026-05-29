@@ -2,10 +2,13 @@ import { useState, useMemo, memo } from 'react';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from '@hello-pangea/dnd';
 import moment from 'moment';
 import classNames from 'classnames';
-import { TaskItem } from '@/store/tasks/types';
-import { useTasksAsyncActions } from '@/store/tasks/selectors';
+import { Tag, TaskItem } from '@/store/tasks/types';
+import { useTagsData, useTasksAsyncActions } from '@/store/tasks/selectors';
 import { AddTaskModal } from '@/modules/Board/components/AddTaskModal';
 import { Icon, Modal } from '@/shared/ui';
+import { getDeadlineTaskStatus, getTagsByIds } from '../../utils';
+import { TaskDeadlineStatusUI } from '../../types';
+import { TASK_DEADLINE_TRANSLATIONS } from '../../const';
 import styles from './Task.module.scss';
 
 type TaskProps = {
@@ -26,10 +29,17 @@ const TaskComponent = ({
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
   const { editTask, removeTask } = useTasksAsyncActions();
+  const allTags = useTagsData();
+  const currentTags = useMemo<Tag[]>(() => {
+    if (task.tagIds?.length) {
+      return getTagsByIds(allTags, task.tagIds);
+    }
+    return [];
+  }, [task, allTags]);
 
-  const editTaskContent = (value: string, dateOfTheEnd: string) => {
+  const editTaskContent = (value: string, dateOfTheEnd: string, tags: Tag[]) => {
     setShowModal(false);
-    editTask({ value, taskId: task.id, dateOfTheEnd });
+    editTask({ value, taskId: task.id, dateOfTheEnd, tags });
   };
 
   const onConfirmModal = () => {
@@ -49,15 +59,12 @@ const TaskComponent = ({
     removeTask(task.id);
   };
 
-  const isEndOfTermTask = useMemo(
-    () => () => {
-      const currentDate = new Date(task.date);
-      const endDate = new Date(task.dateOfTheEnd);
-      const difference = Math.ceil((endDate.getTime() - currentDate.getTime()) / (60 * 60 * 24 * 1000));
-      return !!(endDate && difference === 1 && task.columnId !== 'column-3');
-    },
-    [task.date, task.dateOfTheEnd, task.columnId],
-  );
+  const taskDeadlineStatus = useMemo<TaskDeadlineStatusUI>(() => {
+    if (task.columnId === 'column-3') {
+      return null;
+    }
+    return getDeadlineTaskStatus(task.dateOfTheEnd);
+  }, [task.dateOfTheEnd, task.columnId]);
 
   const renderContent = (provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
     <div
@@ -70,7 +77,6 @@ const TaskComponent = ({
       <div
         className={classNames(styles.task, {
           [styles.isDragging]: snapshot.isDragging,
-          [styles.endOfTerm]: isEndOfTermTask(),
         })}
       >
         <div className={styles.box}>
@@ -79,14 +85,28 @@ const TaskComponent = ({
             <div className={styles.actions}>
               <div className={styles.date}>{moment(task.date).startOf('minutes').fromNow()}</div>
               <div className={styles.options}>
+                {taskDeadlineStatus && (
+                  <div className={styles.icon}>
+                    <Icon
+                      className={styles.deadlineIcon}
+                      tooltip={{ title: TASK_DEADLINE_TRANSLATIONS[taskDeadlineStatus] }}
+                      name="warning"
+                    />
+                  </div>
+                )}
+
                 <div className={styles.icon}>
-                  <Icon tooltip={{ title: 'Edit' }} name="edit" onClick={() => setShowModal(true)} size={16} />
+                  <Icon tooltip={{ title: 'Edit' }} name="edit" onClick={() => setShowModal(true)} />
                 </div>
                 <div className={styles.icon}>
-                  <Icon tooltip={{ title: 'Delete' }} name="remove" onClick={setConfirmModal} size={16} />
+                  <Icon tooltip={{ title: 'Delete' }} name="remove" onClick={setConfirmModal} />
                 </div>
               </div>
             </div>
+
+            <ul className={styles.tags}>
+              {currentTags.length ? currentTags.map(({ id, label }) => <li key={id}>{label}</li>) : null}
+            </ul>
           </div>
         </div>
       </div>
@@ -110,7 +130,8 @@ const TaskComponent = ({
           onConfirm={editTaskContent}
           valueFromProps={task.content}
           dateOfTheEndFromProps={task.dateOfTheEnd}
-          isTheEndOfTerm={isEndOfTermTask()}
+          taskDeadlineStatusFromProps={taskDeadlineStatus}
+          tagIds={task.tagIds}
         />
       )}
 

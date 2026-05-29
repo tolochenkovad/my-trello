@@ -2,7 +2,7 @@ import { isEmpty } from 'lodash';
 import { StoreApi } from 'zustand';
 import { sortObjectByKey } from '@/shared/utils';
 import { InitialDataType } from '@/store/tasks/types';
-import { fillColumnsWithTasks, removeTaskFromColumn } from './helpers';
+import { fillColumnsWithTasks, removeTaskFromColumn } from './utils';
 import { TasksStore } from './types';
 
 export const createStateActions = (set: StoreApi<TasksStore>['setState']) => ({
@@ -35,6 +35,16 @@ export const createStateActions = (set: StoreApi<TasksStore>['setState']) => ({
     }));
   },
 
+  setTagsData: (tags: InitialDataType['tags']) => {
+    set((state: TasksStore) => ({
+      dataForDraggable: {
+        ...state.dataForDraggable,
+        tags,
+      },
+      isLoadingTags: false,
+    }));
+  },
+
   removeTaskData: (taskId: string) => {
     set({ isLoadingTasks: true });
     set((state: TasksStore) => {
@@ -55,5 +65,5 @@ export const createStateActions = (set: StoreApi<TasksStore>['setState']) => ({
 
   saveDataLocally: (data: InitialDataType) => {
     set({ dataForDraggable: data });
-  }
+  },
 });

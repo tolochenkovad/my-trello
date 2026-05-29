@@ -1,11 +1,15 @@
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { Button, Input } from 'antd';
+import { useEffect, useRef, useState } from 'react';
+import { Input, SelectProps, DatePicker, Form } from 'antd';
 import type { InputRef } from 'antd';
-import Calendar, { CalendarProps } from 'react-calendar';
-import moment from 'moment';
-import classNames from 'classnames';
-import { showToast } from '@/shared/utils';
-import { Modal } from '@/shared/ui';
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+import { Modal, Select } from '@/shared/ui';
+import { useTagsData } from '@/store/tasks/selectors';
+import { Tag } from '@/store/tasks/types';
+import { getTagsByIds } from '../../utils';
+import { TaskDeadlineStatusUI } from '../../types';
+import { TASK_DEADLINE_TRANSLATIONS } from '../../const';
+import { getNormalizedTags } from './utils';
 import styles from './AddTaskModal.module.scss';
 
 const { TextArea } = Input;
@@ -14,10 +18,11 @@ type AddTaskModalProps = {
   title: string;
   show: boolean;
   onHide: () => void;
-  onConfirm: (value: string, dateOfTheEnd: string) => void;
+  onConfirm: (value: string, dateOfTheEnd: string, tags: Tag[]) => void;
   valueFromProps?: string;
   dateOfTheEndFromProps?: string;
-  isTheEndOfTerm?: boolean;
+  tagIds?: string[];
+  taskDeadlineStatusFromProps?: TaskDeadlineStatusUI;
 };
 
 export const AddTaskModal = ({
@@ -27,14 +32,18 @@ export const AddTaskModal = ({
   onHide,
   valueFromProps,
   dateOfTheEndFromProps,
-  isTheEndOfTerm,
+  tagIds,
+  taskDeadlineStatusFromProps,
 }: AddTaskModalProps) => {
-  const [value, setValue] = useState<string>(valueFromProps || '');
-  const [showCalendar, setShowCalendar] = useState<boolean>(false);
-  const [calendarData, setCalendarData] = useState<CalendarProps['value']>(
-    dateOfTheEndFromProps ? new Date(dateOfTheEndFromProps) : null,
+  const [calendarData, setCalendarData] = useState<Dayjs | null>(
+    dateOfTheEndFromProps ? dayjs(dateOfTheEndFromProps) : null,
   );
-  const [isEndOfTermValue, setEndOfTermValue] = useState(() => !!isTheEndOfTerm);
+  const allTags = useTagsData();
+  const [currentTags, setCurrentTags] = useState<Tag[]>(tagIds ? getTagsByIds(allTags, tagIds) : []);
+  const [taskDeadlineStatus, setTaskDeadlineStatus] = useState<TaskDeadlineStatusUI>(
+    () => taskDeadlineStatusFromProps || null,
+  );
+  const [form] = Form.useForm();
 
   const inputRef = useRef<InputRef>(null);
 
@@ -46,71 +55,70 @@ export const AddTaskModal = ({
     });
   }, []);
 
-  const onConfirmModal = (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    sendValue();
+  const onSave = async () => {
+    const values = await form.validateFields();
+    const dateOfTheEnd = calendarData ? calendarData?.format('YYYY-MM-DD') : '';
+    onConfirm(values.description.trim(), dateOfTheEnd, currentTags);
+    form.resetFields();
+    setCurrentTags([]);
   };
 
-  const sendValue = () => {
-    const dateOfTheEnd = calendarData ? calendarData.toString() : '';
-    if (value.trim() === '') {
-      showToast("You don't have a description of this task. Please, fill this field", 'error');
-    } else {
-      onConfirm(value.trim(), dateOfTheEnd);
-      setValue('');
-    }
+  const handleChangeCalendar = (date: Dayjs | null) => {
+    setCalendarData(date);
+    setTaskDeadlineStatus(null);
   };
 
-  const changeShowCalendarStatus = () => {
-    setShowCalendar((prevState) => !prevState);
+  const onChangeTag: SelectProps<Tag[]>['onChange'] = (data, options) => {
+    const normalizedTags = getNormalizedTags(data, options as Tag[]);
+    setCurrentTags(normalizedTags);
   };
 
-  const onChangeCalendar = (value: CalendarProps['value']) => {
-    setCalendarData(value);
-    setEndOfTermValue(false);
-  };
-
-  const onChangeTextArea = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(e.target.value);
+  const disabledDate = (current: Dayjs) => {
+    return current.isBefore(dayjs().startOf('day'));
   };
 
   return (
-    <Modal open={show} onCancel={onHide} onOk={sendValue} title={title}>
-      <div>
-        <form onSubmit={onConfirmModal}>
-          <TextArea rows={4} ref={inputRef} className={styles.input} value={value} onChange={onChangeTextArea} />
-        </form>
+    <Modal open={show} onCancel={onHide} onOk={onSave} title={title} okText="Save">
+      <Form
+        form={form}
+        layout="vertical"
+        initialValues={{
+          description: valueFromProps || '',
+        }}
+      >
+        <Form.Item
+          name="description"
+          label="Description"
+          className={styles.formItem}
+          rules={[
+            {
+              required: true,
+              message: "You don't have a description of this task. Please, fill this field",
+            },
+          ]}
+        >
+          <TextArea rows={4} ref={inputRef} className={styles.input} />
+        </Form.Item>
 
-        <div>
-          <div className="mb-2">You can select an end date for this task</div>
-          <Button type="primary" className="small-btn" onClick={changeShowCalendarStatus}>
-            {showCalendar ? 'Hide calendar' : 'Show calendar'}
-          </Button>
-          <Calendar
-            value={calendarData}
-            minDate={new Date()}
-            onChange={onChangeCalendar}
-            className={classNames(styles.calendar, {
-              [styles.showCalendar]: showCalendar,
-              [styles.hideCalendar]: !showCalendar,
-            })}
+        <Form.Item label="Deadline" className={styles.formItem}>
+          <DatePicker disabledDate={disabledDate} onChange={handleChangeCalendar} value={calendarData} />
+          {calendarData && taskDeadlineStatus && (
+            <div className={styles.endOfTerm}>{TASK_DEADLINE_TRANSLATIONS[taskDeadlineStatus]}</div>
+          )}
+        </Form.Item>
+
+        <Form.Item label="Tags" className={styles.formItem}>
+          <Select
+            labelInValue
+            value={currentTags}
+            mode="tags"
+            style={{ width: '100%' }}
+            placeholder="You can chose or create tag(s)"
+            onChange={onChangeTag}
+            options={allTags}
           />
-        </div>
-
-        {calendarData && (
-          <div className={styles.selectedDate}>
-            <div>
-              Date of the end of the task: <span>{moment(calendarData.toString(), 'Date').format('ll')}</span>
-            </div>
-            {isEndOfTermValue && <span style={{ color: 'red' }}>In one day, the deadline for this task will end!</span>}
-            <div className="mt-3">
-              <Button type="primary" className="small-btn" onClick={() => setCalendarData(null)}>
-                Reset date of the end
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
+        </Form.Item>
+      </Form>
     </Modal>
   );
 };

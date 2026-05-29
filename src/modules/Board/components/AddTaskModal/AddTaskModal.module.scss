@@ -1,6 +1,9 @@
 .input {
-  margin-bottom: 10px;
   padding: 5px 10px;
+}
+
+.formItem {
+  margin-bottom: 15px;
 }
 
 .color {
@@ -10,13 +13,6 @@
 
 .calendar {
   margin: 20px auto 0;
-}
-
-.selectedDate {
-  margin-top: 20px;
-  & span {
-    font-weight: bold;
-  }
 }
 
 .showCalendar {
@@ -30,4 +26,8 @@
 .form {
   display: flex;
   flex-direction: column;
+}
+
+.endOfTerm {
+  color: var(--color-error)
 }

@@ -25,6 +25,7 @@ export const INITIAL_DATA: InitialDataType = {
     },
   },
   columnOrder: ['column-1', 'column-2', 'column-3'],
+  tags: []
 };
 
 export const useTasksStore = create<TasksStore>()(
@@ -32,6 +33,8 @@ export const useTasksStore = create<TasksStore>()(
     dataForDraggable: INITIAL_DATA,
     isLoadingTasks: false,
     isLoadingColumns: false,
+    isLoadingTags: false,
+    isInitialLoading: true,
 
     actions: {
       ...createStateActions(set),

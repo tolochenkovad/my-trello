@@ -1,36 +1,28 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Flex } from 'antd';
+import { useCallback, useEffect, useState } from 'react';
+import { Flex, Typography } from 'antd';
 import { isEmpty } from 'lodash';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import { INITIAL_DATA } from '@/store/tasks/store';
 import { InitialDataType } from '@/store/tasks/types';
-import { AppSpinner } from '@/shared/ui';
-import {
-  useIsLoadingTasks,
-  useDataForDraggable,
-  useTasksAsyncActions,
-  useIsLoadingColumns,
-} from '@/store/tasks/selectors';
-import { Column } from './components/Column';
+import { AppSpinner, Icon } from '@/shared/ui';
+import { useDataForDraggable, useTasksAsyncActions, useIsInitialLoading } from '@/store/tasks/selectors';
+import { Column, CreateTask } from './components';
+import styles from './Board.module.scss';
 
 export const Board = () => {
-  const [state, setState] = useState<InitialDataType>(INITIAL_DATA);
-  const isMounted = useRef(false);
-
   const dataForDraggable = useDataForDraggable();
-  const isLoadingTasks = useIsLoadingTasks();
-  const isLoadingColumns = useIsLoadingColumns();
-  const { getTasks, getColumns, saveDataToServer } = useTasksAsyncActions();
+  const [state, setState] = useState<InitialDataType>(INITIAL_DATA);
+  const isInitialLoading = useIsInitialLoading();
+  const { saveDataToServer, getAllData } = useTasksAsyncActions();
 
   useEffect(() => {
-    if (!isMounted.current) {
-      getTasks();
-      getColumns();
-      isMounted.current = true;
-    } else {
-      setState(dataForDraggable);
-    }
-  }, [dataForDraggable, getTasks, getColumns]);
+    getAllData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setState(dataForDraggable);
+  }, [dataForDraggable]);
 
   const onDragEnd = useCallback(
     (result: DropResult) => {
@@ -107,20 +99,29 @@ export const Board = () => {
     [state, saveDataToServer],
   );
 
-  if ((isLoadingTasks || isLoadingColumns) && !isMounted.current) {
+  if (isInitialLoading) {
     return <AppSpinner />;
   }
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Flex gap={16}>
-        {!isEmpty(state.tasks) &&
-          state.columnOrder.map((columnId) => {
+      {isEmpty(state.tasks) && !isInitialLoading ? (
+        <Flex vertical align="center" justify="center" className={styles.emptyStateWrapper}>
+          <Icon name="clipboardList" size={48} />
+          <Typography.Title level={2} className={styles.emptyStateTitle}>
+            Create your first task and start organizing your workflow and track progress visually
+          </Typography.Title>
+          <CreateTask className={styles.createBtn} />
+        </Flex>
+      ) : (
+        <Flex gap={16}>
+          {state.columnOrder.map((columnId) => {
             const column = state.columns[columnId];
             const tasks = column.taskIds.map((taskId) => state.tasks[taskId]);
             return <Column key={column.id} column={column} tasks={tasks} />;
           })}
-      </Flex>
+        </Flex>
+      )}
     </DragDropContext>
   );
 };
