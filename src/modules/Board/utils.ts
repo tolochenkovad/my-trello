@@ -1,6 +1,7 @@
 import { Tag, TaskItem } from '@/store/tasks/types';
 import { TaskDeadlineStatus } from './const';
 import { TaskDeadlineStatusUI } from './types';
+import { normalize } from '@/shared/utils';
 
 export function getTagsByIds(allTags: Tag[], tagIds: string[]): Tag[] | [] {
   return allTags.reduce<Tag[]>((acc, tag) => {
@@ -30,15 +31,34 @@ export function getDeadlineTaskStatus(dateOfTheEnd: string): TaskDeadlineStatusU
   return difference <= -1 ? TaskDeadlineStatus.Expired : statuses[difference] || null;
 }
 
-export function filterByTagIds(originalTasks: TaskItem[], activeTagIds: string[]): TaskItem[] {
-  if (!activeTagIds.length) {
-    return originalTasks;
-  }
-  const tasks = originalTasks.filter(({ tagIds = [] }) => {
+function filterByTagIds(originalTasks: TaskItem[], activeTagIds: string[]): TaskItem[] {
+  return originalTasks.filter(({ tagIds = [] }) => {
     if (activeTagIds.every((tagId) => tagIds.includes(tagId))) {
       return true;
     }
     return false;
   });
-  return tasks;
+}
+
+function search(originalTasks: TaskItem[], searchValue: string): TaskItem[] {
+  return originalTasks.filter(({ content }) => {
+    if (normalize(content).includes(normalize(searchValue))) {
+      return true;
+    }
+    return false;
+  });
+}
+
+export function filterTasks(originalTasks: TaskItem[], activeTagIds: string[], searchValue: string): TaskItem[] {
+  if (!activeTagIds.length && !searchValue.length) {
+    return originalTasks;
+  }
+  let resultTasks = [...originalTasks];
+  if (activeTagIds.length) {
+    resultTasks = filterByTagIds(resultTasks, activeTagIds);
+  }
+  if (searchValue.length) {
+    resultTasks = search(resultTasks, searchValue);
+  }
+  return resultTasks;
 }
