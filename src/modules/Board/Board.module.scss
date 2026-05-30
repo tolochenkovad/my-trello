@@ -19,3 +19,11 @@
   max-width: 520px;
   text-align: center;
 }
+
+.warningBanner {
+  background-color: var(--color-warning-banner);
+  color: var(--color-white);
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}

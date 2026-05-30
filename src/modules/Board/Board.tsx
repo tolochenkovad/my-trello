@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Flex, Typography } from 'antd';
+import { Flex, Typography, Alert } from 'antd';
 import { isEmpty } from 'lodash';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import { INITIAL_DATA } from '@/store/tasks/store';
@@ -112,6 +112,8 @@ export const Board = () => {
     return <AppSpinner />;
   }
 
+  const isDragDisabled = !!searchValue.length || !!activeTagIds.length;
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {isEmpty(state.tasks) && !isInitialLoading ? (
@@ -126,12 +128,20 @@ export const Board = () => {
         <>
           <Search />
           <TagFilter />
+          {isDragDisabled && (
+            <Alert
+              title="Task reordering is unavailable while filters or search are applied."
+              banner
+              className={styles.warningBanner}
+            />
+          )}
+
           <Flex gap={16}>
             {state.columnOrder.map((columnId) => {
               const column = state.columns[columnId];
               const originalTasks = column.taskIds.map((taskId) => state.tasks[taskId]);
               const tasks = filterTasks(originalTasks, activeTagIds, searchValue);
-              return <Column key={column.id} column={column} tasks={tasks} />;
+              return <Column key={column.id} column={column} tasks={tasks} isDragDisabled={isDragDisabled} />;
             })}
           </Flex>
         </>
