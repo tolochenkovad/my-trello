@@ -13,4 +13,9 @@ export const componentTokens = {
     optionSelectedColor: 'var(--color-option-selected)',
     multipleItemHeight: 30,
   },
+  Input: {
+    hoverBorderColor: 'var(--color-antd-border)',
+    activeBorderColor: 'var(--color-antd-border)',
+    activeShadow: 'none',
+  },
 };

@@ -1,7 +1,8 @@
 @use 'src/styles/mixins' as *;
 
 .header {
-  padding: 20px;
+  margin: 0 20px;
+  padding: 20px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;

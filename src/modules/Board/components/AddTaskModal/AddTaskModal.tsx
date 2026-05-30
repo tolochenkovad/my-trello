@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Input, SelectProps, DatePicker, Form } from 'antd';
 import type { InputRef } from 'antd';
+import classNames from 'classnames';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
 import { Modal, Select } from '@/shared/ui';
@@ -77,6 +78,8 @@ export const AddTaskModal = ({
     return current.isBefore(dayjs().startOf('day'));
   };
 
+  const dueDateError = calendarData && taskDeadlineStatus;
+
   return (
     <Modal open={show} onCancel={onHide} onOk={onSave} title={title} okText="Save">
       <Form
@@ -101,10 +104,15 @@ export const AddTaskModal = ({
         </Form.Item>
 
         <Form.Item label="Deadline" className={styles.formItem}>
-          <DatePicker disabledDate={disabledDate} onChange={handleChangeCalendar} value={calendarData} />
-          {calendarData && taskDeadlineStatus && (
-            <div className={styles.endOfTerm}>{TASK_DEADLINE_TRANSLATIONS[taskDeadlineStatus]}</div>
-          )}
+          <DatePicker
+            disabledDate={disabledDate}
+            onChange={handleChangeCalendar}
+            value={calendarData}
+            className={classNames({
+              [styles.datePickerError]: dueDateError,
+            })}
+          />
+          {dueDateError && <div className={styles.endOfTerm}>{TASK_DEADLINE_TRANSLATIONS[taskDeadlineStatus]}</div>}
         </Form.Item>
 
         <Form.Item label="Tags" className={styles.formItem}>
