@@ -54,6 +54,7 @@ type TasksState = {
   isLoadingTags: boolean;
   isInitialLoading: boolean;
   activeTagIds: string[];
+  searchValue: string;
 };
 
 type TasksStateActions = {
@@ -65,7 +66,8 @@ type TasksStateActions = {
   setError: (error: string | null) => void;
   addActiveTag: (tagId: string) => void;
   removeActiveTag: (tagId: string) => void;
-  clearAllFilters: () => void
+  clearAllFilters: () => void;
+  searchTasks: (value: string) => void;
 };
 
 type TasksAsyncActions = {

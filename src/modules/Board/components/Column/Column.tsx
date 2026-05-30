@@ -9,9 +9,10 @@ import styles from './Column.module.scss';
 type ColumnProps = {
   column: ColumnItem;
   tasks: TaskItem[];
+  isDragDisabled: boolean;
 };
 
-const ColumnComponent = ({ column, tasks }: ColumnProps) => (
+const ColumnComponent = ({ column, tasks, isDragDisabled }: ColumnProps) => (
   <div className={styles.column}>
     <div className={styles.columnHeader}>
       <h3>{column.title}</h3>
@@ -24,7 +25,16 @@ const ColumnComponent = ({ column, tasks }: ColumnProps) => (
       renderClone={(provided, snapshot, rubric) => {
         const task = tasks[rubric.source.index];
 
-        return <Task task={task} index={rubric.source.index} provided={provided} snapshot={snapshot} isClone />;
+        return (
+          <Task
+            task={task}
+            index={rubric.source.index}
+            provided={provided}
+            snapshot={snapshot}
+            isClone
+            isDragDisabled={isDragDisabled}
+          />
+        );
       }}
     >
       {({ droppableProps, innerRef, placeholder }, snapshot) => (
@@ -35,7 +45,9 @@ const ColumnComponent = ({ column, tasks }: ColumnProps) => (
           ref={innerRef}
           {...droppableProps}
         >
-          {tasks.map((task, index) => (task ? <Task key={task.id} task={task} index={index} /> : null))}
+          {tasks.map((task, index) =>
+            task ? <Task key={task.id} task={task} index={index} isDragDisabled={isDragDisabled} /> : null,
+          )}
           {placeholder}
         </div>
       )}

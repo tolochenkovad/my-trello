@@ -1,13 +1,19 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Flex, Typography } from 'antd';
+import { Flex, Typography, Alert } from 'antd';
 import { isEmpty } from 'lodash';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import { INITIAL_DATA } from '@/store/tasks/store';
 import { InitialDataType } from '@/store/tasks/types';
 import { AppSpinner, Icon } from '@/shared/ui';
-import { useDataForDraggable, useTasksActions, useIsInitialLoading, useActiveTagIds } from '@/store/tasks/selectors';
-import { Column, CreateTask, TagFilter } from './components';
-import { filterByTagIds } from './utils';
+import {
+  useDataForDraggable,
+  useTasksActions,
+  useIsInitialLoading,
+  useActiveTagIds,
+  useSearchValue,
+} from '@/store/tasks/selectors';
+import { Column, CreateTask, Search, TagFilter } from './components';
+import { filterTasks } from './utils';
 import styles from './Board.module.scss';
 
 export const Board = () => {
@@ -16,6 +22,7 @@ export const Board = () => {
   const isInitialLoading = useIsInitialLoading();
   const { saveDataToServer, getAllData } = useTasksActions();
   const activeTagIds = useActiveTagIds();
+  const searchValue = useSearchValue();
 
   useEffect(() => {
     getAllData();
@@ -105,6 +112,8 @@ export const Board = () => {
     return <AppSpinner />;
   }
 
+  const isDragDisabled = !!searchValue.length || !!activeTagIds.length;
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {isEmpty(state.tasks) && !isInitialLoading ? (
@@ -117,13 +126,22 @@ export const Board = () => {
         </Flex>
       ) : (
         <>
+          <Search />
           <TagFilter />
+          {isDragDisabled && (
+            <Alert
+              title="Task reordering is unavailable while filters or search are applied."
+              banner
+              className={styles.warningBanner}
+            />
+          )}
+
           <Flex gap={16}>
             {state.columnOrder.map((columnId) => {
               const column = state.columns[columnId];
               const originalTasks = column.taskIds.map((taskId) => state.tasks[taskId]);
-              const tasks = filterByTagIds(originalTasks, activeTagIds);
-              return <Column key={column.id} column={column} tasks={tasks} />;
+              const tasks = filterTasks(originalTasks, activeTagIds, searchValue);
+              return <Column key={column.id} column={column} tasks={tasks} isDragDisabled={isDragDisabled} />;
             })}
           </Flex>
         </>

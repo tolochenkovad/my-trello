@@ -6,26 +6,8 @@
   margin-bottom: 15px;
 }
 
-.color {
-  display: flex;
-  margin-bottom: 10px;
-}
-
-.calendar {
-  margin: 20px auto 0;
-}
-
-.showCalendar {
-  display: block;
-}
-
-.hideCalendar {
-  display: none;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
+.datePickerError {
+  border-color: var(--color-error);
 }
 
 .endOfTerm {

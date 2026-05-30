@@ -88,4 +88,8 @@ export const createStateActions = (set: StoreApi<TasksStore>['setState'], get: S
   clearAllFilters: () => {
     set({ activeTagIds: [] });
   },
+
+  searchTasks: (value: string) => {
+    set({ searchValue: value });
+  }
 });

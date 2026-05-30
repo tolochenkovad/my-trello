@@ -17,6 +17,7 @@ type TaskProps = {
   provided?: DraggableProvided;
   snapshot?: DraggableStateSnapshot;
   isClone?: boolean;
+  isDragDisabled: boolean;
 };
 
 const TaskComponent = ({
@@ -25,6 +26,7 @@ const TaskComponent = ({
   provided: externalProvided,
   snapshot: externalSnapshot,
   isClone = false,
+  isDragDisabled = false,
 }: TaskProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
@@ -68,7 +70,9 @@ const TaskComponent = ({
 
   const renderContent = (provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
     <div
-      className={styles.container}
+      className={classNames(styles.container, {
+        [styles.dragDisabled]: isDragDisabled,
+      })}
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
@@ -119,7 +123,7 @@ const TaskComponent = ({
 
   return (
     <>
-      <Draggable draggableId={task.id} index={index}>
+      <Draggable draggableId={task.id} index={index} isDragDisabled={isDragDisabled}>
         {(provided, snapshot) => renderContent(provided, snapshot)}
       </Draggable>
       {showModal && (

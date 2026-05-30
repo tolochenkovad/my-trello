@@ -13,6 +13,7 @@ export const useIsLoadingColumns = () => useTasksStore((state) => state.isLoadin
 export const useIsLoadingTags = () => useTasksStore((state) => state.isLoadingTags);
 export const useIsInitialLoading = () => useTasksStore((state) => state.isInitialLoading);
 export const useActiveTagIds = () => useTasksStore((state) => state.activeTagIds);
+export const useSearchValue = () => useTasksStore((state) => state.searchValue);
 
 export const useTasksActions = () =>
   useTasksStore(
@@ -27,7 +28,8 @@ export const useTasksActions = () =>
       getAllData: state.actions.getAllData,
       addActiveTag: state.actions.addActiveTag,
       removeActiveTag: state.actions.removeActiveTag,
-      clearAllFilters: state.actions.clearAllFilters
+      clearAllFilters: state.actions.clearAllFilters,
+      searchTasks: state.actions.searchTasks
     })),
   );
 

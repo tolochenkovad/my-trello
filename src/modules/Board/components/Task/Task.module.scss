@@ -1,12 +1,16 @@
 .container {
+  cursor: grab;
   border-radius: 4px;
   background-color: var(--color-task-title) !important;
   box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.08), 0 16px 48px rgb(0 0 0 / 0.04);
 
   &:hover {
-    cursor: grab;
     background-color: var(--color-task-title-hover);
   }
+}
+
+.dragDisabled {
+  cursor: initial;
 }
 
 .task {

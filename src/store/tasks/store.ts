@@ -36,6 +36,7 @@ export const useTasksStore = create<TasksStore>()(
     isLoadingTags: false,
     isInitialLoading: true,
     activeTagIds: [],
+    searchValue: '',
 
     actions: {
       ...createStateActions(set, get),
