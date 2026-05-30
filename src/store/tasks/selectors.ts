@@ -2,7 +2,7 @@ import { useShallow } from 'zustand/shallow';
 import { forEach } from 'lodash';
 import { createSelector } from 'reselect';
 import { useTasksStore } from './store';
-import { TasksAsyncActions, TasksStore } from './types';
+import { TasksStore } from './types';
 
 export const useDataForDraggable = () => useTasksStore((state) => state.dataForDraggable);
 export const useColumnsData = () => useTasksStore((state) => state.dataForDraggable.columns);
@@ -12,21 +12,23 @@ export const useIsLoadingTasks = () => useTasksStore((state) => state.isLoadingT
 export const useIsLoadingColumns = () => useTasksStore((state) => state.isLoadingColumns);
 export const useIsLoadingTags = () => useTasksStore((state) => state.isLoadingTags);
 export const useIsInitialLoading = () => useTasksStore((state) => state.isInitialLoading);
+export const useActiveTagIds = () => useTasksStore((state) => state.activeTagIds);
 
-export const useTasksAsyncActions = () =>
+export const useTasksActions = () =>
   useTasksStore(
-    useShallow(
-      (state): TasksAsyncActions => ({
-        getTasks: state.actions.getTasks,
-        getColumns: state.actions.getColumns,
-        addTask: state.actions.addTask,
-        editTask: state.actions.editTask,
-        saveDataToServer: state.actions.saveDataToServer,
-        removeTask: state.actions.removeTask,
-        getTags: state.actions.getTags,
-        getAllData: state.actions.getAllData
-      }),
-    ),
+    useShallow((state) => ({
+      getTasks: state.actions.getTasks,
+      getColumns: state.actions.getColumns,
+      addTask: state.actions.addTask,
+      editTask: state.actions.editTask,
+      saveDataToServer: state.actions.saveDataToServer,
+      removeTask: state.actions.removeTask,
+      getTags: state.actions.getTags,
+      getAllData: state.actions.getAllData,
+      addActiveTag: state.actions.addActiveTag,
+      removeActiveTag: state.actions.removeActiveTag,
+      clearAllFilters: state.actions.clearAllFilters
+    })),
   );
 
 export const selectQuantityItemsInCategories = createSelector(

@@ -5,15 +5,17 @@ import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import { INITIAL_DATA } from '@/store/tasks/store';
 import { InitialDataType } from '@/store/tasks/types';
 import { AppSpinner, Icon } from '@/shared/ui';
-import { useDataForDraggable, useTasksAsyncActions, useIsInitialLoading } from '@/store/tasks/selectors';
-import { Column, CreateTask } from './components';
+import { useDataForDraggable, useTasksActions, useIsInitialLoading, useActiveTagIds } from '@/store/tasks/selectors';
+import { Column, CreateTask, TagFilter } from './components';
+import { filterByTagIds } from './utils';
 import styles from './Board.module.scss';
 
 export const Board = () => {
   const dataForDraggable = useDataForDraggable();
   const [state, setState] = useState<InitialDataType>(INITIAL_DATA);
   const isInitialLoading = useIsInitialLoading();
-  const { saveDataToServer, getAllData } = useTasksAsyncActions();
+  const { saveDataToServer, getAllData } = useTasksActions();
+  const activeTagIds = useActiveTagIds();
 
   useEffect(() => {
     getAllData();
@@ -114,13 +116,17 @@ export const Board = () => {
           <CreateTask className={styles.createBtn} />
         </Flex>
       ) : (
-        <Flex gap={16}>
-          {state.columnOrder.map((columnId) => {
-            const column = state.columns[columnId];
-            const tasks = column.taskIds.map((taskId) => state.tasks[taskId]);
-            return <Column key={column.id} column={column} tasks={tasks} />;
-          })}
-        </Flex>
+        <>
+          <TagFilter />
+          <Flex gap={16}>
+            {state.columnOrder.map((columnId) => {
+              const column = state.columns[columnId];
+              const originalTasks = column.taskIds.map((taskId) => state.tasks[taskId]);
+              const tasks = filterByTagIds(originalTasks, activeTagIds);
+              return <Column key={column.id} column={column} tasks={tasks} />;
+            })}
+          </Flex>
+        </>
       )}
     </DragDropContext>
   );

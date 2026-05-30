@@ -1,0 +1,64 @@
+.container {
+  margin-bottom: 20px;
+}
+
+.title {
+  margin-right: 20px;
+  font-weight: 500;
+}
+
+.tagslist {
+  display: flex;
+  gap: 5px;
+  margin: 0;
+  flex-wrap: wrap;
+
+  li {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    gap: 5px;
+    transition: 0.2s ease, transform 0.15s ease;
+    border: 1px solid transparent;
+    background-color: var(--color-bg-multiple-items);
+    font-size: 13px;
+    font-weight: 500;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  .activeTag {
+    background-color: var(--color-tag-selected);
+  }
+}
+
+.clearAll {
+  margin-left: auto;
+  height: 36px;
+  padding-inline: 14px;
+  border: none;
+  border-radius: 12px;
+  background: var(--color-border);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s ease, transform 0.15s ease;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+
+  &:hover {
+    transform: translateY(-1px);
+    background: var(--color-column-title);
+    color: var(--color-white);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}

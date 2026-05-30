@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Button, ButtonProps } from 'antd';
-import { useTasksAsyncActions } from '@/store/tasks/selectors';
+import { useTasksActions } from '@/store/tasks/selectors';
 import { Tag } from '@/store/tasks/types';
 import { AddTaskModal } from '../AddTaskModal';
 
 export const CreateTask = ({ ...rest }: ButtonProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const { addTask } = useTasksAsyncActions();
+  const { addTask } = useTasksActions();
 
   const addTaskToBase = (value: string, dateOfTheEnd: string, tags: Tag[]) => {
     addTask({ value, dateOfTheEnd, tags });

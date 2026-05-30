@@ -1,4 +1,4 @@
-import { Tag } from '@/store/tasks/types';
+import { Tag, TaskItem } from '@/store/tasks/types';
 import { TaskDeadlineStatus } from './const';
 import { TaskDeadlineStatusUI } from './types';
 
@@ -28,4 +28,17 @@ export function getDeadlineTaskStatus(dateOfTheEnd: string): TaskDeadlineStatusU
   };
 
   return difference <= -1 ? TaskDeadlineStatus.Expired : statuses[difference] || null;
+}
+
+export function filterByTagIds(originalTasks: TaskItem[], activeTagIds: string[]): TaskItem[] {
+  if (!activeTagIds.length) {
+    return originalTasks;
+  }
+  const tasks = originalTasks.filter(({ tagIds = [] }) => {
+    if (activeTagIds.every((tagId) => tagIds.includes(tagId))) {
+      return true;
+    }
+    return false;
+  });
+  return tasks;
 }

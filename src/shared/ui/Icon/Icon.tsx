@@ -1,11 +1,12 @@
 import { Tooltip, TooltipProps } from 'antd';
-import { LucideProps, SquarePen, Trash2, ClipboardList, TriangleAlert } from 'lucide-react';
+import { LucideProps, SquarePen, Trash2, ClipboardList, TriangleAlert, X } from 'lucide-react';
 
 const icons = {
   edit: SquarePen,
   remove: Trash2,
   clipboardList: ClipboardList,
-  warning: TriangleAlert
+  warning: TriangleAlert,
+  cross: X,
 };
 
 type IconProps = {

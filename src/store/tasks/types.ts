@@ -53,6 +53,7 @@ type TasksState = {
   isLoadingColumns: boolean;
   isLoadingTags: boolean;
   isInitialLoading: boolean;
+  activeTagIds: string[];
 };
 
 type TasksStateActions = {
@@ -62,9 +63,12 @@ type TasksStateActions = {
   removeTaskData: (taskId: string) => void;
   saveDataLocally: (data: InitialDataType) => void;
   setError: (error: string | null) => void;
+  addActiveTag: (tagId: string) => void;
+  removeActiveTag: (tagId: string) => void;
+  clearAllFilters: () => void
 };
 
-export type TasksAsyncActions = {
+type TasksAsyncActions = {
   getTasks: () => Promise<void>;
   getColumns: () => Promise<void>;
   getTags: () => Promise<void>;
