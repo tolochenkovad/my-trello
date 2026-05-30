@@ -35,9 +35,10 @@ export const useTasksStore = create<TasksStore>()(
     isLoadingColumns: false,
     isLoadingTags: false,
     isInitialLoading: true,
+    activeTagIds: [],
 
     actions: {
-      ...createStateActions(set),
+      ...createStateActions(set, get),
       ...createAsyncActions(set, get),
     },
   })),

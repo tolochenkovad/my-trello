@@ -3,7 +3,7 @@ import { Draggable, DraggableProvided, DraggableStateSnapshot } from '@hello-pan
 import moment from 'moment';
 import classNames from 'classnames';
 import { Tag, TaskItem } from '@/store/tasks/types';
-import { useTagsData, useTasksAsyncActions } from '@/store/tasks/selectors';
+import { useTagsData, useTasksActions } from '@/store/tasks/selectors';
 import { AddTaskModal } from '@/modules/Board/components/AddTaskModal';
 import { Icon, Modal } from '@/shared/ui';
 import { getDeadlineTaskStatus, getTagsByIds } from '../../utils';
@@ -28,7 +28,7 @@ const TaskComponent = ({
 }: TaskProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
-  const { editTask, removeTask } = useTasksAsyncActions();
+  const { editTask, removeTask } = useTasksActions();
   const allTags = useTagsData();
   const currentTags = useMemo<Tag[]>(() => {
     if (task.tagIds?.length) {

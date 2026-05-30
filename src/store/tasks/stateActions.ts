@@ -5,7 +5,7 @@ import { InitialDataType } from '@/store/tasks/types';
 import { fillColumnsWithTasks, removeTaskFromColumn } from './utils';
 import { TasksStore } from './types';
 
-export const createStateActions = (set: StoreApi<TasksStore>['setState']) => ({
+export const createStateActions = (set: StoreApi<TasksStore>['setState'], get: StoreApi<TasksStore>['getState']) => ({
   setTasksData: (tasks: InitialDataType['tasks']) => {
     if (isEmpty(tasks)) return;
 
@@ -65,5 +65,27 @@ export const createStateActions = (set: StoreApi<TasksStore>['setState']) => ({
 
   saveDataLocally: (data: InitialDataType) => {
     set({ dataForDraggable: data });
+  },
+
+  addActiveTag: (tagId: string) => {
+    const state = get();
+    const { activeTagIds } = state;
+
+    if (!activeTagIds.includes(tagId)) {
+      set({ activeTagIds: [...activeTagIds, tagId] });
+    }
+  },
+
+  removeActiveTag: (tagId: string) => {
+    const state = get();
+    const { activeTagIds } = state;
+
+    if (activeTagIds.includes(tagId)) {
+      set({ activeTagIds: activeTagIds.filter((id) => id !== tagId) });
+    }
+  },
+
+  clearAllFilters: () => {
+    set({ activeTagIds: [] });
   },
 });
