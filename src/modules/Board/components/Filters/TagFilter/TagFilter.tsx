@@ -7,7 +7,7 @@ import styles from './TagFilter.module.scss';
 export const TagFilter = () => {
   const tags = useTagsData();
   const activeTagIds = useActiveTagIds();
-  const { addActiveTag, removeActiveTag, clearAllFilters } = useTasksActions();
+  const { addActiveTag, removeActiveTag } = useTasksActions();
 
   const onClickTag = (id: string) => {
     if (activeTagIds.includes(id)) {
@@ -34,12 +34,6 @@ export const TagFilter = () => {
           </li>
         ))}
       </ul>
-      {!!activeTagIds.length && (
-        <Flex align="center" gap="5px" className={styles.clearAll} onClick={clearAllFilters}>
-          <Icon name="remove" />
-          <div>Clear All</div>
-        </Flex>
-      )}
     </Flex>
   );
 };

@@ -1,0 +1,23 @@
+.clearAll {
+  height: 36px;
+  padding-inline: 14px;
+  border: none;
+  border-radius: 12px;
+  background: var(--color-border);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s ease, transform 0.15s ease;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+
+  &:hover {
+    transform: translateY(-1px);
+    background: var(--color-column-title);
+    color: var(--color-white);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
