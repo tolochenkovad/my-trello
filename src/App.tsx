@@ -1,7 +1,7 @@
 import { Toaster } from 'sonner';
 import { Header } from './layouts/Header';
 import { AppProviders } from './providers/AppProviders';
-import { useAuth } from './shared/hooks/useAuth';
+import { useAuth } from './shared/hooks';
 import { BrowserRouter } from 'react-router-dom';
 import Routes from './routes';
 

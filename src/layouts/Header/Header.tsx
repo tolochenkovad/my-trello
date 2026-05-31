@@ -2,7 +2,7 @@ import { memo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/store/auth/store';
 import { ROUTES } from '@/routes/constants';
-import { useAuth } from '@/shared/hooks/useAuth';
+import { useAuth } from '@/shared/hooks';
 import { CreateTask } from '@/modules/Board/components';
 import styles from './Header.module.scss';
 

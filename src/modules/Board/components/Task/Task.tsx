@@ -5,7 +5,8 @@ import classNames from 'classnames';
 import { Tag, TaskItem } from '@/store/tasks/types';
 import { useTagsData, useTasksActions } from '@/store/tasks/selectors';
 import { AddTaskModal } from '@/modules/Board/components/AddTaskModal';
-import { Icon, Modal } from '@/shared/ui';
+import { Icon } from '@/shared/ui';
+import { useConfirmModal } from '@/shared/hooks';
 import { getDeadlineTaskStatus, getTagsByIds } from '../../utils';
 import { TaskDeadlineStatusUI } from '../../types';
 import { TASK_DEADLINE_TRANSLATIONS } from '../../const';
@@ -29,9 +30,15 @@ const TaskComponent = ({
   isDragDisabled = false,
 }: TaskProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
   const { editTask, removeTask } = useTasksActions();
+
+  const { renderConfirmModal, openConfirmModal } = useConfirmModal({
+    confirmText: 'Are you sure you want to delete this task?',
+    onConfirmModal: () => removeTask(task.id),
+  });
+
   const allTags = useTagsData();
+
   const currentTags = useMemo<Tag[]>(() => {
     if (task.tagIds?.length) {
       return getTagsByIds(allTags, task.tagIds);
@@ -42,23 +49,6 @@ const TaskComponent = ({
   const editTaskContent = (value: string, dateOfTheEnd: string, tags: Tag[]) => {
     setShowModal(false);
     editTask({ value, taskId: task.id, dateOfTheEnd, tags });
-  };
-
-  const onConfirmModal = () => {
-    setShowConfirmModal(false);
-    onDeleteTask();
-  };
-
-  const onHideModal = () => {
-    setShowConfirmModal(false);
-  };
-
-  const setConfirmModal = () => {
-    setShowConfirmModal(true);
-  };
-
-  const onDeleteTask = () => {
-    removeTask(task.id);
   };
 
   const taskDeadlineStatus = useMemo<TaskDeadlineStatusUI>(() => {
@@ -103,7 +93,7 @@ const TaskComponent = ({
                   <Icon tooltip={{ title: 'Edit' }} name="edit" onClick={() => setShowModal(true)} />
                 </div>
                 <div className={styles.icon}>
-                  <Icon tooltip={{ title: 'Delete' }} name="remove" onClick={setConfirmModal} />
+                  <Icon tooltip={{ title: 'Delete' }} name="remove" onClick={openConfirmModal} />
                 </div>
               </div>
             </div>
@@ -136,12 +126,11 @@ const TaskComponent = ({
           dateOfTheEndFromProps={task.dateOfTheEnd}
           taskDeadlineStatusFromProps={taskDeadlineStatus}
           tagIds={task.tagIds}
+          taskId={task.id}
         />
       )}
 
-      <Modal open={showConfirmModal} onCancel={onHideModal} onOk={onConfirmModal}>
-        <div className="text-center">Are you sure you want to delete this task?</div>
-      </Modal>
+      {renderConfirmModal()}
     </>
   );
 };

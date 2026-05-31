@@ -14,7 +14,7 @@ export const Analytics = () => {
 
   return (
     <div className={styles.analytics}>
-      <h3 className="text-center">Tasks statistics by categories</h3>
+      <h3 className="text-center">Tasks statistics by statuses</h3>
       <Suspense fallback={<Spinner size="large" />}>
         <Chart
           chartType="PieChart"
