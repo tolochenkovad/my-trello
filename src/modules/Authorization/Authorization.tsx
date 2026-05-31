@@ -3,7 +3,7 @@ import firebase from 'firebase/compat/app';
 import { Redirect } from 'react-router-dom';
 import { showToast } from '@/shared/utils/showToast';
 import { ROUTES } from '@/routes/constants';
-import { useAuth } from '@/shared/hooks/useAuth';
+import { useAuth } from '@/shared/hooks';
 import styles from './Authorization.module.scss';
 
 export const Authorization = () => {

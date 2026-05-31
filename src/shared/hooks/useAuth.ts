@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { User, getAuth, onAuthStateChanged } from 'firebase/auth';
 
-interface UseAuthResult {
+type UseAuthResultProps = {
   user: User | null;
   loading: boolean;
   isAuthenticated: boolean;
 }
 
-export function useAuth(): UseAuthResult {
+export function useAuth(): UseAuthResultProps {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 

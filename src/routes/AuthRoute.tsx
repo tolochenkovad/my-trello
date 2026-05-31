@@ -2,7 +2,7 @@ import { ComponentType, useEffect } from 'react';
 import { Route, RouteProps } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { AppSpinner } from '@/shared/ui';
-import { useAuth } from '@/shared/hooks/useAuth';
+import { useAuth } from '@/shared/hooks';
 import { ROUTES } from './constants';
 
 type AuthRouteProps = {

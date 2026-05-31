@@ -11,6 +11,7 @@ import { getTagsByIds } from '../../utils';
 import { TaskDeadlineStatusUI } from '../../types';
 import { TASK_DEADLINE_TRANSLATIONS } from '../../const';
 import { getNormalizedTags } from './utils';
+import { ModalButtons } from './ModalButtons';
 import styles from './AddTaskModal.module.scss';
 
 const { TextArea } = Input;
@@ -23,6 +24,7 @@ type AddTaskModalProps = {
   valueFromProps?: string;
   dateOfTheEndFromProps?: string;
   tagIds?: string[];
+  taskId?: string;
   taskDeadlineStatusFromProps?: TaskDeadlineStatusUI;
 };
 
@@ -34,6 +36,7 @@ export const AddTaskModal = ({
   valueFromProps,
   dateOfTheEndFromProps,
   tagIds,
+  taskId,
   taskDeadlineStatusFromProps,
 }: AddTaskModalProps) => {
   const [calendarData, setCalendarData] = useState<Dayjs | null>(
@@ -45,7 +48,6 @@ export const AddTaskModal = ({
     () => taskDeadlineStatusFromProps || null,
   );
   const [form] = Form.useForm();
-
   const inputRef = useRef<InputRef>(null);
 
   useEffect(() => {
@@ -81,7 +83,14 @@ export const AddTaskModal = ({
   const dueDateError = calendarData && taskDeadlineStatus;
 
   return (
-    <Modal open={show} onCancel={onHide} onOk={onSave} title={title} okText="Save">
+    <Modal
+      open={show}
+      onCancel={onHide}
+      onOk={onSave}
+      title={title}
+      okText="Save"
+      footer={(_, { OkBtn, CancelBtn }) => <ModalButtons OkBtn={OkBtn} CancelBtn={CancelBtn} taskId={taskId} />}
+    >
       <Form
         form={form}
         layout="vertical"

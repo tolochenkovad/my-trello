@@ -30,7 +30,7 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
 
       if (authId) {
         const tags = await getCollectionsFromFirebase(COLLECTIONS.tags, authId);
-        get().actions.setTagsData(tags ? tags.tags : []);
+        get().actions.setTagsData(tags?.tags || []);
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to fetch tags';
@@ -113,7 +113,7 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
           await addDoc(COLLECTIONS.tags, tagsServer, authId);
         } else {
           await updateData(COLLECTIONS.tags, tagsServer, authId);
-          get().actions.setTagsData(tagsServer.tags);
+          get().actions.setTagsData(tagsServer?.tags || []);
         }
 
         showToast('New task was successfully created', 'success');
