@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import { Flex, Typography, Alert } from 'antd';
 import { isEmpty } from 'lodash';
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
@@ -12,7 +12,7 @@ import {
   useActiveTagIds,
   useSearchValue,
 } from '@/store/tasks/selectors';
-import { Column, CreateTask, Search, TagFilter } from './components';
+import { Column, CreateTask, Filters } from './components';
 import { filterTasks } from './utils';
 import styles from './Board.module.scss';
 
@@ -23,6 +23,7 @@ export const Board = () => {
   const { saveDataToServer, getAllData } = useTasksActions();
   const activeTagIds = useActiveTagIds();
   const searchValue = useSearchValue();
+  const isSomeFilterExist = !!searchValue.length || !!activeTagIds.length;
 
   useEffect(() => {
     getAllData();
@@ -32,6 +33,14 @@ export const Board = () => {
   useEffect(() => {
     setState(dataForDraggable);
   }, [dataForDraggable]);
+
+  const filteredTasks = useMemo<InitialDataType['tasks'] | null>(() => {
+    if (isSomeFilterExist) {
+      return filterTasks(state.tasks, activeTagIds, searchValue);
+    }
+    return null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTagIds.length, searchValue.length]);
 
   const onDragEnd = useCallback(
     (result: DropResult) => {
@@ -112,8 +121,6 @@ export const Board = () => {
     return <AppSpinner />;
   }
 
-  const isDragDisabled = !!searchValue.length || !!activeTagIds.length;
-
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       {isEmpty(state.tasks) && !isInitialLoading ? (
@@ -126,9 +133,8 @@ export const Board = () => {
         </Flex>
       ) : (
         <>
-          <Search />
-          <TagFilter />
-          {isDragDisabled && (
+          <Filters />
+          {isSomeFilterExist && (
             <Alert
               title="Task reordering is unavailable while filters or search are applied."
               banner
@@ -139,9 +145,9 @@ export const Board = () => {
           <Flex gap={16}>
             {state.columnOrder.map((columnId) => {
               const column = state.columns[columnId];
-              const originalTasks = column.taskIds.map((taskId) => state.tasks[taskId]);
-              const tasks = filterTasks(originalTasks, activeTagIds, searchValue);
-              return <Column key={column.id} column={column} tasks={tasks} isDragDisabled={isDragDisabled} />;
+              const actualTasks = isSomeFilterExist && filteredTasks ? filteredTasks : state.tasks;
+              const tasks = column.taskIds.map((taskId) => actualTasks[taskId]);
+              return <Column key={column.id} column={column} tasks={tasks} isDragDisabled={isSomeFilterExist} />;
             })}
           </Flex>
         </>

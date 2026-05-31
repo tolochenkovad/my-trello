@@ -1,7 +1,7 @@
-import { Tag, TaskItem } from '@/store/tasks/types';
+import { InitialDataType, Tag, TaskItem } from '@/store/tasks/types';
+import { normalize } from '@/shared/utils';
 import { TaskDeadlineStatus } from './const';
 import { TaskDeadlineStatusUI } from './types';
-import { normalize } from '@/shared/utils';
 
 export function getTagsByIds(allTags: Tag[], tagIds: string[]): Tag[] | [] {
   return allTags.reduce<Tag[]>((acc, tag) => {
@@ -33,7 +33,7 @@ export function getDeadlineTaskStatus(dateOfTheEnd: string): TaskDeadlineStatusU
 
 function filterByTagIds(originalTasks: TaskItem[], activeTagIds: string[]): TaskItem[] {
   return originalTasks.filter(({ tagIds = [] }) => {
-    if (activeTagIds.every((tagId) => tagIds.includes(tagId))) {
+    if (activeTagIds.some((tagId) => tagIds.includes(tagId))) {
       return true;
     }
     return false;
@@ -49,16 +49,18 @@ function search(originalTasks: TaskItem[], searchValue: string): TaskItem[] {
   });
 }
 
-export function filterTasks(originalTasks: TaskItem[], activeTagIds: string[], searchValue: string): TaskItem[] {
-  if (!activeTagIds.length && !searchValue.length) {
-    return originalTasks;
-  }
-  let resultTasks = [...originalTasks];
+export function filterTasks(
+  tasks: InitialDataType['tasks'],
+  activeTagIds: string[],
+  searchValue: string,
+): InitialDataType['tasks'] {
+  const activeTasks: TaskItem[] = Object.values(tasks);
+  let resultTasks = [...activeTasks];
   if (activeTagIds.length) {
     resultTasks = filterByTagIds(resultTasks, activeTagIds);
   }
   if (searchValue.length) {
     resultTasks = search(resultTasks, searchValue);
   }
-  return resultTasks;
+  return resultTasks.reduce((acc, item) => ({ ...acc, [item.id]: item }), {});
 }
