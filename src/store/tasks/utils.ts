@@ -71,9 +71,14 @@ export function getTagIds(tags: Tag[] | []): string[] | [] {
 }
 
 export function getUpdatedTags(currentTags: EditableTags): Tag[] {
-  return Object.entries(currentTags).map(([id, value]) => ({
-    id,
-    value,
-    label: value,
-  }));
+  return Object.entries(currentTags).reduce<Tag[]>((acc, [id, tag]) => {
+    if (!tag.isRemoved) {
+      acc.push({
+        id,
+        value: tag.value,
+        label: tag.value,
+      });
+    }
+    return acc;
+  }, []);
 }

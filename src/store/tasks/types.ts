@@ -22,7 +22,7 @@ export type ColumnItem = {
 export type Tag = { id: string; value: string; label: string };
 
 export type EditableTags = {
-  [key: string]: string;
+  [key: string]: { value: string; isRemoved?: boolean };
 };
 
 export type InitialDataType = {

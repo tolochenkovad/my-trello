@@ -1,9 +1,9 @@
 import { useEffect, useState, ChangeEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button, Flex, Input } from 'antd';
+import classNames from 'classnames';
 import { Icon } from '@/shared/ui';
 import { useConfirmModal } from '@/shared/hooks';
-import classNames from 'classnames';
 import { AppSpinner } from '@/shared/ui/Spinners';
 import { useIsLoadingTags, useTagsData, useTasksActions } from '@/store/tasks/selectors';
 import { EditableTags } from '@/store/tasks/types';
@@ -29,7 +29,7 @@ export const Tags = () => {
 
   const onAddTag = () => {
     setNewTagValue('');
-    setEditableTags((prev) => ({ ...prev, [`tag-${newTagValue}-${tags.length}`]: newTagValue }));
+    setEditableTags((prev) => ({ ...prev, [`tag-${newTagValue}-${tags.length}`]: { value: newTagValue } }));
   };
 
   const onSaveTag = () => {
@@ -37,14 +37,15 @@ export const Tags = () => {
   };
 
   const onEditTag = (e: ChangeEvent<HTMLInputElement>, tagId: string) => {
-    setEditableTags((prev) => ({ ...prev, [tagId]: e.target.value }));
+    setEditableTags((prev) => ({ ...prev, [tagId]: { value: e.target.value } }));
   };
 
   const onRemoveTag = (tagId: string) => {
-    setEditableTags((prev) => {
-      const { [tagId]: _, ...rest } = prev;
-      return rest;
-    });
+    setEditableTags((prev) => ({ ...prev, [tagId]: { value: prev[tagId].value, isRemoved: true } }));
+  };
+
+  const onRevertDeletion = (tagId: string) => {
+    setEditableTags((prev) => ({ ...prev, [tagId]: { value: prev[tagId].value, isRemoved: false } }));
   };
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export const Tags = () => {
   }, []);
 
   useEffect(() => {
-    const newEditableTags = tags.reduce((acc, tag) => ({ ...acc, [tag.id]: tag.label }), {});
+    const newEditableTags = tags.reduce((acc, tag) => ({ ...acc, [tag.id]: { value: tag.label } }), {});
     setEditableTags(newEditableTags);
   }, [tags]);
 
@@ -67,44 +68,60 @@ export const Tags = () => {
     <>
       <div className={styles.container}>
         <Flex className={styles.createView} orientation="vertical" gap={10}>
-          <div className={styles.description}>
-            <h5>Create new tag</h5>
-            <div>Add a new tag to organize your tasks.</div>{' '}
+          <div>
+            <h5 className={styles.titleSection}>Create new tag</h5>
+            <div className={styles.description}>Add a new tag to organize your tasks.</div>{' '}
           </div>
 
-          <Flex gap={5}>
+          <Flex gap={10}>
             <Input
               value={newTagValue}
               onChange={onChangeNewTagValue}
               className={classNames(styles.createTag, styles.input)}
               placeholder="Create a new tag..."
             />
-            <Button type="primary" onClick={onAddTag} disabled={!newTagValue.trim().length}>
-              Add tag
+            <Button type="primary" onClick={onAddTag} disabled={!newTagValue.trim().length} className={styles.button}>
+              <Icon name="plus" />
+              <span>Add tag</span>
             </Button>
           </Flex>
         </Flex>
 
-        <div className={styles.description}>
-          <h5>Current tags</h5>
-          <div>Edit or remove tags. Changes are locale until you save.</div>
+        <div>
+          <h5 className={styles.titleSection}>Current tags</h5>
+          <div className={styles.description}>Edit or remove tags. Changes are locale until you save.</div>
         </div>
 
         <Flex orientation="vertical" gap={20}>
           <Flex vertical gap={8}>
-            {Object.entries(editableTags).map(([tagId, tagValue]) => (
+            {Object.entries(editableTags).map(([tagId, tag]) => (
               <Flex key={tagId} gap={20} align="center">
-                <Input value={tagValue} className={styles.input} onChange={(event) => onEditTag(event, tagId)} />
-                <div className={styles.removeIcon} onClick={() => onRemoveTag(tagId)}>
-                  <Icon name="remove" tooltip={{ title: 'Remove Tag' }} />
-                </div>
+                <Input
+                  value={tag.value}
+                  className={classNames({ [styles.isRemoved]: tag.isRemoved })}
+                  onChange={(event) => onEditTag(event, tagId)}
+                />
+
+                {tag.isRemoved ? (
+                  <Button onClick={() => onRevertDeletion(tagId)}>
+                    <Icon name="undo" tooltip={{ title: 'Revert deletion' }} />
+                  </Button>
+                ) : (
+                  <Button className={styles.removeIcon} onClick={() => onRemoveTag(tagId)}>
+                    <Icon name="remove" tooltip={{ title: 'Remove Tag' }} />
+                  </Button>
+                )}
               </Flex>
             ))}
           </Flex>
-          <Flex justify="space-between">
-            <Button onClick={openConfirmModal}> Return to the main page</Button>
-            <Button type="primary" onClick={onSaveTag}>
-              Save changes
+          <Flex justify="space-between" className={styles.footer}>
+            <Button onClick={openConfirmModal} className={styles.button}>
+              <Icon name="moveLeft" />
+              <span>Return to the main page</span>
+            </Button>
+            <Button type="primary" onClick={onSaveTag} className={styles.button}>
+              <Icon name="save" />
+              <span>Save changes</span>
             </Button>
           </Flex>
         </Flex>
