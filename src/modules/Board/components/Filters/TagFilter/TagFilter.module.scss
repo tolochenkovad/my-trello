@@ -1,10 +1,25 @@
+@use 'src/styles/mixins' as *;
+
 .container {
   margin-bottom: 20px;
 }
 
-.title {
+.tags {
   margin-right: 20px;
+}
+
+.title {
   font-weight: 500;
+}
+
+.editTagsIcon {
+  @include link;
+  padding: 0 5px;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: var(--color-icon-hover);
+  }
 }
 
 .tagslist {

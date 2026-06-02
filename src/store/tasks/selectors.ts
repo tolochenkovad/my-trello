@@ -29,7 +29,8 @@ export const useTasksActions = () =>
       addActiveTag: state.actions.addActiveTag,
       removeActiveTag: state.actions.removeActiveTag,
       clearAllFilters: state.actions.clearAllFilters,
-      searchTasks: state.actions.searchTasks
+      searchTasks: state.actions.searchTasks,
+      updateTags: state.actions.updateTags
     })),
   );
 
