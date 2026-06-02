@@ -21,6 +21,10 @@ export type ColumnItem = {
 
 export type Tag = { id: string; value: string; label: string };
 
+export type EditableTags = {
+  [key: string]: { value: string; isRemoved?: boolean };
+};
+
 export type InitialDataType = {
   tasks: {
     [key: string]: TaskItem;
@@ -79,6 +83,7 @@ type TasksAsyncActions = {
   saveDataToServer: (payload: SaveDataToServerPayload) => Promise<void>;
   removeTask: (taskId: string) => Promise<void>;
   getAllData: () => Promise<void>;
+  updateTags: (currentTags: EditableTags) => Promise<void>;
 };
 
 export type TasksActions = TasksStateActions & TasksAsyncActions;

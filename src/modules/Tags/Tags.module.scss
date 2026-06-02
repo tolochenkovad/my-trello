@@ -1,0 +1,46 @@
+.container {
+  width: 60%;
+}
+
+.createView {
+  margin-bottom: 50px;
+}
+
+.titleSection {
+  margin-bottom: 8px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.description {
+  margin-bottom: 20px;
+  color:var(--color-section-description);
+  font-size: 14px;
+}
+
+.removeIcon {
+  padding: 15px;
+  border-radius: 5px;
+  color: var(--color-error);
+
+  &:hover {
+    background-color: var(--color-icon-hover);
+  }
+}
+
+.card {
+  margin-bottom: 30px;
+}
+
+.button {
+  padding: 20px;
+}
+
+.footer {
+  margin-top: 50px;
+}
+
+.isRemoved {
+  text-decoration: line-through;
+}

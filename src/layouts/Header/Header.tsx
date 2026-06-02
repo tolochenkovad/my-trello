@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { Flex } from 'antd';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/store/auth/store';
 import { ROUTES } from '@/routes/constants';
@@ -14,20 +15,38 @@ const HeaderComponent = () => {
 
   return (
     <div className={styles.header}>
-      <div>
-        {location.pathname !== ROUTES.MAIN && location.pathname !== ROUTES.LOGIN && (
-          <NavLink className={styles.appName} to={ROUTES.MAIN}>
+      <Flex gap={20} align="center">
+        {location.pathname !== ROUTES.LOGIN && (
+          <NavLink
+            className={styles.page}
+            to={ROUTES.MAIN}
+            activeClassName={styles.activePage}
+            isActive={() => location.pathname === ROUTES.MAIN}
+          >
             Tasks
           </NavLink>
         )}
-
-        {isAuthenticated && location.pathname === ROUTES.MAIN && <CreateTask className={styles.createBtn} />}
-        {isAuthenticated && location.pathname !== ROUTES.ANALYTICS && (
-          <NavLink className={styles.appName} to={ROUTES.ANALYTICS} activeClassName={styles.analytics}>
+        {isAuthenticated && (
+          <NavLink
+            className={styles.page}
+            to={ROUTES.ANALYTICS}
+            activeClassName={styles.activePage}
+            isActive={() => location.pathname === ROUTES.ANALYTICS}
+          >
             Analytics
           </NavLink>
         )}
-      </div>
+        {isAuthenticated && (
+          <NavLink
+            className={styles.page}
+            to={ROUTES.TAGS}
+            activeClassName={styles.activePage}
+            isActive={() => location.pathname === ROUTES.TAGS}
+          >
+            Tags
+          </NavLink>
+        )}
+      </Flex>
       <div className={styles.userBox}>
         {!isAuthenticated ? (
           <div>
@@ -38,9 +57,12 @@ const HeaderComponent = () => {
             )}
           </div>
         ) : (
-          <div className={styles.user}>
-            Welcome, <span>{user?.displayName}</span>!
-          </div>
+          <Flex gap={10} align="center">
+            {location.pathname === ROUTES.MAIN && <CreateTask />}
+            <div className={styles.user}>
+              Welcome, <span>{user?.displayName}</span>!
+            </div>
+          </Flex>
         )}
         {isAuthenticated && (
           <div onClick={onLogout}>

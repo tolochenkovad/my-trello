@@ -61,7 +61,7 @@ export const AddTaskModal = ({
   const onSave = async () => {
     const values = await form.validateFields();
     const dateOfTheEnd = calendarData ? calendarData?.format('YYYY-MM-DD') : '';
-    onConfirm(values.description.trim(), dateOfTheEnd, currentTags);
+    onConfirm(values.description.trimEnd(), dateOfTheEnd, currentTags);
     form.resetFields();
     setCurrentTags([]);
   };
@@ -130,7 +130,7 @@ export const AddTaskModal = ({
             value={currentTags}
             mode="tags"
             style={{ width: '100%' }}
-            placeholder="You can chose or create tag(s)"
+            placeholder="You can choose or create tag(s)"
             onChange={onChangeTag}
             options={allTags}
           />

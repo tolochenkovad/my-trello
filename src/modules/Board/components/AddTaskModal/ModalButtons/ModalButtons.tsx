@@ -23,7 +23,7 @@ export const ModalButtons = ({ taskId, OkBtn, CancelBtn }: ModalButtonsProps) =>
     <>
       <Flex>
         {taskId && (
-          <Button className={styles.remove} onClick={openConfirmModal}>
+          <Button className={styles.remove} onClick={openConfirmModal} danger>
             Remove
           </Button>
         )}

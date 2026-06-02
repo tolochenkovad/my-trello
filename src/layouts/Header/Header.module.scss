@@ -10,17 +10,12 @@
   height: 75px;
 }
 
-.appName {
+.page {
   @include link;
 }
 
-.analytics {
-  @include link;
-  margin-left: 20px;
-}
-
-.createBtn {
-  margin-right: 20px;
+.activePage {
+  font-weight: bold;
 }
 
 .userBox {

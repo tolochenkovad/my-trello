@@ -1,6 +1,6 @@
 import { last, size, forEach, get, uniqBy } from 'lodash';
 import { getAuth } from 'firebase/auth';
-import { InitialDataType, Tag } from '@/store/tasks/types';
+import { EditableTags, InitialDataType, Tag } from '@/store/tasks/types';
 
 function sortTasksIds(a: string, b: string): number {
   if (a.includes('-') && b.includes('-')) {
@@ -68,4 +68,17 @@ export function getTagsForServer(tagsFromStore: Tag[], currentTags: Tag[]): { ta
 
 export function getTagIds(tags: Tag[] | []): string[] | [] {
   return tags.length ? tags.map(({ id }) => id) : [];
+}
+
+export function getUpdatedTags(currentTags: EditableTags): Tag[] {
+  return Object.entries(currentTags).reduce<Tag[]>((acc, [id, tag]) => {
+    if (!tag.isRemoved) {
+      acc.push({
+        id,
+        value: tag.value,
+        label: tag.value,
+      });
+    }
+    return acc;
+  }, []);
 }

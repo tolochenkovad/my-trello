@@ -3,8 +3,16 @@ import { StoreApi } from 'zustand';
 import moment from 'moment';
 import { addDoc, getCollectionsFromFirebase, removeData, updateData } from '@/api/firebase/api';
 import { showToast } from '@/shared/utils';
-import { getAuthUserId, getIndexForNewTask, getTagsForServer, getTagIds } from './utils';
-import { AddTaskPayload, EditTaskPayload, SaveDataToServerPayload, TasksStore, COLLECTIONS, TaskItem } from './types';
+import { getAuthUserId, getIndexForNewTask, getTagsForServer, getTagIds, getUpdatedTags } from './utils';
+import {
+  AddTaskPayload,
+  EditTaskPayload,
+  SaveDataToServerPayload,
+  TasksStore,
+  COLLECTIONS,
+  TaskItem,
+  EditableTags,
+} from './types';
 
 export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: StoreApi<TasksStore>['getState']) => ({
   getTasks: async () => {
@@ -65,6 +73,21 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
       showToast(errorMessage, 'error');
     } finally {
       set({ isInitialLoading: false });
+    }
+  },
+
+  updateTags: async (currentTags: EditableTags) => {
+    try {
+      const authId = getAuthUserId();
+      const updatedTasks = getUpdatedTags(currentTags);
+
+      if (authId) {
+        await addDoc(COLLECTIONS.tags, { tags: updatedTasks }, authId);
+        await get().actions.getTags();
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to add tag';
+      showToast(errorMessage, 'error');
     }
   },
 

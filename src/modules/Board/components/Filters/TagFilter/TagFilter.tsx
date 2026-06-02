@@ -1,7 +1,9 @@
 import { Flex } from 'antd';
+import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import { useActiveTagIds, useTagsData, useTasksActions } from '@/store/tasks/selectors';
 import { Icon } from '@/shared/ui';
+import { ROUTES } from '@/routes/constants';
 import styles from './TagFilter.module.scss';
 
 export const TagFilter = () => {
@@ -19,7 +21,13 @@ export const TagFilter = () => {
 
   return (
     <Flex align="center" className={styles.container}>
-      <div className={styles.title}>Tags:</div>
+      <Flex className={styles.tags} align="center" gap={5}>
+        <NavLink to={ROUTES.TAGS} className={styles.editTagsIcon}>
+          <Icon tooltip={{ title: 'Edit Tags' }} name="edit" />
+        </NavLink>
+
+        <div className={styles.title}>Tags:</div>
+      </Flex>
       <ul className={styles.tagslist}>
         {tags.map(({ label, id }) => (
           <li
