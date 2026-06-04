@@ -84,6 +84,7 @@ export const createAsyncActions = (set: StoreApi<TasksStore>['setState'], get: S
       if (authId) {
         await addDoc(COLLECTIONS.tags, { tags: updatedTasks }, authId);
         await get().actions.getTags();
+        showToast('Tags were successfully updated', 'success');
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to add tag';

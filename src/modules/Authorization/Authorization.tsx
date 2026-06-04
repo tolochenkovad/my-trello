@@ -1,7 +1,7 @@
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import firebase from 'firebase/compat/app';
 import { Redirect } from 'react-router-dom';
-import { showToast } from '@/shared/utils/showToast';
+import { showToast } from '@/shared/utils';
 import { ROUTES } from '@/routes/constants';
 import { useAuth } from '@/shared/hooks';
 import styles from './Authorization.module.scss';

@@ -1,5 +1,6 @@
-import { Suspense, lazy } from 'react';
-import { useQuantityItemsInCategories } from '@/store/tasks/selectors';
+import { Suspense, lazy, useEffect } from 'react';
+import { size } from 'lodash';
+import { useQuantityItemsInCategories, useTasksActions, useTasksData } from '@/store/tasks/selectors';
 import { Spinner } from '@/shared/ui';
 import styles from './Analytics.module.scss';
 
@@ -7,6 +8,15 @@ const Chart = lazy(() => import('react-google-charts').then((module) => ({ defau
 
 export const Analytics = () => {
   const dataForChart = useQuantityItemsInCategories();
+  const { getAllData } = useTasksActions();
+  const tasks = useTasksData();
+
+  useEffect(() => {
+    if (!size(tasks)) {
+      getAllData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (dataForChart.slice(1).every((item) => item[1] == '0')) {
     return <div className="text-center">No data. Please create tasks to display analytics.</div>;
