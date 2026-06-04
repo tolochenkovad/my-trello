@@ -33,6 +33,7 @@ export const Analytics = () => {
               },
             },
             pieHole: 0.4,
+            backgroundColor: '#f5f6f8',
             is3D: false,
             colors: ['#3b82f6', '#22c55e', '#9ca3af'],
           }}
