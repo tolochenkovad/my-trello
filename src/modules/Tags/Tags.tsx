@@ -79,6 +79,7 @@ export const Tags = () => {
               onChange={onChangeNewTagValue}
               className={classNames(styles.createTag, styles.input)}
               placeholder="Create a new tag..."
+              allowClear
             />
             <Button type="primary" onClick={onAddTag} disabled={!newTagValue.trim().length} className={styles.button}>
               <Icon name="plus" />
