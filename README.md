@@ -11,4 +11,3 @@ Technologies used:
 - React 19
 - Zustand
 - CSS(SCSS) modules
-- Unit tests
