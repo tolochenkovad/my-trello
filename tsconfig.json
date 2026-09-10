@@ -30,6 +30,5 @@
     "resolveJsonModule": true
   },
   "exclude": ["node_modules", "build", "scripts", "acceptance-tests", "webpack", "jest", "src/setupTests.ts"],
-  "include": ["src"],
-  "files": ["declaration.d.ts"]
+  "include": ["src"]
 }
