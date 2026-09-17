@@ -27,8 +27,7 @@ export const Board = () => {
 
   useEffect(() => {
     getAllData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [getAllData]);
 
   useEffect(() => {
     setState(dataForDraggable);

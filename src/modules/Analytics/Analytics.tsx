@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy, useEffect, useEffectEvent } from 'react';
 import { size } from 'lodash';
 import { useQuantityItemsInCategories, useTasksActions, useTasksData } from '@/store/tasks/selectors';
 import { Spinner } from '@/shared/ui';
@@ -11,11 +11,14 @@ export const Analytics = () => {
   const { getAllData } = useTasksActions();
   const tasks = useTasksData();
 
-  useEffect(() => {
+  const getDataFromServer = useEffectEvent(() => {
     if (!size(tasks)) {
       getAllData();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
+
+  useEffect(() => {
+    getDataFromServer();
   }, []);
 
   if (dataForChart.slice(1).every((item) => item[1] == '0')) {
