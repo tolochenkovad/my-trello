@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent } from 'react';
+import { useEffect, useState, ChangeEvent, useEffectEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button, Flex, Input } from 'antd';
 import classNames from 'classnames';
@@ -48,11 +48,14 @@ export const Tags = () => {
     setEditableTags((prev) => ({ ...prev, [tagId]: { value: prev[tagId].value, isRemoved: false } }));
   };
 
-  useEffect(() => {
+  const getTagsFromServer = useEffectEvent(() => {
     if (!tags.length) {
       getTags();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  });
+
+  useEffect(() => {
+    getTagsFromServer();
   }, []);
 
   useEffect(() => {

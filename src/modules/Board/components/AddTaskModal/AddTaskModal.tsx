@@ -51,11 +51,14 @@ export const AddTaskModal = ({
   const inputRef = useRef<InputRef>(null);
 
   useEffect(() => {
-    requestAnimationFrame(() => {
+    const id = requestAnimationFrame(() => {
       inputRef.current?.focus({
         cursor: 'end',
       });
     });
+    return () => {
+      cancelAnimationFrame(id);
+    };
   }, []);
 
   const onSave = async () => {
